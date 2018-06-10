@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
+
+{% block body %}
+    <h1>Blog</h1>
+
+    <a href="{{ path('article_new') }}">Ajouter un article</a>
+
+    <hr>
+	
+	{% for article in articles %}
+		<article id="article-{{article.id}}">
+			Écrit le {{ article.createdAt|date('d/m/Y') }} par {{ article.author -}} 
+			{%- if article.lastEditedAt is not null %}, édité le {{ article.lastEditedAt|date('d/m/Y') }}{% endif %}<br>
+			<h4><a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title }}</a></h4>
+			<p>{{ article.content|nl2br }}</p>
+		</article>
+	{% else %}
+		Aucun article pour le moment.
+	{% endfor %}
+{% endblock %}
