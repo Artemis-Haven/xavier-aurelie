@@ -6,15 +6,23 @@
     <h1>Blog</h1>
 
     <a href="{{ path('article_new') }}">Ajouter un article</a>
-
-    <hr>
 	
 	{% for article in articles %}
+		<hr>
+
 		<article id="article-{{article.id}}">
 			Écrit le {{ article.createdAt|date('d/m/Y') }} par {{ article.author -}} 
 			{%- if article.lastEditedAt is not null %}, édité le {{ article.lastEditedAt|date('d/m/Y') }}{% endif %}<br>
 			<h4><a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title }}</a></h4>
+			<img alt="{{ article.title }}" src="{{ vich_uploader_asset(article, 'imageFile') }}">
 			<p>{{ article.content|nl2br }}</p>
+			
+			<h4>Commentaires</h4>
+			{% for comm in article.comments %}
+				<p>{{ comm.author }} a dit : {{ comm.content }}</p>
+			{% else %}
+				Aucun commentaire pour l'instant.
+			{% endfor %}
 		</article>
 	{% else %}
 		Aucun article pour le moment.

@@ -10,6 +10,21 @@
 		Écrit le {{ article.createdAt|date('d/m/Y') }} par {{ article.author -}} 
 		{%- if article.lastEditedAt is not null %}, édité le {{ article.lastEditedAt|date('d/m/Y') }}{% endif %}<br>
 		<h4>{{ article.title }}</h4>
+		<img alt="{{ article.title }}" src="{{ vich_uploader_asset(article, 'imageFile') }}">
 		<p>{{ article.content|nl2br }}</p>
+
+		<hr>
+		
+		<h4 id="comments">Commentaires</h4>
+		{% for comm in article.comments %}
+			<p><span class="text-muted">{{ comm.createdAt|date('d/m/Y à H\\hi') }}</span> &nbsp;{{ comm.author }} a dit : {{ comm.content }}</p>
+		{% else %}
+			Aucun commentaire pour l'instant.
+		{% endfor %}
+
+		<hr>
+
+		<h4 id="commentForm">Ajouter un commentaire</h4>
+		{{ form(commentForm) }}
 	</article>
 {% endblock %}

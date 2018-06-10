@@ -17,11 +17,6 @@ class BlogComment
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $title;
-
-    /**
      * @ORM\Column(type="text")
      */
     private $content;
@@ -36,21 +31,15 @@ class BlogComment
      */
     private $createdAt;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\BlogArticle", inversedBy="comments")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $article;
+
     public function getId()
     {
         return $this->id;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
     }
 
     public function getContent(): ?string
@@ -85,6 +74,18 @@ class BlogComment
     public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getArticle(): ?BlogArticle
+    {
+        return $this->article;
+    }
+
+    public function setArticle(?BlogArticle $article): self
+    {
+        $this->article = $article;
 
         return $this;
     }
