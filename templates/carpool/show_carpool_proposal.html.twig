@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
+
+{% block body %}
+    <b>{{ proposal.author }}</b> propose un trajet <b>{{ proposal.direction|lower }}</b> pour <b>{{ proposal.nbrOfPersons }} personne(s)</b>.
+	<br>
+	{{ proposal.details|nl2br }}
+{% endblock %}

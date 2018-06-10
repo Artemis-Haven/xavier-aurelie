@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
+
+{% block body %}
+    <b>{{ search.author }}</b> recherche un trajet <b>{{ search.direction|lower }}</b> pour <b>{{ search.nbrOfPersons }} personne(s)</b>.
+	<br>
+	{{ search.details|nl2br }}
+{% endblock %}

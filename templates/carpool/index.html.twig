@@ -1,0 +1,83 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<style type="text/css">
+		.carpool {
+			color: #333;
+			background-color: #fff;
+			display: block;
+			box-shadow: 0 0 5px 3px rgba(0, 0, 0, 0.1);
+			padding: 5px;
+			margin-bottom: 20px;
+		}
+		.carpool:hover {
+			color: #000;
+			background-color: #eee;
+			text-decoration: none;
+		}
+	</style>
+{% endblock %}
+
+{% block body %}
+    <h1>Co-voiturage</h1>
+
+    <div class="row">
+    	<div class="col-md-6">
+    		{% if carpoolProposals is not empty %}
+				<h4>
+					{% if carpoolProposals|length > 1 %}
+						{{ carpoolProposals|length }} personnes proposent un co-voiturage.
+					{% else %}
+						Une personne propose un co-voiturage.
+					{% endif %}
+				</h4>
+				<a href="{{ path('carpool_proposal_new') }}">Ajouter une annonce</a>
+
+				<hr>
+
+			    {% for proposal in carpoolProposals %}
+			    	<a class="carpool" href="{{ path('carpool_proposal_show', {'id': proposal.id}) }}">
+			    		<b>{{ proposal.author }}</b> propose un trajet <b>{{ proposal.direction|lower }}</b> 
+			    		{% if proposal.direction starts with "Retour" %}vers{% else %}depuis{% endif %} 
+			    		<b>{{ proposal.location }}</b>
+			    		pour <b>{{ proposal.nbrOfPersons > 1 ? proposal.nbrOfPersons~' personnes' : proposal.nbrOfPersons~' personne' }}</b>.
+			    		<br>
+			    	</a>
+			    {% endfor %}
+			{% else %}
+				<h4>Personne ne propose de trajet pour l'instant.</h4>
+    		{% endif %}
+    	</div>  
+
+    	<div class="col-md-6">
+    		{% if carpoolSearches is not empty %}
+				<h4>
+					{% if carpoolSearches|length > 1 %}
+						{{ carpoolSearches|length }} personnes recherchent un co-voiturage.
+					{% else %}
+						Une personne recherche un co-voiturage.
+					{% endif %}
+				</h4>
+				<a href="{{ path('carpool_search_new') }}">Ajouter une annonce</a>
+
+				<hr>
+
+			    {% for search in carpoolSearches %}
+			    	<a class="carpool" href="{{ path('carpool_search_show', {'id': search.id}) }}">
+			    		<b>{{ search.author }}</b> propose un trajet <b>{{ search.direction|lower }}</b> 
+			    		{% if search.direction starts with "Retour" %}vers{% else %}depuis{% endif %} 
+			    		<b>{{ search.location }}</b>
+			    		pour <b>{{ search.nbrOfPersons > 1 ? search.nbrOfPersons~' personnes' : search.nbrOfPersons~' personne' }}</b>.
+			    		<br>
+			    	</a>
+			    {% endfor %}
+			{% else %}
+				<h4>Personne ne recherche de trajet pour l'instant.</h4>
+    		{% endif %}
+    	</div>
+    </div>
+
+{% endblock %}

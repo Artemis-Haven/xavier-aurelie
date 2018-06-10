@@ -34,15 +34,6 @@ class MainController extends Controller
     }
 
     /**
-     * @Route("/covoiturage", name="carpooling")
-     * @Template
-     */
-    public function carpooling()
-    {
-        return [];
-    }
-
-    /**
      * @Route("/contact", name="contact")
      * @Template
      */
