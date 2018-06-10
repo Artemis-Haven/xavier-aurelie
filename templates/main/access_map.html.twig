@@ -2,12 +2,59 @@
 
 {% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
 
-{% block body %}
-    <h1>Plan d'accès</h1>
+{% block stylesheets %}
+	{{ parent() }}
+	<style type="text/css">
+		#map {
+			min-height: 500px;
+		}
+	</style>
+{% endblock %}
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'src/Controller/MainController.php'|file_link(0) }}">src/Controller/MainController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'templates/main/index.html.twig'|file_link(0) }}">templates/main/index.html.twig</a></code></li>
-    </ul>
+{% block containerClass %}col-md-12{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+		    <h1>Plan d'accès</h1>
+
+		    <div id="destinationForm">
+		        <form action="" method="get" name="direction" id="direction">
+		            <label>Point de départ :</label>
+		            <input type="text" name="departure" id="departure">
+		            <label>Destination :</label>
+		            <input type="text" name="arrival" id="arrival">
+		            <input type="button" class="btn btn-default" value="Calculer l'itinéraire" onclick="javascript:calculate()">
+		        </form>
+		    </div>
+		</div>
+	</div>
+
+	<br>
+
+	<div class="row">
+		<div class="col-md-4">
+			<div id="panel">
+				<div id="routingPlaceholder">
+					<h4>Détail de l'itinéraire</h4>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8">
+		    <div id="map">
+		        <p>Veuillez patienter pendant le chargement de la carte...</p>
+		    </div>
+		</div>
+	</div>
+
+	<br>
+    
+{% endblock %}
+
+
+{% block javascripts %}
+	{{ parent() }}
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key={{maps_api_key}}&callback=initialize"
+  type="text/javascript"></script>
+    <script type="text/javascript" src="{{ asset('js/gmaps-routing.js') }}"></script>
 {% endblock %}
