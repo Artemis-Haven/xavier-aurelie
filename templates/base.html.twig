@@ -5,11 +5,13 @@
         <title>{% block title %}Site de mariage de Xavier et Aurélie{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('/css/bootstrap-theme.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('/css/flatpickr.min.css') }}">
         <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
         <link href="https://fonts.googleapis.com/css?family=Armata|Tangerine" rel="stylesheet"> 
         {% block stylesheets %}{% endblock %}
     </head>
     <body>
+        <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
 		<header class="container">
 			<img src="{{ asset('images/header_background.jpg') }}" alt="Mariage de Xavier et Aurélie">
 			<h1>Aurélie & Xavier</h1>
@@ -39,8 +41,8 @@
 			</section>
 		</div>
         
-        <script type="text/javascript" src="{{ asset('js/jquery.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/bootstrap.min.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/flatpickr.min.js') }}"></script>
         <script type="text/javascript" src="{{ asset('js/main.js') }}"></script>
         {% block javascripts %}{% endblock %}
     </body>

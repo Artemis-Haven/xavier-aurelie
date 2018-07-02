@@ -1,0 +1,21 @@
+{% block datepicker_widget %}
+    {% if widget == "single_text" %}
+        {{ block("form_widget_simple") }}
+    {% endif %}
+    <script type="text/javascript">
+        {# Nous allons intégrer le script et le css de flatpickr à notre header  pour qu'il soit charger automatiquement, mettre les chemins adaptés à votre projet!! #}
+            var assets = '<link rel=\"stylesheet\" href=\"{{ asset("assets\/vendors\/flatpickr\/flatpickr.min.css") }}\" \/><script src=\"{{ asset("assets\/vendors\/flatpickr\/flatpickr.min.js") }}\"><\/script><script src=\"{{ asset("assets\/vendors\/flatpickr\/flatpickr.fr.js") }}\"><\/script>';
+            $('head').append(assets);
+        {# Configuration de flatpickr #}
+        {# http://www.jqueryrain.com/?lo_EWr2U #}
+            $(document).ready(function() {
+                $("#{{ id }}").flatpickr({
+                    utc: false,
+                    locale: "fr",
+                    enableTime: false,
+                    defaultDate: "{{ value }}",
+                    dateFormat: "d/m/Y"
+                });
+            });
+    </script>
+{%- endblock -%}
