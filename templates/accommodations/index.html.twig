@@ -21,14 +21,16 @@
 
 {% block body %}
 
-    <div class="dropdown pull-right">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownAdmin">
-            <li><a href="{{ path('accommodation_new') }}">Ajouter un hébergement</a></li>
-        </ul>
-    </div>
+    {% if is_granted('ROLE_ADMIN') %}
+        <div class="dropdown pull-right">
+            <button class="btn btn-default dropdown-toggle" type="button" id="dropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownAdmin">
+                <li><a href="{{ path('accommodation_new') }}">Ajouter un hébergement</a></li>
+            </ul>
+        </div>
+    {% endif %}
     
     <h1>Hébergements</h1>
     
@@ -40,14 +42,16 @@
         <hr>
 
         <article>
-            <div class="dropdown pull-right">
-                <button class="btn btn-xs btn-default dropdown-toggle" type="button" id="dropdownAdmin-{{ acc.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownAdmin-{{ acc.id }}">
-                    <li><a href="{{ path('accommodation_edit', {'id': acc.id}) }}">Editer l'hébergement</a></li>
-                </ul>
-            </div>
+            {% if is_granted('ROLE_ADMIN') %}
+                <div class="dropdown pull-right">
+                    <button class="btn btn-xs btn-default dropdown-toggle" type="button" id="dropdownAdmin-{{ acc.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownAdmin-{{ acc.id }}">
+                        <li><a href="{{ path('accommodation_edit', {'id': acc.id}) }}">Editer l'hébergement</a></li>
+                    </ul>
+                </div>
+            {% endif %}
 
             <h2>{{ acc.name }}</h2>
 

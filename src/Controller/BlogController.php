@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\BlogArticle;
 use App\Entity\BlogComment;
 use App\Form\BlogArticleType;
@@ -25,6 +26,7 @@ class BlogController extends Controller
 
     /**
      * @Route("/nouvel-article", name="article_new")
+     * @IsGranted("ROLE_ADMIN")
      * @Template
      */
     public function newArticle(Request $request)
@@ -75,6 +77,7 @@ class BlogController extends Controller
 
     /**
      * @Route("/article-{id}/editer", name="article_edit")
+     * @IsGranted("ROLE_ADMIN")
      * @Template
      */
     public function editArticle(Request $request, BlogArticle $article)
@@ -101,6 +104,7 @@ class BlogController extends Controller
 
     /**
      * @Route("/article-{id}/supprimer", name="article_delete")
+     * @IsGranted("ROLE_ADMIN")
      * @Template
      */
     public function deleteArticle(BlogArticle $article)

@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\Accommodation;
 use App\Form\AccommodationType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,6 +25,7 @@ class AccommodationsController extends Controller
 
     /**
      * @Route("/nouvel-hebergement", name="accommodation_new")
+     * @IsGranted("ROLE_ADMIN")
      * @Template
      */
     public function newAccommodation(Request $request)
@@ -49,7 +50,7 @@ class AccommodationsController extends Controller
 
     /**
      * @Route("/hebergement-{id}/editer", name="accommodation_edit")
-	 * @ParamConverter("accommodation", class="App:Accommodation")
+     * @IsGranted("ROLE_ADMIN")
      * @Template
      */
     public function editAccommodation(Request $request, Accommodation $accommodation)
@@ -75,7 +76,7 @@ class AccommodationsController extends Controller
 
     /**
      * @Route("/hebergement-{id}/supprimer", name="accommodation_delete")
-	 * @ParamConverter("accommodation", class="App:Accommodation")
+     * @IsGranted("ROLE_ADMIN")
      * @Template
      */
     public function deleteAccommodation(Accommodation $accommodation)

@@ -4,14 +4,16 @@
 
 {% block body %}
 
-	<div class="dropdown pull-right">
-		<button class="btn btn-default dropdown-toggle" type="button" id="dropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-			<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-		</button>
-		<ul class="dropdown-menu" aria-labelledby="dropdownAdmin">
-			<li><a href="{{ path('article_new') }}">Ajouter un article</a></li>
-		</ul>
-	</div>
+	{% if is_granted('ROLE_ADMIN') %}
+		<div class="dropdown pull-right">
+			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownAdmin">
+				<li><a href="{{ path('article_new') }}">Ajouter un article</a></li>
+			</ul>
+		</div>
+	{% endif %}
 	
     <h1>Blog</h1>
 	
