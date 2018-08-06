@@ -8,6 +8,11 @@
 		#map {
 			min-height: 500px;
 		}
+
+		#panel {
+			max-height: 500px;
+			overflow-y: scroll;
+		}
 	</style>
 {% endblock %}
 
@@ -19,11 +24,11 @@
 		    <h1>Plan d'accès</h1>
 
 		    <div id="destinationForm">
-		        <form action="" method="get" name="direction" id="direction">
+		        <form action="" method="get" name="direction" id="direction" class="form-inline">
 		            <label>Point de départ :</label>
-		            <input type="text" name="departure" id="departure">
+		            <input class="form-control" type="text" name="departure" id="departure"> &nbsp; 
 		            <label>Destination :</label>
-		            <input type="text" name="arrival" id="arrival">
+		            <input class="form-control" type="text" name="arrival" id="arrival"> &nbsp; 
 		            <input type="button" class="btn btn-default" value="Calculer l'itinéraire" onclick="javascript:calculate()">
 		        </form>
 		    </div>

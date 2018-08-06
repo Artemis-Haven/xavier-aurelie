@@ -40,12 +40,12 @@ class MainController extends Controller
     public function contact(Request $request)
     {
     	$form = $this->createFormBuilder()
-            ->add('name', TextType::class)
-            ->add('surname', TextType::class)
-            ->add('email', EmailType::class)
-            ->add('title', TextType::class)
-            ->add('content', TextareaType::class)
-            ->add('submit', SubmitType::class, array('label' => 'Envoyer'))
+            ->add('name', TextType::class, ['label' => false, 'attr' => ['placeholder' => "Votre nom"]])
+            ->add('surname', TextType::class, ['label' => "Qui êtes-vous ?", 'attr' => ['placeholder' => "Votre prénom"]])
+            ->add('email', EmailType::class, ['label' => "Votre e-mail ou votre numéro de téléphone (auquel vous souhaitez être recontacté)"])
+            ->add('title', TextType::class, ['label' => "Votre message", 'attr' => ['placeholder' => "Titre du message"]])
+            ->add('content', TextareaType::class, ['label' => false, 'attr' => ['placeholder' => "Contenu du message"]])
+            ->add('submit', SubmitType::class, array('label' => 'Envoyer le message'))
             ->getForm();
 
     	$form->handleRequest($request);
