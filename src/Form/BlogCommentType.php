@@ -12,8 +12,13 @@ class BlogCommentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('author')
-            ->add('content')
+            ->add('author', null, [
+                'label' => 'Votre nom'
+            ])
+            ->add('content', null, [
+                'label' => 'Votre commentaire',
+                'attr' => ['rows' => 5]
+            ])
         ;
     }
 

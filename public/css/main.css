@@ -6,11 +6,13 @@ hr {
 	border-color: #61bb65;
 }
 
-body > .container {
+body > div.container {
 	background-color: #fff;
+	padding-bottom: 20px;
 }
 
 header {
+	background-color: #fff;
 	text-align: center;
 }
 
@@ -51,6 +53,10 @@ header nav.navbar .nav li a:hover {
 	color: #61bb65;
 }
 
+header nav.navbar li.active {
+	background-color: #a9fbad;
+}
+
 @media (min-width: 768px){
 	.navbar-nav{
 		margin: 0 auto;
@@ -60,3 +66,58 @@ header nav.navbar .nav li a:hover {
 		color: #61bb65;
 	}
 }  
+
+form .vich-image img {
+	max-width: 100%;
+}
+
+body > div.container > section.row h1 {
+	margin-top: 0;
+}
+
+/**********************/
+/*      BLOG          */
+/**********************/
+
+.article-preview {
+	margin-bottom: 40px;
+}
+
+.article-preview a.article-img {
+	display: block;
+	width: 100%;
+	height: 200px;
+	background-repeat: no-repeat;
+	background-size: 100%;
+	background-position: center;
+}
+
+.article-preview .article-infos, .full-article .article-infos {
+	color: #666666;
+}
+
+.article-preview .article-infos .glyphicon-user,
+.full-article .article-infos .glyphicon-user {
+	margin-left: 20px;
+}
+
+
+.article-preview .article-preview-content {
+	border-left: 1px solid #aaaaaa;
+	border-right: 1px solid #aaaaaa;
+	border-bottom: 1px solid #aaaaaa;
+	padding: 10px 30px 20px 30px;
+}
+
+.full-article {
+	text-align: justify;
+}
+
+.full-article #article-img {
+	float: left;
+	margin-right: 20px;
+	margin-bottom: 20px;
+	max-width: 60%;
+}
+
+

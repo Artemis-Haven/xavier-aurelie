@@ -3,5 +3,17 @@
 {% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
 
 {% block body %}
+
+    <h1>
+    	<a href="{{ path('blog') }}" title="Revenir au blog">Blog</a>
+		<span style="font-size: 0.9em;">
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	Ajouter un article
+    	</span>
+    </h1>
+
+	<br><br>
+
     {{ form(form) }}
+	
 {% endblock %}

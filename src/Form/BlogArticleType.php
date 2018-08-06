@@ -15,15 +15,23 @@ class BlogArticleType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('author', TextType::class)
-            ->add('title', TextType::class)
-            ->add('content', TextareaType::class)
+            ->add('author', null, [
+                'label' => 'Votre nom'
+            ])
+            ->add('title', null, [
+                'label' => "Titre de l'article"
+            ])
+            ->add('content', null, [
+                'label' => "Contenu de l'article",
+                'attr' => ['rows' => 8]
+            ])
             ->add('imageFile', VichImageType::class, [
                 'required' => true,
                 'allow_delete' => true,
                 'download_label' => true,
                 'download_uri' => true,
                 'image_uri' => true,
+                'label' => "Image d'illustration"
             ])
         ;
     }

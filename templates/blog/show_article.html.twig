@@ -3,14 +3,36 @@
 {% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
 
 {% block body %}
-	<a href="{{ path('blog') }}">Retour au blog</a>
-	<a href="{{ path('article_edit', {'id': article.id}) }}">Editer l'article</a>
 
-	<article id="article-{{article.id}}">
-		Écrit le {{ article.createdAt|date('d/m/Y') }} par {{ article.author -}} 
-		{%- if article.lastEditedAt is not null %}, édité le {{ article.lastEditedAt|date('d/m/Y') }}{% endif %}<br>
-		<h4>{{ article.title }}</h4>
-		<img alt="{{ article.title }}" src="{{ vich_uploader_asset(article, 'imageFile') }}">
+	<div class="dropdown pull-right">
+		<button class="btn btn-default dropdown-toggle" type="button" id="dropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+		</button>
+		<ul class="dropdown-menu" aria-labelledby="dropdownAdmin">
+			<li><a href="{{ path('article_edit', {'id': article.id}) }}">Editer l'article</a></li>
+		</ul>
+	</div>
+
+    <h1>
+    	<a href="{{ path('blog') }}" title="Revenir au blog">Blog</a>
+		<span style="font-size: 0.9em;">
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	{{ article.title }}
+    	</span>
+    </h1>
+
+	
+
+	<article class="full-article" id="article-{{article.id}}">
+		<p class="article-infos">
+			<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+			Le {{ article.createdAt|date('d/m/Y') }}
+			{%- if article.lastEditedAt is not null and article.lastEditedAt != article.createdAt %}, édité le {{ article.lastEditedAt|date('d/m/Y') }}{% endif %}
+			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+			{{ article.author }}
+		</p>
+
+		<img id="article-img" class="img-thumbnail" alt="{{ article.title }}" src="{{ vich_uploader_asset(article, 'imageFile') }}">
 		<p>{{ article.content|nl2br }}</p>
 
 		<hr>

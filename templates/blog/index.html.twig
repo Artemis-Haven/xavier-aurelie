@@ -3,27 +3,44 @@
 {% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
 
 {% block body %}
-    <h1>Blog</h1>
 
-    <a href="{{ path('article_new') }}">Ajouter un article</a>
+	<div class="dropdown pull-right">
+		<button class="btn btn-default dropdown-toggle" type="button" id="dropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+			<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+		</button>
+		<ul class="dropdown-menu" aria-labelledby="dropdownAdmin">
+			<li><a href="{{ path('article_new') }}">Ajouter un article</a></li>
+		</ul>
+	</div>
+	
+    <h1>Blog</h1>
+	
+	<br>
 	
 	{% for article in articles %}
-		<hr>
 
-		<article id="article-{{article.id}}">
-			Écrit le {{ article.createdAt|date('d/m/Y') }} par {{ article.author -}} 
-			{%- if article.lastEditedAt is not null %}, édité le {{ article.lastEditedAt|date('d/m/Y') }}{% endif %}<br>
-			<h4><a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title }}</a></h4>
-			<img alt="{{ article.title }}" src="{{ vich_uploader_asset(article, 'imageFile') }}">
-			<p>{{ article.content|nl2br }}</p>
-			
-			<h4>Commentaires</h4>
-			{% for comm in article.comments %}
-				<p>{{ comm.author }} a dit : {{ comm.content }}</p>
-			{% else %}
-				Aucun commentaire pour l'instant.
-			{% endfor %}
+		<article class="article-preview" id="article-{{article.id}}">
+			<a href="{{ path('article_show', {'id': article.id}) }}" class="article-img" style="background-image: url('{{ vich_uploader_asset(article, 'imageFile') }}');">
+			</a>
+			<div class="article-preview-content">
+				<h4><a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title }}</a></h4>
+				<p class="article-infos">
+					<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
+					Le {{ article.createdAt|date('d/m/Y') }}
+					{%- if article.lastEditedAt is not null and article.lastEditedAt != article.createdAt %}, édité le {{ article.lastEditedAt|date('d/m/Y') }}{% endif %}
+					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
+					{{ article.author }}
+					{% if article.comments is not empty %}
+						<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+						{{ article.comments|length }} commentaire{{ article.comments|length > 1 ? 's' : '' }}
+					{% endif %}
+				</p>
+				<p>
+					{{ article.content[:250]|nl2br }}... <a href="{{ path('article_show', {'id': article.id}) }}">[Lire la suite]</a>
+				</p>
+			</div>
 		</article>
+
 	{% else %}
 		Aucun article pour le moment.
 	{% endfor %}

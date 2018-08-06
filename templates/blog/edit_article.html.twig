@@ -3,9 +3,24 @@
 {% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
 
 {% block body %}
-	<div class="pull-right">
-		<a class="btn btn-danger" href="{{ path('article_delete', {'id': article.id}) }}">Supprimer</a>
-	</div>
+
+    <h1>
+    	<a href="{{ path('blog') }}" title="Revenir au blog">Blog</a>
+		<span style="font-size: 0.9em;">
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	<a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title }}</a>
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	Editer l'article
+    	</span>
+    </h1>
+
+	<br><br>
 
     {{ form(form) }}
+
+	<a class="btn btn-danger" href="{{ path('article_delete', {'id': article.id}) }}">
+		<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>&nbsp;
+		Supprimer l'article
+	</a>
+	
 {% endblock %}
