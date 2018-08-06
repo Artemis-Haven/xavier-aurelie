@@ -7,8 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use App\Entity\Accommodation;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use App\Form\AccommodationType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -33,25 +32,9 @@ class AccommodationsController extends Controller
     	$em = $this->getDoctrine()->getManager();
     	$newAccommodation = new Accommodation();
 
-    	$newAccommodationForm = $this->createFormBuilder($newAccommodation)
-            ->add('name', TextType::class)
-            ->add('url', TextType::class, [
-                'required' => false
-            ])
-            ->add('address', TextareaType::class)
-            ->add('details', TextareaType::class)
-            ->add('pricing', TextareaType::class, [
-                'required' => false
-            ])
-            ->add('imageFile', VichImageType::class, [
-                'required' => true,
-                'allow_delete' => true,
-                'download_label' => true,
-                'download_uri' => true,
-                'image_uri' => true,
-            ])
+        $newAccommodationForm = $this->createForm(AccommodationType::class, $newAccommodation)
             ->add('submit', SubmitType::class, array('label' => 'Valider'))
-            ->getForm();
+        ;
 
     	$newAccommodationForm->handleRequest($request);
 
@@ -73,25 +56,9 @@ class AccommodationsController extends Controller
     {
     	$em = $this->getDoctrine()->getManager();
 
-    	$accommodationForm = $this->createFormBuilder($accommodation)
-            ->add('name', TextType::class)
-            ->add('url', TextType::class, [
-                'required' => false
-            ])
-            ->add('address', TextareaType::class)
-            ->add('details', TextareaType::class)
-            ->add('pricing', TextareaType::class, [
-                'required' => false
-            ])
-            ->add('imageFile', VichImageType::class, [
-                'required' => true,
-                'allow_delete' => true,
-                'download_label' => '...',
-                'download_uri' => true,
-                'image_uri' => true,
-            ])
+        $accommodationForm = $this->createForm(AccommodationType::class, $accommodation)
             ->add('submit', SubmitType::class, array('label' => 'Valider'))
-            ->getForm();
+        ;
 
     	$accommodationForm->handleRequest($request);
 

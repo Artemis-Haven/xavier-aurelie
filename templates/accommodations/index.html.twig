@@ -20,8 +20,18 @@
 {% endblock %}
 
 {% block body %}
+
+    <div class="dropdown pull-right">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownAdmin">
+            <li><a href="{{ path('accommodation_new') }}">Ajouter un hébergement</a></li>
+        </ul>
+    </div>
+    
     <h1>Hébergements</h1>
-    <a href="{{ path('accommodation_new') }}">Ajouter un hébergement</a>
+    
 
     <h4>Retrouvez une sélection des hébergements environnants.</h4>
 
@@ -30,13 +40,16 @@
         <hr>
 
         <article>
-            <h2>{{ acc.name }} 
-                <small>
-                    <a href="{{ path('accommodation_edit', {'id': acc.id}) }}" title="Editer">
-                        <i class="glyphicon glyphicon-pencil"></i>
-                    </a>
-                </small>
-            </h2>
+            <div class="dropdown pull-right">
+                <button class="btn btn-xs btn-default dropdown-toggle" type="button" id="dropdownAdmin-{{ acc.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownAdmin-{{ acc.id }}">
+                    <li><a href="{{ path('accommodation_edit', {'id': acc.id}) }}">Editer l'hébergement</a></li>
+                </ul>
+            </div>
+
+            <h2>{{ acc.name }}</h2>
 
             <div>
                 <a data-fancybox-group="gallery" title="{{ acc.name }}" class="fancybox" href="{{ vich_uploader_asset(acc, 'imageFile') }}">

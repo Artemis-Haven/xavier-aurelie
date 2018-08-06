@@ -3,5 +3,14 @@
 {% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
 
 {% block body %}
+
+    <h1>
+    	<a href="{{ path('accommodations') }}" title="Revenir à la liste des hébergements">Hébergements</a>
+    </h1>
+
+    <h2>Ajouter un nouvel hébergement</h2>
+
+    <hr>
+
     {{ form(form) }}
 {% endblock %}
