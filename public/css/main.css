@@ -3,17 +3,31 @@ html, body {
 }
 
 hr {
-	border-color: #61bb65;
+	border-color: #7fc040;
+}
+
+a {
+	color: #6ca733;
+}
+
+a:hover, a:focus, a:active, a:visited {
+	color: #5d922b;
 }
 
 body > div.container {
 	background-color: #fff;
+	background-image: url('../images/lavande-part-1.png'), url('../images/lavande-part-2.png');
+	background-repeat: no-repeat;
+	background-size: 150px;background-size: 150px, 80px;
+	background-position: top left, top right;
 	padding-bottom: 20px;
 }
 
 header {
 	background-color: #fff;
 	text-align: center;
+	padding-left: 0 !important;
+	padding-right: 0 !important;
 }
 
 header img {
@@ -23,6 +37,7 @@ header img {
 header h1 {
 	font-family: 'Tangerine', cursive;
 	font-size: 60px;
+	margin-top: 0;
 }
 
 header h2, header h3 {
@@ -34,12 +49,12 @@ header h2, header h3 {
 }
 
 header h2 {
-	color: #61bb65;
+	color: #7fc040;
 	font-size: 20px;
 }
 
 header .nav {
-	border: 1px solid #61bb65;
+	border: 1px solid #7fc040;
 	border-width: 1px 0px;
 }
 
@@ -48,14 +63,20 @@ header nav.navbar a {
     font-family: 'Armata', sans-serif;
 }
 
-header nav.navbar .nav li a:hover {
+header nav.navbar .nav li:not(.active) a:hover {
 	background-color: transparent;
-	color: #61bb65;
+	color: #7fc040;
 }
 
 header nav.navbar li.active {
-	background-color: #a9fbad;
+	background-color: #bbf089;
 }
+header nav.navbar li.active a, 
+header nav.navbar li.active a:hover  {
+	background-color: #bbf089;
+	color: #015104;
+}
+
 
 @media (min-width: 768px){
 	.navbar-nav{
@@ -63,7 +84,7 @@ header nav.navbar li.active {
 		display: table;
 		table-layout: fixed;
 		float: none;
-		color: #61bb65;
+		color: #7fc040;
 	}
 }  
 
@@ -74,6 +95,7 @@ form .vich-image img {
 body > div.container > section.row h1 {
 	margin-top: 0;
 }
+
 
 /**********************/
 /*      BLOG          */
