@@ -17,39 +17,40 @@
 			<h1>Aurélie & Xavier</h1>
 			<h2>30 mai 2019</h2>
 			<h3>J-375</h3>
-		
-			<nav class="navbar">
-				<ul class="nav navbar-nav">
-					{% set route = app.request.attributes.get('_route') %}
-					<li {% if route == 'homepage' %}class="active"{% endif %}>
-						<a href="{{ path('homepage') }}">Accueil</a>
-					</li>
-					<li {% if route == 'blog' or route starts with 'article' %}class="active"{% endif %}>
-						<a href="{{ path('blog') }}">Blog</a>
-					</li>
-					<li {% if route starts with 'gallery' %}class="active"{% endif %}>
-						<a href="{{ path('homepage') }}">Albums photos</a>
-					</li>
-					<li {% if route == 'access_map' %}class="active"{% endif %}>
-						<a href="{{ path('access_map') }}">Plan d'accès</a>
-					</li>
-					<li {% if route starts with 'carpool' %}class="active"{% endif %}>
-						<a href="{{ path('carpool') }}">Co-voiturage</a>
-					</li>
-					<li {% if route starts with 'accommodation' %}class="active"{% endif %}>
-						<a href="{{ path('accommodations') }}">Hébergements</a>
-					</li>
-					<li {% if route == 'contact' %}class="active"{% endif %}>
-						<a href="{{ path('contact') }}">Contact</a>
-					</li>
-					<li {% if route == 'answer' %}class="active"{% endif %}>
-						<a href="{{ path('answer') }}">Réponse</a>
-					</li>
-					<li {% if route == 'wedding_list' %}class="active"{% endif %}>
-						<a href="{{ path('wedding_list') }}">Liste de mariage</a>
-					</li>
-				</ul>
-			</nav>
+			{% if app.user %}
+				<nav class="navbar">
+					<ul class="nav navbar-nav">
+						{% set route = app.request.attributes.get('_route') %}
+						<li {% if route == 'homepage' %}class="active"{% endif %}>
+							<a href="{{ path('homepage') }}">Accueil</a>
+						</li>
+						<li {% if route == 'blog' or route starts with 'article' %}class="active"{% endif %}>
+							<a href="{{ path('blog') }}">Blog</a>
+						</li>
+						<li {% if route starts with 'gallery' %}class="active"{% endif %}>
+							<a href="{{ path('homepage') }}">Albums photos</a>
+						</li>
+						<li {% if route == 'access_map' %}class="active"{% endif %}>
+							<a href="{{ path('access_map') }}">Plan d'accès</a>
+						</li>
+						<li {% if route starts with 'carpool' %}class="active"{% endif %}>
+							<a href="{{ path('carpool') }}">Co-voiturage</a>
+						</li>
+						<li {% if route starts with 'accommodation' %}class="active"{% endif %}>
+							<a href="{{ path('accommodations') }}">Hébergements</a>
+						</li>
+						<li {% if route == 'contact' %}class="active"{% endif %}>
+							<a href="{{ path('contact') }}">Contact</a>
+						</li>
+						<li {% if route == 'answer' %}class="active"{% endif %}>
+							<a href="{{ path('answer') }}">Réponse</a>
+						</li>
+						<li {% if route == 'wedding_list' %}class="active"{% endif %}>
+							<a href="{{ path('wedding_list') }}">Liste de mariage</a>
+						</li>
+					</ul>
+				</nav>
+			{% endif %}
 		</header>
 
 		<div class="container">

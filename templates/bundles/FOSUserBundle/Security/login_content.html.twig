@@ -1,0 +1,48 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<hr>
+<br>
+<h3 class="text-center">Connectez-vous pour accéder au site :</h3>
+<br>
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2 jumbotron">
+        {% if error %}
+            <p class="text-danger text-center">Erreur : {{ error.messageKey|trans(error.messageData, 'security') }}</p>
+            <br>
+        {% endif %}
+
+        <form class="form-horizontal" action="{{ path("fos_user_security_check") }}" method="post">
+            {% if csrf_token %}
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token }}" />
+            {% endif %}
+
+            <div class="form-group">
+                <label for="username" class="col-sm-4 control-label">Identifiant</label>
+                <div class="col-sm-8">
+                    <input type="text" id="username" class="form-control" name="_username" value="{{ last_username }}" required="required" autocomplete="username" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="password" class="col-sm-4 control-label">Mot de passe</label>
+                <div class="col-sm-8">
+                    <input type="password" class="form-control" id="password" name="_password" required="required" autocomplete="current-password">
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" id="remember_me" name="_remember_me" value="on"> Se souvenir de moi
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <input type="submit" id="_submit" class="btn btn-default" name="_submit" value="Connexion" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
