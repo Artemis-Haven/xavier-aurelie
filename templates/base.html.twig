@@ -16,7 +16,9 @@
 			<img src="{{ asset('images/header_background.jpg') }}" alt="Mariage de Xavier et Aurélie">
 			<h1>Aurélie & Xavier</h1>
 			<h2>30 mai 2019</h2>
-			<h3>J-375</h3>
+			{% set marriageDate = '2019-05-30' %}
+			{% set difference = date(marriageDate).diff(date('today')) %}
+			<h3>J-{{ difference.days }}</h3>
 			{% if app.user %}
 				<nav class="navbar">
 					<ul class="nav navbar-nav">
