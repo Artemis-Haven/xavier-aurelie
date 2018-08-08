@@ -9,5 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CarpoolSearch extends AbstractCarpool
 {
-    
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\CarpoolAnswer", mappedBy="search", orphanRemoval=true)
+     */
+    protected $answers;
 }

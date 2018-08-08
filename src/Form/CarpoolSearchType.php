@@ -13,17 +13,35 @@ class CarpoolSearchType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('author')
-            ->add('location')
+            ->add('author', null, [
+                'label' => "Votre nom"
+            ])
+            ->add('email', null, [
+                'label' => "Votre e-mail (pour le suivi des réponses à votre annonce)"
+            ])
+            ->add('phone', null, [
+                'label' => "Votre numéro de téléphone"
+            ])
+            ->add('location', null, [
+                'label' => "Votre ville de départ (ou d'arrivée, en cas de retour uniquement)"
+            ])
             ->add('direction', ChoiceType::class, [
                 'choices' => [
+                    null => "",
                     "Aller uniquement" => "Aller uniquement", 
                     "Retour uniquement" => "Retour uniquement", 
                     "Aller/retour" => "Aller/retour"]
             ])
-            ->add('details')
-            ->add('nbrOfPersons')
-            ->add('email')
+            ->add('nbrOfSeats', null, [
+                'label' => "Nombre de places que vous recherchez"
+            ])
+            ->add('details', null, [
+                'label' => "Détails concernant votre voyage",
+                'attr' => [
+                    'placeholder' => 'Exemples : "Besoin de place pour mes bagages", "Je peux me rendre jusqu\'au péage de l\'autoroute", "Je voyage avec un petit chien", ...',
+                    'rows' => 8
+                ],
+            ])
         ;
     }
 

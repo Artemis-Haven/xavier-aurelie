@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
+
+{% block body %}
+	<h1>
+    	<a href="{{ path('carpool') }}" title="Revenir à la liste des annonces">Co-voiturage</a>
+		<span style="font-size: 0.9em;">
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	<a href="{{ path('carpool_search_show', {'id': carpool.id}) }}" title="Revenir à l'annonce">Annonce de {{ carpool.author }}</a>
+	    </span>
+    </h1>
+
+    <h2>Répondre à l'annonce de recherche de places</h2>
+
+	<br>
+	
+    {{ form(form) }}
+{% endblock %}

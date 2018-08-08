@@ -4,6 +4,7 @@
 
 {% block stylesheets %}
 	{{ parent() }}
+	<link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet"> 
 	<style type="text/css">
 		.carpool {
 			color: #333;
@@ -21,63 +22,73 @@
 	</style>
 {% endblock %}
 
+{% block containerClass %}col-md-12{% endblock %}
+
 {% block body %}
-    <h1>Co-voiturage</h1>
-
-    <div class="row">
-    	<div class="col-md-6">
-    		{% if carpoolProposals is not empty %}
-				<h4>
-					{% if carpoolProposals|length > 1 %}
-						{{ carpoolProposals|length }} personnes proposent un co-voiturage.
-					{% else %}
-						Une personne propose un co-voiturage.
-					{% endif %}
-				</h4>
-				<a href="{{ path('carpool_proposal_new') }}">Ajouter une annonce</a>
-
-				<hr>
-
-			    {% for proposal in carpoolProposals %}
-			    	<a class="carpool" href="{{ path('carpool_proposal_show', {'id': proposal.id}) }}">
-			    		<b>{{ proposal.author }}</b> propose un trajet <b>{{ proposal.direction|lower }}</b> 
-			    		{% if proposal.direction starts with "Retour" %}vers{% else %}depuis{% endif %} 
-			    		<b>{{ proposal.location }}</b>
-			    		pour <b>{{ proposal.nbrOfPersons > 1 ? proposal.nbrOfPersons~' personnes' : proposal.nbrOfPersons~' personne' }}</b>.
-			    		<br>
-			    	</a>
-			    {% endfor %}
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+    		<h1>Co-voiturage</h1>
+    		<h4>
+    		{% if carpoolProposals is empty %}
+				Pour l'instant, personne ne propose de co-voiturage
+    		{% elseif carpoolProposals|length > 1 %}
+				{{ carpoolProposals|length }} personnes proposent un co-voiturage
 			{% else %}
-				<h4>Personne ne propose de trajet pour l'instant.</h4>
-    		{% endif %}
-    	</div>  
-
-    	<div class="col-md-6">
-    		{% if carpoolSearches is not empty %}
-				<h4>
-					{% if carpoolSearches|length > 1 %}
-						{{ carpoolSearches|length }} personnes recherchent un co-voiturage.
-					{% else %}
-						Une personne recherche un co-voiturage.
-					{% endif %}
-				</h4>
-				<a href="{{ path('carpool_search_new') }}">Ajouter une annonce</a>
-
-				<hr>
-
-			    {% for search in carpoolSearches %}
-			    	<a class="carpool" href="{{ path('carpool_search_show', {'id': search.id}) }}">
-			    		<b>{{ search.author }}</b> propose un trajet <b>{{ search.direction|lower }}</b> 
-			    		{% if search.direction starts with "Retour" %}vers{% else %}depuis{% endif %} 
-			    		<b>{{ search.location }}</b>
-			    		pour <b>{{ search.nbrOfPersons > 1 ? search.nbrOfPersons~' personnes' : search.nbrOfPersons~' personne' }}</b>.
-			    		<br>
-			    	</a>
-			    {% endfor %}
+				Une personne propose un co-voiturage
+			{% endif %}
+			et 
+    		{% if carpoolSearches is empty %}
+				personne ne recherche de place.
+			{% elseif carpoolSearches|length > 1 %}
+				{{ carpoolSearches|length }} personnes recherchent des places.
 			{% else %}
-				<h4>Personne ne recherche de trajet pour l'instant.</h4>
-    		{% endif %}
-    	</div>
-    </div>
+				une personne recherche des places.
+			{% endif %}
+			</h4>
+    		<div class="dropdown">
+    			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownNewCarpool" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    				Ajoutez une annonce
+    				<span class="caret"></span>
+    			</button>
+    			<ul class="dropdown-menu" aria-labelledby="dropdownNewCarpool">
+    				<li><a href="{{ path('carpool_proposal_new') }}">Proposez un trajet</a></li>
+    				<li><a href="{{ path('carpool_search_new') }}">Recherchez des places</a></li>
+    			</ul>
+    		</div>
+    		<hr>
+    		Cliquez sur un post-it pour afficher plus d'informations.
+		</div>
+	</div>
+
+	<div class="postit-container">
+	    {% for proposal in carpoolProposals %}
+	    	<div class="postit-wrapper {% if proposal.isCompleted %}postit-wrapper-checked{% endif %}">
+		    	<a class="postit" href="{{ path('carpool_proposal_show', {'id': proposal.id}) }}">
+		    		<b>{{ proposal.author }}</b> propose un trajet 
+		    		<br>
+		    		<b>{{ proposal.direction|lower }}</b>
+		    		<br> 
+		    		{% if proposal.direction starts with "Retour" %}vers{% else %}depuis{% endif %} 
+		    		<b>{{ proposal.location }}</b>
+		    		<br>
+		    		pour <b>{{ proposal.nbrOfSeats > 1 ? proposal.nbrOfSeats~' personnes' : '1 personne' }}</b>.
+		    	</a>
+	    	</div>
+	    {% endfor %}
+	    {% for search in carpoolSearches %}
+	    	<div class="postit-wrapper {% if search.isCompleted %}postit-wrapper-checked{% endif %}">
+		    	<a class="postit postit-blue" href="{{ path('carpool_search_show', {'id': search.id}) }}">
+		    		<b>{{ search.author }}</b> recherche un trajet 
+		    		<br>
+		    		<b>{{ search.direction|lower }}</b>
+		    		<br> 
+		    		{% if search.direction starts with "Retour" %}vers{% else %}depuis{% endif %} 
+		    		<b>{{ search.location }}</b>
+		    		<br>
+		    		pour <b>{{ search.nbrOfSeats > 1 ? search.nbrOfSeats~' personnes' : '1 personne' }}</b>.
+		    	</a>
+	    	</div>
+	    {% endfor %}
+	</div>
 
 {% endblock %}

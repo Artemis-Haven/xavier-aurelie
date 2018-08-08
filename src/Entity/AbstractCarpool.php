@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 abstract class AbstractCarpool
 {
@@ -32,7 +34,12 @@ abstract class AbstractCarpool
     /**
      * @ORM\Column(type="integer")
      */
-    protected $nbrOfPersons;
+    protected $nbrOfSeats;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $reservedSeats;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -48,6 +55,20 @@ abstract class AbstractCarpool
      * @ORM\Column(type="string", length=255)
      */
     protected $email;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $phone;
+
+    protected $answers;
+
+
+    public function __construct()
+    {
+        $this->reservedSeats = 0;
+        $this->answers = new ArrayCollection();
+    }
 
 
     public function getId()
@@ -91,14 +112,26 @@ abstract class AbstractCarpool
         return $this;
     }
 
-    public function getNbrOfPersons(): ?int
+    public function getNbrOfSeats(): ?int
     {
-        return $this->nbrOfPersons;
+        return $this->nbrOfSeats;
     }
 
-    public function setNbrOfPersons(int $nbrOfPersons): self
+    public function setNbrOfSeats(int $nbrOfSeats): self
     {
-        $this->nbrOfPersons = $nbrOfPersons;
+        $this->nbrOfSeats = $nbrOfSeats;
+
+        return $this;
+    }
+
+    public function getReservedSeats(): ?int
+    {
+        return $this->reservedSeats;
+    }
+
+    public function setReservedSeats(int $reservedSeats): self
+    {
+        $this->reservedSeats = $reservedSeats;
 
         return $this;
     }
@@ -137,5 +170,59 @@ abstract class AbstractCarpool
         $this->email = $email;
 
         return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|CarpoolAnswer[]
+     */
+    public function getAnswers(): Collection
+    {
+        return $this->answers;
+    }
+
+    public function addAnswer(CarpoolAnswer $answer): self
+    {
+        if (!$this->answers->contains($answer)) {
+            $this->answers[] = $answer;
+            $answer->setCarpoolProposal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAnswer(CarpoolAnswer $answer): self
+    {
+        if ($this->answers->contains($answer)) {
+            $this->answers->removeElement($answer);
+            // set the owning side to null (unless already changed)
+            if ($answer->getCarpoolProposal() === $this) {
+                $answer->setCarpoolProposal(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isCompleted(): bool
+    {
+        $seats = $this->getNbrOfSeats();
+        foreach ($this->getAnswers() as $answer) {
+            if ($answer->getStatus() == CarpoolAnswer::STATUS_ACCEPTED) {
+                $seats -= $answer->getNbrOfSeatsRequested();
+            }
+        }
+        return $seats == 0;
     }
 }

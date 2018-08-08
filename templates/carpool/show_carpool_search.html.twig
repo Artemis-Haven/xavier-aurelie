@@ -3,7 +3,64 @@
 {% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
 
 {% block body %}
-    <b>{{ search.author }}</b> recherche un trajet <b>{{ search.direction|lower }}</b> pour <b>{{ search.nbrOfPersons }} personne(s)</b>.
+    <h1>
+    	<a href="{{ path('carpool') }}" title="Revenir à la liste des annonces">Co-voiturage</a>
+		<span style="font-size: 0.9em;">
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	Annonce de {{ search.author }}
+	    </span>
+    </h1>
+
+	<table class="table table-bordered table-striped">
+
+		<tbody>
+			<tr>
+				<th>Type d'annonce</th>
+				<td>Recherche de places</td>
+			</tr>
+			<tr>
+				<th>Date de publication</th>
+				<td>Le {{ search.createdAt|date('d/m/Y') }}</td>
+			</tr>
+			<tr>
+				<th>Ville de départ</th>
+				<td>{{ search.location }}</td>
+			</tr>
+			<tr>
+				<th>Sens du trajet</th>
+				<td>{{ search.direction }}</td>
+			</tr>
+			<tr>
+				<th>Nombre de places recherchées</th>
+				<td>{{ search.nbrOfSeats }}</td>
+			</tr>
+			<tr>
+				<th>Détails de la recherche</th>
+				<td>{{ search.details|nl2br }}</td>
+			</tr>
+		</tbody>
+	</table>
+
 	<br>
-	{{ search.details|nl2br }}
+
+	{% if search.isCompleted %}
+		<a href="#" class="btn btn-default disabled text-muted">Je me propose comme chauffeur !</a>
+	{% else %}
+		<a href="{{ path('carpool_search_answer_new', {'id': search.id}) }}" class="btn btn-default">Je me propose comme chauffeur !</a>
+	{% endif %}
+	
+	{% if search.answers is not empty %}
+		<hr>
+		<h3>Réponses à l'annonce</h3>
+
+		{% for answer in search.answers if answer.status != constant('STATUS_REJECTED', answer) %}
+			{% if answer.status == constant('STATUS_PENDING', answer) %}
+				<span class="label label-primary">{{ answer.status }}</span>
+			{% elseif answer.status == constant('STATUS_ACCEPTED', answer) %}
+				<span class="label label-success">{{ answer.status }}</span>
+			{% endif %}
+			{{ answer.author }} propose {{ answer.nbrOfSeatsRequested }} place(s).
+		{% endfor %}
+	{% endif %}
+
 {% endblock %}

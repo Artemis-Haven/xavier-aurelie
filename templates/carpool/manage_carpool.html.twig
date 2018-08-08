@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
+
+{% block body %}
+	<h2>Gestion de votre annonce</h2>
+	<h3>{{ type == 'search' ? "Recherche" : "Proposition"}} de covoiturage</h3>
+
+	<a href="" class="btn btn-danger pull-right">Supprimer mon annonce</a>
+
+	<p>
+		<b>Vous êtes :</b> {{ carpool.author }} ({{ carpool.email }})
+		{%- if carpool.phone %}, {{ carpool.phone }}{% endif %}
+	</p>
+	<br>
+
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr><th colspan="2">Votre {{ type == 'search' ? "recherche" : "proposition"}}</th></tr>
+		</thead>
+		<tbody>
+			<tr>
+				<th>Ville de départ</th>
+				<td>{{ carpool.location }}</td>
+			</tr>
+			<tr>
+				<th>Sens du trajet</th>
+				<td>{{ carpool.direction }}</td>
+			</tr>
+			<tr>
+				<th>Nombre de places {{ type == 'search' ? "recherchées" : "proposées"}}</th>
+				<td>{{ carpool.nbrOfSeats }}</td>
+			</tr>
+			<tr>
+				<th>Détails de la {{ type == 'search' ? "recherche" : "proposition"}}</th>
+				<td>{{ carpool.details|nl2br }}</td>
+			</tr>
+		</tbody>
+	</table>
+
+	<h3>Réponses</h3>
+
+	{% if carpool.answers is empty %}
+		<h4 class="text-muted text-center">Aucune réponse pour l'instant</h4>
+	{% else %}
+		<table class="table table-bordered table-striped">
+			<thead>
+				<tr>
+					<th>Date de la réponse</th>
+					<th>Nom</th>
+					<th>Num. de téléphone</th>
+					<th>Nbr de places {{ type == 'search' ? "proposées" : "souhaitées"}}</th>
+					<th>Détails</th>
+					<th>Etat</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for answer in carpool.answers %}
+					<tr{% if answer.status == constant('STATUS_REJECTED', answer) %} class="text-muted" {% endif %}>
+						<td>Le {{ answer.createdAt|date('d/m/Y à H:i:s') }}</td>
+						<td>{{ answer.author }}</td>
+						<td>{{ answer.phone }}</td>
+						<td>{% if answer.nbrOfSeatsRequested > 1 %}{{ answer.nbrOfSeatsRequested }} places {% else %} 1 place {% endif %}</td>
+						<td>{{ answer.details|nl2br }}</td>
+						<td class="text-center" style="min-width: 80px;">
+							{% if answer.status == constant('STATUS_PENDING', answer) %}
+								<span class="label label-primary">{{ answer.status }}</span>
+								<div style="height: 10px;"></div>
+								<a href="{{ path('carpool_answer_accept', {'id': answer.id}) }}" class="btn btn-xs btn-success" title="Accepter"><span class="glyphicon glyphicon-ok" aria-hidden="true"></span></a>
+								&nbsp;
+								<a href="{{ path('carpool_answer_reject', {'id': answer.id}) }}" class="btn btn-xs btn-danger" title="Refuser"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+							{% elseif answer.status == constant('STATUS_ACCEPTED', answer) %}
+								<span class="label label-success">{{ answer.status }}</span>
+							{% elseif answer.status == constant('STATUS_REJECTED', answer) %}
+								<span class="label label-danger">{{ answer.status }}</span>
+							{% endif %}
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	{% endif %}
+
+{% endblock %}
