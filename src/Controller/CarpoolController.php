@@ -34,7 +34,7 @@ class CarpoolController extends Controller
      * @Route("/recherche/nouvelle-annonce", name="carpool_search_new")
      * @Template
      */
-    public function newCarpoolSearch(Request $request)
+    public function newCarpoolSearch(Request $request, \Swift_Mailer $mailer)
     {
     	$em = $this->getDoctrine()->getManager();
     	$newCarpoolSearch = new CarpoolSearch();
@@ -49,6 +49,20 @@ class CarpoolController extends Controller
 	        $newCarpoolSearch->setCreatedAt(new \DateTime('now'));
 	        $em->persist($newCarpoolSearch);
 	        $em->flush();
+
+            $message = (new \Swift_Message('Mariage de Xavier et Aurélie - Votre annonce est publiée'))
+                ->setTo($newCarpoolSearch->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        'emails/carpool_published.html.twig',
+                        ['carpool' => $newCarpoolSearch, 'type' => 'search']
+                    ),
+                    'text/html'
+                )
+            ;
+            $mailer->send($message);
+
+            $this->addFlash('success', "Votre annonce est en ligne. Vous avec reçu un e-mail contenant toutes les informations nécessaires à son suivi.");
 
 	        return $this->redirectToRoute('carpool_search_show', ['id' => $newCarpoolSearch->getId()]);
 	    }
@@ -83,7 +97,7 @@ class CarpoolController extends Controller
      * @Route("/offre/nouvelle-annonce", name="carpool_proposal_new")
      * @Template
      */
-    public function newCarpoolProposal(Request $request)
+    public function newCarpoolProposal(Request $request, \Swift_Mailer $mailer)
     {
     	$em = $this->getDoctrine()->getManager();
     	$newCarpoolProposal = new CarpoolProposal();
@@ -99,6 +113,17 @@ class CarpoolController extends Controller
 	        $em->persist($newCarpoolProposal);
 	        $em->flush();
 
+            $message = (new \Swift_Message('Mariage de Xavier et Aurélie - Votre annonce est publiée'))
+                ->setTo($newCarpoolProposal->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        'emails/carpool_published.html.twig',
+                        ['carpool' => $newCarpoolProposal, 'type' => 'proposal']
+                    ),
+                    'text/html'
+                )
+            ;
+            $mailer->send($message);
             
             $this->addFlash('success', "Votre annonce est en ligne. Vous avec reçu un e-mail contenant toutes les informations nécessaires à son suivi.");
 
