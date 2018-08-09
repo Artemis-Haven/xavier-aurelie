@@ -99,6 +99,9 @@ class CarpoolController extends Controller
 	        $em->persist($newCarpoolProposal);
 	        $em->flush();
 
+            
+            $this->addFlash('success', "Votre annonce est en ligne. Vous avec reçu un e-mail contenant toutes les informations nécessaires à son suivi.");
+
 	        return $this->redirectToRoute('carpool_proposal_show', ['id' => $newCarpoolProposal->getId()]);
 	    }
         return [
@@ -173,9 +176,12 @@ class CarpoolController extends Controller
             $em->persist($answer);
             $em->flush();
 
+            // TODO : Envoyer le mail au créateur de l'annonce pour lui indiquer qua'il a une réponse
             if ($search) {
+                $this->addFlash('success', "Votre réponse a été envoyée par e-mail à ".$search->getAuthor().". Dès qu'iel l'aura accepté, vous en serez informé par e-mail.");
                 return $this->redirectToRoute('carpool_search_show', ['id' => $search->getId()]);
             } else {
+                $this->addFlash('success', "Votre réponse a été envoyée par e-mail à ".$proposal->getAuthor().". Dès qu'iel l'aura accepté, vous en serez informé par e-mail.");
                 return $this->redirectToRoute('carpool_proposal_show', ['id' => $proposal->getId()]);
             }
         }
@@ -196,10 +202,16 @@ class CarpoolController extends Controller
         if ($answer->getSearch()) {
             $answer->getSearch()->setReservedSeats($answer->getSearch()->getReservedSeats() + $answer->getNbrOfSeatsRequested());
             $em->flush();
+
+            // TODO : Envoyer un mail à l'auteur de la réponse pour lui dire que sa proposition a été acceptée
+            $this->addFlash('success', "Vous avez accepté la proposition de ".$answer->getAuthor().". Un e-mail lui a été envoyé pour l'en informer.");
             return $this->redirectToRoute('carpool_search_manage', ['id' => $answer->getSearch()->getId()]);
         } else {
             $answer->getProposal()->setReservedSeats($answer->getProposal()->getReservedSeats() + $answer->getNbrOfSeatsRequested());
             $em->flush();
+
+            // TODO : Envoyer un mail à l'auteur de la réponse pour lui dire que sa demande a été acceptée
+            $this->addFlash('success', "Vous avez accepté la demande de ".$answer->getAuthor().". Un e-mail lui a été envoyé pour l'en informer.");
             return $this->redirectToRoute('carpool_proposal_manage', ['id' => $answer->getProposal()->getId()]);
         }
     }
@@ -213,9 +225,15 @@ class CarpoolController extends Controller
         $answer->setStatus(CarpoolAnswer::STATUS_REJECTED);
         if ($answer->getSearch()) {
             $em->flush();
+
+            // TODO : Envoyer un mail à l'auteur de la réponse pour lui dire que sa proposition a été refusée
+            $this->addFlash('danger', "Vous avez refusée la proposition de ".$answer->getAuthor().". Un e-mail lui a été envoyé pour l'en informer.");
             return $this->redirectToRoute('carpool_search_manage', ['id' => $answer->getSearch()->getId()]);
         } else {
             $em->flush();
+
+            // TODO : Envoyer un mail à l'auteur de la réponse pour lui dire que sa demande a été refusée
+            $this->addFlash('danger', "Vous avez refusée la demande de ".$answer->getAuthor().". Un e-mail lui a été envoyé pour l'en informer.");
             return $this->redirectToRoute('carpool_proposal_manage', ['id' => $answer->getProposal()->getId()]);
         }
     }
