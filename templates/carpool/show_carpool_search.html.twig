@@ -11,7 +11,11 @@
 	    </span>
     </h1>
 
-	<table class="table table-bordered table-striped">
+	{% if search.isCompleted %}
+		<p class="alert alert-success h4 text-center">{{ search.author }} a déjà trouvé un chauffeur.</p>
+	{% endif %}
+
+	<table class="table table-bordered table-striped {% if search.isCompleted %}text-muted{% endif %}">
 
 		<tbody>
 			<tr>
@@ -32,7 +36,7 @@
 			</tr>
 			<tr>
 				<th>Nombre de places recherchées</th>
-				<td>{{ search.nbrOfSeats }}</td>
+				<td>{{ search.nbrOfSeats }} <b class="text-danger">{% if search.reservedSeats %}- {{ search.reservedSeats }} déjà trouvées{% endif %}</b></td>
 			</tr>
 			<tr>
 				<th>Détails de la recherche</th>
@@ -60,6 +64,7 @@
 				<span class="label label-success">{{ answer.status }}</span>
 			{% endif %}
 			{{ answer.author }} propose {{ answer.nbrOfSeatsRequested }} place(s).
+			<br>
 		{% endfor %}
 	{% endif %}
 

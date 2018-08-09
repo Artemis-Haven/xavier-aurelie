@@ -150,13 +150,19 @@ class CarpoolController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $answer = new CarpoolAnswer();
+        $maxSeats = 1;
         if ($search) {
             $answer->setSearch($search);
+            $maxSeats = $search->getNbrOfSeats() - $search->getReservedSeats();
         } else {
             $answer->setProposal($proposal);
+            $maxSeats = $proposal->getNbrOfSeats() - $proposal->getReservedSeats();
         }
 
-        $newCarpoolAnswerForm = $this->createForm(CarpoolAnswerType::class, $answer)
+        $newCarpoolAnswerForm = $this->createForm(CarpoolAnswerType::class, $answer, [
+            'type' => ($search ? 'search' : 'proposal'),
+            'maxSeats' => $maxSeats
+        ])
             ->add('submit', SubmitType::class, array('label' => "Envoyer la réponse"))
         ;
 
@@ -188,11 +194,11 @@ class CarpoolController extends Controller
         $em = $this->getDoctrine()->getManager();
         $answer->setStatus(CarpoolAnswer::STATUS_ACCEPTED);
         if ($answer->getSearch()) {
-            $answer->getSearch()->setReservedSeats($answer->getSearch()->getReservedSeats() - $answer->getNbrOfSeatsRequested());
+            $answer->getSearch()->setReservedSeats($answer->getSearch()->getReservedSeats() + $answer->getNbrOfSeatsRequested());
             $em->flush();
             return $this->redirectToRoute('carpool_search_manage', ['id' => $answer->getSearch()->getId()]);
         } else {
-            $answer->getProposal()->setReservedSeats($answer->getProposal()->getReservedSeats() - $answer->getNbrOfSeatsRequested());
+            $answer->getProposal()->setReservedSeats($answer->getProposal()->getReservedSeats() + $answer->getNbrOfSeatsRequested());
             $em->flush();
             return $this->redirectToRoute('carpool_proposal_manage', ['id' => $answer->getProposal()->getId()]);
         }

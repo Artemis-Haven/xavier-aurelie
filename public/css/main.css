@@ -205,6 +205,11 @@ body > div.container > section.row h1 {
 	transform: matrix(-1, -0.1, 0, 1, 0, 0);
 }
 
+.postit:hover {
+	text-decoration: none;
+	color: #3d3d48 !important;
+}
+
 .postit-wrapper { display: inline-block; }
 .postit-wrapper:nth-child(5n) { transform: rotate(3deg); }
 .postit-wrapper:nth-child(5n+1) { transform: rotate(-2deg); }

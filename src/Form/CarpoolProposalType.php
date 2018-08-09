@@ -32,8 +32,9 @@ class CarpoolProposalType extends AbstractType
                     "Retour uniquement" => "Retour uniquement", 
                     "Aller/retour" => "Aller/retour"]
             ])
-            ->add('nbrOfSeats', null, [
-                'label' => "Nombre de places que vous proposez"
+            ->add('nbrOfSeats', ChoiceType::class, [
+                'label' => "Nombre de places que vous proposez",
+                'choices' => array_combine(range(1, $options['maxSeats']), range(1, $options['maxSeats']))
             ])
             ->add('details', null, [
                 'label' => "Détails concernant votre voyage",
@@ -46,6 +47,7 @@ class CarpoolProposalType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => CarpoolProposal::class,
+            'maxSeats' => 10
         ]);
     }
 }
