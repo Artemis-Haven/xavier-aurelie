@@ -51,6 +51,7 @@ class CarpoolController extends Controller
 	        $em->flush();
 
             $message = (new \Swift_Message('Mariage de Xavier et Aurélie - Votre annonce est publiée'))
+                ->setFrom($this->getParameter('mail_from'))
                 ->setTo($newCarpoolSearch->getEmail())
                 ->setBody(
                     $this->renderView(
@@ -114,6 +115,7 @@ class CarpoolController extends Controller
 	        $em->flush();
 
             $message = (new \Swift_Message('Mariage de Xavier et Aurélie - Votre annonce est publiée'))
+                ->setFrom($this->getParameter('mail_from'))
                 ->setTo($newCarpoolProposal->getEmail())
                 ->setBody(
                     $this->renderView(
@@ -160,31 +162,30 @@ class CarpoolController extends Controller
      * @Route("/offre-{id}/reponse", name="carpool_proposal_answer_new", requirements={"id" = "\d+"})
      * @Template
      */
-    public function newCarpoolProposalAnswer(Request $request, CarpoolProposal $proposal)
+    public function newCarpoolProposalAnswer(Request $request, \Swift_Mailer $mailer, CarpoolProposal $proposal)
     {
-        return $this->newCarpoolAnswer($request, null, $proposal);
+        return $this->newCarpoolAnswer($request, $mailer, null, $proposal);
     }
 
     /**
      * @Route("/recherche-{id}/reponse", name="carpool_search_answer_new", requirements={"id" = "\d+"})
      * @Template
      */
-    public function newCarpoolSearchAnswer(Request $request, CarpoolSearch $search)
+    public function newCarpoolSearchAnswer(Request $request, \Swift_Mailer $mailer, CarpoolSearch $search)
     {
-        return $this->newCarpoolAnswer($request, $search, null);
+        return $this->newCarpoolAnswer($request, $mailer, $search, null);
     }
 
-    private function newCarpoolAnswer(Request $request, CarpoolSearch $search = null, CarpoolProposal $proposal = null)
+    private function newCarpoolAnswer(Request $request, \Swift_Mailer $mailer, CarpoolSearch $search = null, CarpoolProposal $proposal = null)
     {
         $em = $this->getDoctrine()->getManager();
         $answer = new CarpoolAnswer();
-        $maxSeats = 1;
+        $carpool = ($search ?? $proposal);
+        $maxSeats = $carpool->getNbrOfSeats() - $carpool->getReservedSeats();
         if ($search) {
             $answer->setSearch($search);
-            $maxSeats = $search->getNbrOfSeats() - $search->getReservedSeats();
         } else {
             $answer->setProposal($proposal);
-            $maxSeats = $proposal->getNbrOfSeats() - $proposal->getReservedSeats();
         }
 
         $newCarpoolAnswerForm = $this->createForm(CarpoolAnswerType::class, $answer, [
@@ -201,65 +202,98 @@ class CarpoolController extends Controller
             $em->persist($answer);
             $em->flush();
 
-            // TODO : Envoyer le mail au créateur de l'annonce pour lui indiquer qua'il a une réponse
+            $message = (new \Swift_Message('Mariage de Xavier et Aurélie - Vous avez une réponse à votre annonce'))
+                ->setFrom($this->getParameter('mail_from'))
+                ->setTo($carpool->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        'emails/carpool_answered.html.twig',
+                        ['answer' => $answer, 'type' => ($search ? 'search' : 'proposal')]
+                    ),
+                    'text/html'
+                )
+            ;
+            $mailer->send($message);
+
+            $this->addFlash('success', "Votre réponse a été envoyée par e-mail à ".$carpool->getAuthor().". Dès qu'iel l'aura accepté, vous en serez informé par e-mail.");
+
             if ($search) {
-                $this->addFlash('success', "Votre réponse a été envoyée par e-mail à ".$search->getAuthor().". Dès qu'iel l'aura accepté, vous en serez informé par e-mail.");
                 return $this->redirectToRoute('carpool_search_show', ['id' => $search->getId()]);
             } else {
-                $this->addFlash('success', "Votre réponse a été envoyée par e-mail à ".$proposal->getAuthor().". Dès qu'iel l'aura accepté, vous en serez informé par e-mail.");
                 return $this->redirectToRoute('carpool_proposal_show', ['id' => $proposal->getId()]);
             }
         }
 
         return [
             'form' => $newCarpoolAnswerForm->createView(),
-            'carpool' => ($search ?? $proposal)
+            'carpool' => $carpool
         ];
     }
 
     /**
      * @Route("/reponse-{id}/accepter", name="carpool_answer_accept", requirements={"id" = "\d+"})
      */
-    public function acceptCarpoolAnswer(CarpoolAnswer $answer)
+    public function acceptCarpoolAnswer(\Swift_Mailer $mailer, CarpoolAnswer $answer)
     {
         $em = $this->getDoctrine()->getManager();
+        $carpool = ($answer->getSearch() ?? $answer->getProposal());
         $answer->setStatus(CarpoolAnswer::STATUS_ACCEPTED);
+        
+        $carpool->setReservedSeats($carpool->getReservedSeats() + $answer->getNbrOfSeatsRequested());
+        $em->flush();
+
+        $message = (new \Swift_Message('Mariage de Xavier et Aurélie - '.($answer->getSearch() ? 'Votre proposition de covoiturage a été acceptée' : 'Votre demande de covoiturage a été acceptée')))
+            ->setFrom($this->getParameter('mail_from'))
+            ->setTo($answer->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'emails/carpool_accepted.html.twig',
+                    ['answer' => $answer, 'type' => ($answer->getSearch() ? 'search' : 'proposal')]
+                ),
+                'text/html'
+            )
+        ;
+        $mailer->send($message);
+
+        $this->addFlash('success', "Vous avez accepté la proposition de ".$answer->getAuthor().". Un e-mail lui a été envoyé pour l'en informer.");
+
         if ($answer->getSearch()) {
-            $answer->getSearch()->setReservedSeats($answer->getSearch()->getReservedSeats() + $answer->getNbrOfSeatsRequested());
-            $em->flush();
-
-            // TODO : Envoyer un mail à l'auteur de la réponse pour lui dire que sa proposition a été acceptée
-            $this->addFlash('success', "Vous avez accepté la proposition de ".$answer->getAuthor().". Un e-mail lui a été envoyé pour l'en informer.");
-            return $this->redirectToRoute('carpool_search_manage', ['id' => $answer->getSearch()->getId()]);
+            return $this->redirectToRoute('carpool_search_manage', ['id' => $carpool->getId()]);
         } else {
-            $answer->getProposal()->setReservedSeats($answer->getProposal()->getReservedSeats() + $answer->getNbrOfSeatsRequested());
-            $em->flush();
-
-            // TODO : Envoyer un mail à l'auteur de la réponse pour lui dire que sa demande a été acceptée
-            $this->addFlash('success', "Vous avez accepté la demande de ".$answer->getAuthor().". Un e-mail lui a été envoyé pour l'en informer.");
-            return $this->redirectToRoute('carpool_proposal_manage', ['id' => $answer->getProposal()->getId()]);
+            return $this->redirectToRoute('carpool_proposal_manage', ['id' => $carpool->getId()]);
         }
     }
 
     /**
      * @Route("/reponse-{id}/refuser", name="carpool_answer_reject", requirements={"id" = "\d+"})
      */
-    public function rejectCarpoolAnswer(CarpoolAnswer $answer)
+    public function rejectCarpoolAnswer(\Swift_Mailer $mailer, CarpoolAnswer $answer)
     {
         $em = $this->getDoctrine()->getManager();
+        $carpool = ($answer->getSearch() ?? $answer->getProposal());
         $answer->setStatus(CarpoolAnswer::STATUS_REJECTED);
+        
+        $em->flush();
+
+        $message = (new \Swift_Message('Mariage de Xavier et Aurélie - '.($answer->getSearch() ? 'Votre proposition de covoiturage a été rejetée' : 'Votre demande de covoiturage a été rejetée')))
+            ->setFrom($this->getParameter('mail_from'))
+            ->setTo($answer->getEmail())
+            ->setBody(
+                $this->renderView(
+                    'emails/carpool_rejected.html.twig',
+                    ['answer' => $answer, 'type' => ($answer->getSearch() ? 'search' : 'proposal')]
+                ),
+                'text/html'
+            )
+        ;
+        $mailer->send($message);
+        
+        $this->addFlash('danger', "Vous avez refusé la proposition de ".$answer->getAuthor().". Un e-mail lui a été envoyé pour l'en informer.");
+
         if ($answer->getSearch()) {
-            $em->flush();
-
-            // TODO : Envoyer un mail à l'auteur de la réponse pour lui dire que sa proposition a été refusée
-            $this->addFlash('danger', "Vous avez refusée la proposition de ".$answer->getAuthor().". Un e-mail lui a été envoyé pour l'en informer.");
-            return $this->redirectToRoute('carpool_search_manage', ['id' => $answer->getSearch()->getId()]);
+            return $this->redirectToRoute('carpool_search_manage', ['id' => $carpool->getId()]);
         } else {
-            $em->flush();
-
-            // TODO : Envoyer un mail à l'auteur de la réponse pour lui dire que sa demande a été refusée
-            $this->addFlash('danger', "Vous avez refusée la demande de ".$answer->getAuthor().". Un e-mail lui a été envoyé pour l'en informer.");
-            return $this->redirectToRoute('carpool_proposal_manage', ['id' => $answer->getProposal()->getId()]);
+            return $this->redirectToRoute('carpool_proposal_manage', ['id' => $carpool->getId()]);
         }
     }
 

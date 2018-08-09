@@ -1,0 +1,9 @@
+<h3>Vous avez reçu une réponse à votre annonce !</h3>
+
+{% if type == 'search' %}
+	{{ answer.author }} souhaite voyager avec vous. Iel vous propose {{ answer.nbrOfSeatsRequested }} places dans sa voiture.
+	Pour accepter ou refuser cette proposition et pour consulter l'ensemble des réponses, <a href="{{ url('carpool_search_manage', {'id': answer.search.id}) }}">cliquez ici</a>.
+{% else %}
+	{{ answer.author }} souhaite voyager avec vous. Iel aimerait réserver {{ answer.nbrOfSeatsRequested }} places dans votre voiture.
+	Pour accepter ou refuser une demande et pour consulter l'ensemble des réponses, <a href="{{ url('carpool_proposal_manage', {'id': answer.proposal.id}) }}">cliquez ici</a>.
+{% endif %}
