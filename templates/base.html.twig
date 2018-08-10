@@ -2,6 +2,8 @@
 <html>
     <head>
         <meta charset="UTF-8">
+    	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Site de mariage de Xavier et Aurélie{% endblock %}</title>
         <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('/css/bootstrap-theme.min.css') }}">
@@ -28,36 +30,46 @@
 			<h3>J-{{ difference.days }}</h3>
 			{% if app.user %}
 				<nav class="navbar">
-					<ul class="nav navbar-nav">
-						{% set route = app.request.attributes.get('_route') %}
-						<li {% if route == 'homepage' %}class="active"{% endif %}>
-							<a href="{{ path('homepage') }}">Accueil</a>
-						</li>
-						<li {% if route == 'blog' or route starts with 'article' %}class="active"{% endif %}>
-							<a href="{{ path('blog') }}">Blog</a>
-						</li>
-						<li {% if route starts with 'gallery' %}class="active"{% endif %}>
-							<a href="{{ path('homepage') }}">Albums photos</a>
-						</li>
-						<li {% if route == 'access_map' %}class="active"{% endif %}>
-							<a href="{{ path('access_map') }}">Plan d'accès</a>
-						</li>
-						<li {% if route starts with 'carpool' %}class="active"{% endif %}>
-							<a href="{{ path('carpool') }}">Co-voiturage</a>
-						</li>
-						<li {% if route starts with 'accommodation' %}class="active"{% endif %}>
-							<a href="{{ path('accommodations') }}">Hébergements</a>
-						</li>
-						<li {% if route == 'contact' %}class="active"{% endif %}>
-							<a href="{{ path('contact') }}">Contact</a>
-						</li>
-						<li {% if route == 'answer' %}class="active"{% endif %}>
-							<a href="{{ path('answer') }}">Réponse</a>
-						</li>
-						<li {% if route == 'wedding_list' %}class="active"{% endif %}>
-							<a href="{{ path('wedding_list') }}">Liste de mariage</a>
-						</li>
-					</ul>
+    				<div class="navbar-header">
+						<button type="button" class="btn navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+							<span class="sr-only">Toggle navigation</span>
+							MENU &nbsp;
+							<span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+						</button>
+					</div>
+				    <div class="collapse navbar-collapse" id="navbar-collapse">
+						<ul class="nav navbar-nav">
+							{% set route = app.request.attributes.get('_route') %}
+							<li {% if route == 'homepage' %}class="active"{% endif %}>
+								<a href="{{ path('homepage') }}">Accueil</a>
+							</li>
+							<li {% if route == 'blog' or route starts with 'article' %}class="active"{% endif %}>
+								<a href="{{ path('blog') }}">Blog</a>
+							</li>
+							<li {% if route starts with 'gallery' %}class="active"{% endif %}>
+								<a href="{{ path('homepage') }}">Albums photos</a>
+							</li>
+							<li {% if route == 'access_map' %}class="active"{% endif %}>
+								<a href="{{ path('access_map') }}">Plan d'accès</a>
+							</li>
+							<li {% if route starts with 'carpool' %}class="active"{% endif %}>
+								<a href="{{ path('carpool') }}">Co-voiturage</a>
+							</li>
+							<br class="visible-sm">
+							<li {% if route starts with 'accommodation' %}class="active"{% endif %}>
+								<a href="{{ path('accommodations') }}">Hébergements</a>
+							</li>
+							<li {% if route == 'contact' %}class="active"{% endif %}>
+								<a href="{{ path('contact') }}">Contact</a>
+							</li>
+							<li {% if route == 'answer' %}class="active"{% endif %}>
+								<a href="{{ path('answer') }}">Réponse</a>
+							</li>
+							<li {% if route == 'wedding_list' %}class="active"{% endif %}>
+								<a href="{{ path('wedding_list') }}">Liste de mariage</a>
+							</li>
+						</ul>
+					</div>
 				</nav>
 			{% endif %}
 		</header>
