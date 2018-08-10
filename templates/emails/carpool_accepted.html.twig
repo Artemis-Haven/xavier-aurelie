@@ -1,9 +1,9 @@
 {% if type == 'search' %}
-	<h3>{{ answer.author }} a accepté votre proposition de covoiturage !</h3>
+	<h3>{{ answer.search.author }} a accepté votre proposition de covoiturage !</h3>
 
 	Iel réserve donc {{ answer.nbrOfSeatsRequested }} places dans votre voiture.
 {% else %}
-	<h3>{{ answer.author }} a accepté votre demande de covoiturage !</h3>
+	<h3>{{ answer.proposal.author }} a accepté votre demande de covoiturage !</h3>
 
 	Iel réserve donc {{ answer.nbrOfSeatsRequested }} places pour vous dans sa voiture.
 {% endif %}

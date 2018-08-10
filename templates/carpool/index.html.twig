@@ -45,6 +45,18 @@
 				une personne recherche des places.
 			{% endif %}
 			</h4>
+
+			{% if is_granted('ROLE_ADMIN') %}
+				<div class="dropdown pull-right" style="z-index: 10;">
+					<button class="btn btn-default dropdown-toggle" type="button" id="dropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+						<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownAdmin">
+						<li><a href="{{ path('carpool_admin') }}">Afficher la vue complète</a></li>
+					</ul>
+				</div>
+			{% endif %}
+
     		<div class="dropdown">
     			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownNewCarpool" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
     				Ajoutez une annonce

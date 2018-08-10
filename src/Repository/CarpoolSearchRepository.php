@@ -19,6 +19,16 @@ class CarpoolSearchRepository extends ServiceEntityRepository
         parent::__construct($registry, CarpoolSearch::class);
     }
 
+    public function findAllOrdered()
+    {
+        return $this->createQueryBuilder('c')
+            ->orderBy('c.nbrOfSeats - c.reservedSeats ', 'DESC')
+            ->addOrderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return CarpoolSearch[] Returns an array of CarpoolSearch objects
 //     */

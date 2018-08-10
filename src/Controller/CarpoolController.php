@@ -5,6 +5,7 @@ namespace App\Controller;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use App\Entity\CarpoolSearch;
@@ -22,11 +23,26 @@ class CarpoolController extends Controller
      */
     public function index()
     {
-    	$em = $this->getDoctrine()->getManager();
+        $em = $this->getDoctrine()->getManager();
 
         return [
-        	'carpoolSearches' => $em->getRepository('App:CarpoolSearch')->findAll(),
-        	'carpoolProposals' => $em->getRepository('App:CarpoolProposal')->findAll()
+            'carpoolSearches' => $em->getRepository('App:CarpoolSearch')->findAllOrdered(),
+            'carpoolProposals' => $em->getRepository('App:CarpoolProposal')->findAllOrdered()
+        ];
+    }
+
+    /**
+     * @Route("/covoiturage/admin", name="carpool_admin")
+     * @IsGranted("ROLE_ADMIN")
+     * @Template
+     */
+    public function admin()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        return [
+            'carpoolSearches' => $em->getRepository('App:CarpoolSearch')->findAllOrdered(),
+            'carpoolProposals' => $em->getRepository('App:CarpoolProposal')->findAllOrdered()
         ];
     }
 

@@ -11,6 +11,7 @@ class CarpoolProposal extends AbstractCarpool
 {
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\CarpoolAnswer", mappedBy="proposal", orphanRemoval=true)
+     * @ORM\OrderBy({"status" = "ASC"})
      */
     protected $answers;
 }

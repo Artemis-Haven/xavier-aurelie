@@ -1,9 +1,9 @@
 {% if type == 'search' %}
-	<h3>{{ answer.author }} a rejeté votre proposition de covoiturage</h3>
+	<h3>{{ answer.search.author }} a rejeté votre proposition de covoiturage</h3>
 
 	N'hésitez pas à <a href="{{ url('carpool') }}">revenir sur le site</a> pour trouver d'autres propositions de covoiturage.
 {% else %}
-	<h3>{{ answer.author }} a rejeté votre demande de covoiturage !</h3>
+	<h3>{{ answer.proposal.author }} a rejeté votre demande de covoiturage !</h3>
 
 	N'hésitez pas à <a href="{{ url('carpool') }}">revenir sur le site</a> pour trouver d'autres propositions de covoiturage.
 {% endif %}
