@@ -59,7 +59,12 @@ abstract class AbstractCarpool
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $phone;
+    protected $phone;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    protected $uuid;
 
     protected $answers;
 
@@ -68,6 +73,7 @@ abstract class AbstractCarpool
     {
         $this->reservedSeats = 0;
         $this->answers = new ArrayCollection();
+        $this->uuid = uniqid();
     }
 
 
@@ -224,5 +230,17 @@ abstract class AbstractCarpool
             }
         }
         return $seats == 0;
+    }
+
+    public function getUuid(): ?string
+    {
+        return $this->uuid;
+    }
+
+    public function setUuid(?string $uuid): self
+    {
+        $this->uuid = $uuid;
+
+        return $this;
     }
 }

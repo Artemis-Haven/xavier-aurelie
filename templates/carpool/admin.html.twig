@@ -86,9 +86,9 @@
 						<td class="text-center">
 							{% set showRoute = (type == 'search' ? 'carpool_search_show' : 'carpool_proposal_show') %}
 							{% set manageRoute = (type == 'search' ? 'carpool_search_manage' : 'carpool_proposal_manage') %}
-							<a href="{{ path(showRoute, {'id': carpool.id}) }}" class="btn btn-xs btn-info" title="Voir l'annonce">&nbsp;<span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;</a>
+							<a href="{{ path(showRoute, {'id': carpool.id, 'uuid': carpool.uuid}) }}" class="btn btn-xs btn-info" title="Voir l'annonce">&nbsp;<span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;</a>
 							<br> <br>
-							<a href="{{ path(manageRoute, {'id': carpool.id}) }}" class="btn btn-xs btn-default" title="Gérer l'annonce">&nbsp;<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;</a>
+							<a href="{{ path(manageRoute, {'id': carpool.id, 'uuid': carpool.uuid}) }}" class="btn btn-xs btn-default" title="Gérer l'annonce">&nbsp;<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>&nbsp;</a>
 						</td>
 					</tr>
 				{% endfor %}

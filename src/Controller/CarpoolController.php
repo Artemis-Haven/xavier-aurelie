@@ -99,15 +99,34 @@ class CarpoolController extends Controller
     }
 
     /**
-     * @Route("/recherche/annonce-{id}/gestion", name="carpool_search_manage", requirements={"id" = "\d+"})
+     * @Route("/recherche/annonce-{id}/gestion/{uuid}", name="carpool_search_manage", requirements={"id" = "\d+"})
      * @Template("carpool/manage_carpool.html.twig")
      */
-    public function manageCarpoolSearch(CarpoolSearch $carpoolSearch)
+    public function manageCarpoolSearch(CarpoolSearch $carpoolSearch, $uuid)
     {
+        if ($uuid != $carpoolSearch->getUuid()) {
+            $this->addFlash('danger', "Vous n'avez pas acces à cette page. Seule la personne ayant publié l'annonce y a accès.");
+            return $this->redirectToRoute('carpool');
+        }
         return [
             'carpool' => $carpoolSearch,
             'type' => 'search'
         ];
+    }
+
+    /**
+     * @Route("/recherche/annonce-{id}/supprimer/{uuid}", name="carpool_search_delete", requirements={"id" = "\d+"})
+     */
+    public function deleteCarpoolSearch(CarpoolSearch $carpoolSearch, $uuid)
+    {
+        if ($uuid != $carpoolSearch->getUuid()) {
+            $this->addFlash('danger', "Vous n'avez pas acces à cette pages. Seule la personne ayant publié l'annonce y a accès.");
+        } else {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($carpoolSearch);
+            $em->flush();
+        }
+        return $this->redirectToRoute('carpool');
     }
 
     /**
@@ -163,15 +182,34 @@ class CarpoolController extends Controller
     }
 
     /**
-     * @Route("/offre/annonce-{id}/gestion", name="carpool_proposal_manage", requirements={"id" = "\d+"})
+     * @Route("/offre/annonce-{id}/gestion/{uuid}", name="carpool_proposal_manage", requirements={"id" = "\d+"})
      * @Template("carpool/manage_carpool.html.twig")
      */
-    public function manageCarpoolProposal(CarpoolProposal $carpoolProposal)
+    public function manageCarpoolProposal(CarpoolProposal $carpoolProposal, $uuid)
     {
+        if ($uuid != $carpoolProposal->getUuid()) {
+            $this->addFlash('danger', "Vous n'avez pas acces à cette page. Seule la personne ayant publié l'annonce y a accès.");
+            return $this->redirectToRoute('carpool');
+        }
         return [
             'carpool' => $carpoolProposal,
             'type' => 'proposal'
         ];
+    }
+
+    /**
+     * @Route("/offre/annonce-{id}/supprimer/{uuid}", name="carpool_proposal_delete", requirements={"id" = "\d+"})
+     */
+    public function deleteCarpoolProposal(CarpoolProposal $carpoolProposal, $uuid)
+    {
+        if ($uuid != $carpoolProposal->getUuid()) {
+            $this->addFlash('danger', "Vous n'avez pas acces à cette pages. Seule la personne ayant publié l'annonce y a accès.");
+        } else {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($carpoolProposal);
+            $em->flush();
+        }
+        return $this->redirectToRoute('carpool');
     }
 
     /**
@@ -274,9 +312,9 @@ class CarpoolController extends Controller
         $this->addFlash('success', "Vous avez accepté la proposition de ".$answer->getAuthor().". Un e-mail lui a été envoyé pour l'en informer.");
 
         if ($answer->getSearch()) {
-            return $this->redirectToRoute('carpool_search_manage', ['id' => $carpool->getId()]);
+            return $this->redirectToRoute('carpool_search_manage', ['id' => $carpool->getId(), 'uuid' => $carpool->getUuid()]);
         } else {
-            return $this->redirectToRoute('carpool_proposal_manage', ['id' => $carpool->getId()]);
+            return $this->redirectToRoute('carpool_proposal_manage', ['id' => $carpool->getId(), 'uuid' => $carpool->getUuid()]);
         }
     }
 
@@ -307,9 +345,9 @@ class CarpoolController extends Controller
         $this->addFlash('danger', "Vous avez refusé la proposition de ".$answer->getAuthor().". Un e-mail lui a été envoyé pour l'en informer.");
 
         if ($answer->getSearch()) {
-            return $this->redirectToRoute('carpool_search_manage', ['id' => $carpool->getId()]);
+            return $this->redirectToRoute('carpool_search_manage', ['id' => $carpool->getId(), 'uuid' => $carpool->getUuid()]);
         } else {
-            return $this->redirectToRoute('carpool_proposal_manage', ['id' => $carpool->getId()]);
+            return $this->redirectToRoute('carpool_proposal_manage', ['id' => $carpool->getId(), 'uuid' => $carpool->getUuid()]);
         }
     }
 

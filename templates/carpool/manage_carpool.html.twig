@@ -6,7 +6,8 @@
 	<h2>Gestion de votre annonce</h2>
 	<h3>{{ type == 'search' ? "Recherche" : "Proposition"}} de covoiturage</h3>
 
-	<a href="" class="btn btn-danger pull-right">Supprimer mon annonce</a>
+	{% set deleteRoute =  (type == 'search' ? "carpool_search_delete" : "carpool_proposal_delete") %}
+	<a href="{{ path(deleteRoute, {'id': carpool.id, 'uuid': carpool.uuid}) }}" class="btn btn-danger pull-right">Supprimer mon annonce</a>
 
 	<p>
 		<b>Vous êtes :</b> {{ carpool.author }} ({{ carpool.email }})

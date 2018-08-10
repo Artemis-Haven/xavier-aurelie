@@ -2,8 +2,8 @@
 
 {% if type == 'search' %}
 	Vous recevrez à cette adresse toutes les réponses à votre annonce.
-	Pour accepter ou refuser une proposition et pour consulter l'ensemble des réponses, <a href="{{ url('carpool_search_manage', {'id': carpool.id}) }}">cliquez ici</a>.
+	Pour accepter ou refuser une proposition et pour consulter l'ensemble des réponses, <a href="{{ url('carpool_search_manage', {'id': carpool.id, 'uuid': carpool.uuid}) }}">cliquez ici</a>.
 {% else %}
 	Vous recevrez à cette adresse toutes les réponses à votre annonce.
-	Pour accepter ou refuser une demande et pour consulter l'ensemble des réponses, <a href="{{ url('carpool_proposal_manage', {'id': carpool.id}) }}">cliquez ici</a>.
+	Pour accepter ou refuser une demande et pour consulter l'ensemble des réponses, <a href="{{ url('carpool_proposal_manage', {'id': carpool.id, 'uuid': carpool.uuid}) }}">cliquez ici</a>.
 {% endif %}
