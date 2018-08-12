@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur le site de mariage de Xavier et Aurélie{% endblock %}
+
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="https://fonts.googleapis.com/css?family=Special+Elite" rel="stylesheet"> 
+{% endblock %}
+
+{% block containerClass %}col-md-12{% endblock %}
+
+{% block body %}
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+    		<h1>Galeries de photos</h1>
+
+			<a href="{{ path('gallery_new') }}">Ajouter</a>
+
+    		<hr>
+    		Cliquez sur un album pour afficher toutes ses photos.
+		</div>
+	</div>
+
+	<div id="photo-stack-container">
+	    {% for gallery in galleries %}
+			<a class="photo-stack" href="{{ path('gallery_show', {'id': gallery.id}) }}">
+				<div>
+					<img src="http://www.fillmurray.com/30{{gallery.id%9}}/300" alt="Album de {{ gallery.author }}" />
+					<div class="photo-stack-title" title="Album de {{ gallery.author }}">Album de {{ gallery.author }}</div>
+				</div>
+			</a>
+	    {% endfor %}
+	</div>
+
+{% endblock %}

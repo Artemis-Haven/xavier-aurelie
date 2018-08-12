@@ -15,6 +15,7 @@ class DatePickerType extends AbstractType {
         $resolver->setDefaults(array(
                     'widget' => 'single_text', // Important de mettre single_text
                     'html5' => true,
+                    'format' => 'd/m/Y'
                 ))
         ;
     }
