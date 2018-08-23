@@ -8,6 +8,9 @@ vich_uploader:
         blog:
             uri_prefix: /images/blog
             upload_destination: '%kernel.project_dir%/public/images/blog'
+        listItem:
+            uri_prefix: /images/cadeaux
+            upload_destination: '%kernel.project_dir%/public/images/cadeaux'
     #    products:
     #        uri_prefix: /images/products
     #        upload_destination: '%kernel.project_dir%/public/images/products'

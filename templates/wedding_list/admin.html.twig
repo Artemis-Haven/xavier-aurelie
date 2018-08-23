@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+    <h1>Liste de mariage</h1>
+
+    <a href="{{ path('wedding_list_new') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ajouter un élément</a>
+
+    <hr>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th>Prix</th>
+                <th>Lien</th>
+                <th>Divisible</th>
+                <th>Financé</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in listItems %}
+                <tr>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.price }} €</td>
+                    <td><a href="{{ item.link }}">Lien</a></td>
+                    <td>{{ item.splittable ? 'Oui' : 'Non' }}</td>
+                    <td>{{ item.gifted ? 'Oui' : 'Non' }}</td>
+                    <td></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="7" class="text-muted text-center">Aucun élément n'est renseigné pour l'instant.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

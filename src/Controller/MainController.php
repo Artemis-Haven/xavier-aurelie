@@ -68,13 +68,4 @@ class MainController extends Controller
     {
         return [];
     }
-
-    /**
-     * @Route("/liste-de-mariage", name="wedding_list")
-     * @Template
-     */
-    public function weddingList()
-    {
-        return [];
-    }
 }
