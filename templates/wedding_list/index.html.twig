@@ -193,6 +193,7 @@
 
 {% block javascripts %}
 	<script type="text/javascript" src="{{ asset('js/leaflet.polylineDecorator.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/L.Polyline.SnakeAnim.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/oms.min.js') }}"></script>
 	<script>
 		$(function () {
@@ -253,14 +254,14 @@
 			var decorator = L.polylineDecorator(polyline, {
 	            patterns: [
 	                /*{ offset: 0, repeat: 25, symbol: L.Symbol.dash({pixelSize: 10, pathOptions: {color: '#000', weight: 3, opacity: 0.2}}) },*/
-	                { offset: '30px', repeat: '50px', symbol: L.Symbol.marker({rotate: true, markerOptions: {
+	                { offset: 20, endOffset: 20, repeat: '50px', symbol: L.Symbol.marker({rotate: true, markerOptions: {
 	                    icon: L.icon({
 	                        iconUrl: '/images/map/footprints.png',
 	                        iconAnchor: [10, 16]
 	                    })
 	                }})}
 	            ]
-	    	}).addTo(myMap);
+	    	}).addTo(myMap).snakeIn();
 
 		});
 
