@@ -92,4 +92,42 @@ class WeddingListController extends Controller
         return ['form' => $newItemForm->createView()];
     }
 
+    /**
+     * @Route("/admin/modifier-un-element-{id}", name="wedding_list_edit")
+     * @IsGranted("ROLE_ADMIN")
+     * @Template
+     */
+    public function editItem(Request $request, ListItem $item)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $itemForm = $this->createForm(ListItemType::class, $item, ['new' => false])
+            ->add('submit', SubmitType::class, array('label' => 'Valider'))
+        ;
+
+        $itemForm->handleRequest($request);
+
+        if ($itemForm->isSubmitted() && $itemForm->isValid()) {
+            $em->flush();
+
+            return $this->redirectToRoute('wedding_list_admin');
+        }
+        return ['form' => $itemForm->createView()];
+    }
+
+    /**
+     * @Route("/admin/supprimer-un-element-{id}", name="wedding_list_delete")
+     * @IsGranted("ROLE_ADMIN")
+     * @Template
+     */
+    public function deleteItem(ListItem $item)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($item);
+        $em->flush();
+        $this->addFlash('success', "L'élément a bien été supprimé");
+
+        return $this->redirectToRoute('wedding_list_admin');
+    }
+
 }

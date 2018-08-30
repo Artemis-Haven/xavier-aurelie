@@ -65,7 +65,7 @@
 							<li {% if route == 'answer' %}class="active"{% endif %}>
 								<a href="{{ path('answer') }}">Réponse</a>
 							</li>
-							<li {% if route == 'wedding_list' %}class="active"{% endif %}>
+							<li {% if route starts with 'wedding_list' %}class="active"{% endif %}>
 								<a href="{{ path('wedding_list') }}">Liste de mariage</a>
 							</li>
 						</ul>

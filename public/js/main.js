@@ -25,4 +25,14 @@ $(function() {
 			}
 		});
 	});
+});	
+
+$('body').on('click', '*[data-role="confirmDeletion"]', function() {
+	var text = "Etes-vous sûr de vouloir supprimer cet élément ?";
+	if (typeof $(this).data('message') !== "undefined") {
+		text = $(this).data('message');
+	}
+	if (! confirm(text)) {
+		return false;
+	}
 });

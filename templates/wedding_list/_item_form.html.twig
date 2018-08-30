@@ -1,0 +1,36 @@
+{{ form_start(form) }}
+
+	<div class="row">
+		<div class="col-md-8">
+			{{ form_row(form.title) }}
+		</div>
+		<div class="col-md-4">
+			{{ form_row(form.ordering) }}
+		</div>
+	</div>
+
+	{{ form_row(form.description) }}
+
+	<div class="row">
+		<div class="col-md-8">
+			{{ form_row(form.link) }}
+		</div>
+		<div class="col-md-4">
+			{{ form_row(form.price) }}
+		</div>
+	</div>
+
+	{{ form_row(form.splittable) }}
+
+	<div class="form-group">
+		<label class="control-label required" for="{{ form.latitude.vars.id }}">Coordonnées</label>
+		<div class="row">
+			<div class="col-sm-6">{{ form_widget(form.latitude) }}</div>
+			<div class="col-sm-6">{{ form_widget(form.longitude) }}</div>
+		</div>
+		{{ form_help(form.latitude) }}
+	</div>
+
+	{{ form_row(form.imageFile) }}
+
+{{ form_end(form) }}

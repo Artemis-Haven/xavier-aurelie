@@ -2,7 +2,13 @@
 
 {% block body %}
     
-    <h1>Liste de mariage</h1>
+    <h1>
+        <a href="{{ path('wedding_list') }}" title="Revenir à la liste">Liste de mariage</a>
+        <span style="font-size: 0.9em;">
+            <span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+            Gérer la liste
+        </span>
+    </h1>
 
     <a href="{{ path('wedding_list_new') }}" class="btn btn-success"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Ajouter un élément</a>
 
@@ -29,7 +35,14 @@
                     <td><a href="{{ item.link }}">Lien</a></td>
                     <td>{{ item.splittable ? 'Oui' : 'Non' }}</td>
                     <td>{{ item.gifted ? 'Oui' : 'Non' }}</td>
-                    <td></td>
+                    <td>
+                        <a href="{{ path('wedding_list_edit', {'id': item.id}) }}" class="btn btn-xs btn-default" title="Modifier l'élément">
+                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                        </a>
+                        <a href="{{ path('wedding_list_delete', {'id': item.id}) }}" class="btn btn-xs btn-danger" data-role="confirmDeletion" title="Supprimer l'élément">
+                            <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                        </a>
+                    </td>
                 </tr>
             {% else %}
                 <tr>
@@ -38,6 +51,5 @@
             {% endfor %}
         </tbody>
     </table>
-
 
 {% endblock %}
