@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    
+    <h1>
+        <a href="{{ path('wedding_list') }}" title="Revenir à la liste">Liste de mariage</a>
+        <span style="font-size: 0.9em;">
+            <span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+            Gérer les cadeaux
+        </span>
+    </h1>
+
+    <hr>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Nom</th>
+                <th>Cadeau</th>
+                <th>Montant de la contribution</th>
+                <th>Message</th>
+                <th>Paiement en ligne</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gift in gifts %}
+                <tr>
+                    <td>Le {{ gift.createdAt|date('d/m/Y') }}</td>
+                    <td>{{ gift.giver }}</td>
+                    <td>{{ gift.listItem }}</td>
+                    <td>{{ gift.amount }} €</td>
+                    <td title="{{ gift.message | nl2br }}">
+                        {% if gift.message %}
+                            {{ gift.message[:20] }}...
+                        {% else %}
+                            <span class="text-muted">---</span>
+                        {% endif %}
+                    </td>
+                    <td>{% if gift.onlinePayment %} <span class="label label-success">Oui</span> {% else %} <span class="label label-danger">Non</span> {% endif %}</td>
+
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6" class="text-muted text-center">Aucun élément n'est renseigné pour l'instant.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

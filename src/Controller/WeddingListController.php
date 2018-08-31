@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Vich\UploaderBundle\Templating\Helper\UploaderHelper;
 use App\Entity\ListItem;
 use App\Form\ListItemType;
+use App\Entity\Gift;
+use App\Form\GiftType;
 
 /**
  * @Route("/liste-de-mariage")
@@ -30,13 +32,15 @@ class WeddingListController extends Controller
 
     	foreach ($listItems as $item) {
     		$markerList[] = [
+                'contribute_url' => $this->generateUrl('wedding_list_contribute', ['id' => $item->getId()]),
     			'title' => $item->getTitle(),
     			'description' => $item->getDescription(),
     			'ordering' => $item->getOrdering(),
     			'latitude' => (float) $item->getLatitude(),
     			'longitude' => (float) $item->getLongitude(),
     			'price' => $item->getPrice(),
-    			'image' => $uploaderHelper->asset($item, 'imageFile')
+    			'image' => $uploaderHelper->asset($item, 'imageFile'),
+                'amountAlreadyFunded' => $item->getAmountAlreadyFunded()
     		];
     		$polyline[] = [(float) $item->getLatitude(), (float) $item->getLongitude()];
     	}
@@ -128,6 +132,53 @@ class WeddingListController extends Controller
         $this->addFlash('success', "L'élément a bien été supprimé");
 
         return $this->redirectToRoute('wedding_list_admin');
+    }
+
+
+    /**
+     * @Route("/participer-{id}", name="wedding_list_contribute")
+     */
+    public function contribute(Request $request, ListItem $item)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $newGift = new Gift();
+        $newGift->setListItem($item);
+        if (!$item->isSplittable()) {
+            $newGift->setAmount($item->getPrice());
+        }
+
+        $newGiftForm = $this->createForm(GiftType::class, $newGift, ['splittable' => $item->isSplittable()])
+            ->add('submit', SubmitType::class, array('label' => 'Valider'))
+        ;
+
+        $newGiftForm->handleRequest($request);
+
+        if ($newGiftForm->isSubmitted() && $newGiftForm->isValid()) {
+            $newGift->setCreatedAt(new \Datetime('now'));
+            $em->persist($newGift);
+            if ($item->getAmountAlreadyFunded() == $item->getPrice()) {
+                $item->setGifted(true);
+            }
+            $em->flush();
+
+            return $this->render('wedding_list/thank_you.html.twig',
+                ['gift' => $newGift]
+            );
+        }
+        return $this->render('wedding_list/contribute.html.twig', [
+            'item' => $item,
+            'form' => $newGiftForm->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/admin/gerer-les-participations", name="wedding_list_admin_manage_contributions")
+     * @IsGranted("ROLE_ADMIN")
+     * @Template
+     */
+    public function manageContributions()
+    {
+        return ['gifts' => $this->getDoctrine()->getManager()->getRepository('App:Gift')->findBy([], ['createdAt' => 'ASC'])];
     }
 
 }

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>
+    	<a href="{{ path('wedding_list') }}" title="Revenir à la liste">Liste de mariage</a>
+		<span style="font-size: 0.9em;">
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	Participer
+    	</span>
+    </h1>
+
+	<br>
+
+	<h3>Vous avez choisi de participer à : </h3>
+
+	<div class="wedding-list-item">
+		<strong class="title">{{ item }}</strong>
+		<div class="amount">
+			<strong>Montant : {{ item.price }} € </strong>
+			{% if item.amountAlreadyFunded > 0 %}
+				dont {{ item.amountAlreadyFunded }} € déjà financés, soit <strong>{{ item.price - item.amountAlreadyFunded }} €</strong> restants.
+			{% endif %}
+		</div>
+		<div class="row">
+			<div class="col-md-4"><img class="img-thumbnail" src="{{ vich_uploader_asset(item, 'imageFile') }}" alt="Photo de {{ item }}"></div>
+			<div class="col-md-8">
+				<p>{{ item.description }}</p>
+			</div>
+		</div>
+	</div>
+
+	<hr>
+
+    {{ form(form) }}
+	
+{% endblock %}

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\File;
@@ -90,10 +92,21 @@ class ListItem
      */
     private $imageName;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Gift", mappedBy="listItem")
+     */
+    private $gifts;
+
     public function __construct()
     {
         $this->gifted = false;
         $this->splittable = true;
+        $this->gifts = new ArrayCollection();
+    }
+
+    public function __toString()
+    {
+        return $this->getTitle();
     }
 
     public function getId()
@@ -164,6 +177,11 @@ class ListItem
     public function getSplittable(): ?bool
     {
         return $this->splittable;
+    }
+
+    public function isSplittable(): ?bool
+    {
+        return $this->getSplittable();
     }
 
     public function setSplittable(bool $splittable): self
@@ -254,5 +272,45 @@ class ListItem
     public function getImageName(): ?string
     {
         return $this->imageName;
+    }
+
+    /**
+     * @return Collection|Gift[]
+     */
+    public function getGifts(): Collection
+    {
+        return $this->gifts;
+    }
+
+    public function addGift(Gift $gift): self
+    {
+        if (!$this->gifts->contains($gift)) {
+            $this->gifts[] = $gift;
+            $gift->setListItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGift(Gift $gift): self
+    {
+        if ($this->gifts->contains($gift)) {
+            $this->gifts->removeElement($gift);
+            // set the owning side to null (unless already changed)
+            if ($gift->getListItem() === $this) {
+                $gift->setListItem(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getAmountAlreadyFunded(): int
+    {
+        $sum = 0;
+        foreach ($this->getGifts() as $gift) {
+            $sum += $gift->getAmount();
+        }
+        return min($sum, $this->getPrice());
     }
 }

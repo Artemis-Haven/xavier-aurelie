@@ -6,32 +6,31 @@
 
     <hr>
 
-    <table class="table table-bordered table-striped">
-        <thead>
-            <tr>
-                <th>Titre</th>
-                <th>Description</th>
-                <th>Prix</th>
-                <th>Lien</th>
-                <th>Financé</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for item in listItems %}
-                <tr>
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.description }}</td>
-                    <td>{{ item.price }} €</td>
-                    <td><a href="{{ item.link }}">Lien</a></td>
-                    <td>{{ item.gifted ? 'Oui' : 'Non' }}</td>
-                </tr>
-            {% else %}
-                <tr>
-                    <td colspan="5" class="text-muted text-center">Aucun élément n'est renseigné pour l'instant.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    {% for item in listItems %}
+        <div class="wedding-list-item">
+            <strong class="title">{{ item }}</strong>
+            <div class="amount">
+                <strong>Montant : {{ item.price }} € </strong>
+                {% if item.gifted %}
+                    Déjà financé !
+                {% elseif item.amountAlreadyFunded > 0 %}
+                    dont {{ item.amountAlreadyFunded }} € déjà financés, soit <strong>{{ item.price - item.amountAlreadyFunded }} €</strong> restants.
+                {% endif %}
+            </div>
+            <div class="row">
+                <div class="col-md-4"><img class="img-thumbnail" src="{{ vich_uploader_asset(item, 'imageFile') }}" alt="Photo de {{ item }}"></div>
+                <div class="col-md-8">
+                    <p>{{ item.description }}</p>
+                </div>
+            </div>
+            {% if not item.gifted %}
+                <h4><a href="{{ path('wedding_list_contribute', {'id': item.id}) }}">Cliquez ici pour participer</a></h4>
+            {% endif %}
+        </div>
+        <br>
+    {% else %}
+        <h3 class="text-muted text-center">Aucun élément n'est renseigné pour l'instant.</h3>
+    {% endfor %}
 
 
 {% endblock %}
