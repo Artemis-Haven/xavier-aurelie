@@ -21,6 +21,8 @@
 		.flipper {
 			transition: 0.6s;
 			transform-style: preserve-3d;
+			-webkit-transform-style: preserve-3d;
+			-ms-transform-style: none;
 			height: 100%;
 			position: relative;
 			box-shadow: 0 3px 14px rgba(0,0,0,0.6);
@@ -30,7 +32,8 @@
 		/* hide back of pane during swap */
 		.flip-front, .flip-back {
 			backface-visibility: hidden;
-
+			-moz-backface-visibility: hidden;
+			-webkit-backface-visibility: hidden;
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -41,15 +44,29 @@
 			z-index: 2;
 			/* for firefox 31 */
 			transform: rotateY(0deg);
+			-webkit-transform: rotateY(0deg);
 		}
 
 		/* back, initially hidden pane */
 		.flip-back {
 			transform: rotateY(180deg);
+			-webkit-transform: rotateY(180deg);
 		}
 
 		.flip-container.flipped .flipper, .flip-container.flip .flipper {
 			transform: rotateY(180deg);
+			-webkit-transform: rotateY(180deg);
+			-ms-transform: none;
+		}
+
+		.flip-container.flipped .flipper .flip-front, 
+		.flip-container.flip .flipper .flip-front {
+			-ms-transform: rotateY(180deg);
+		}
+
+		.flip-container.flipped .flipper .flip-back, 
+		.flip-container.flip .flipper .flip-back {
+			-ms-transform: rotateY(0deg);
 		}
 
 
@@ -133,6 +150,7 @@
 		}
 
 		.postcard.flip-front  {
+			background-color: #ddd;
 			background-size: cover;
 			text-transform: uppercase;
 			font-family: 'Arial', sans-serif;
