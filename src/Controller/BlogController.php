@@ -21,7 +21,11 @@ class BlogController extends Controller
      */
     public function index()
     {
-        return ['articles' => $this->getDoctrine()->getManager()->getRepository('App:BlogArticle')->findAll()];
+        $em = $this->getDoctrine()->getManager();
+        return [
+            'articles' => $em->getRepository('App:BlogArticle')->findBy([], ['createdAt' => 'DESC']),
+            'legend' => $em->getRepository('App:TextBlock')->findOneByName('legend_blog')->getContent()
+        ];
     }
 
     /**

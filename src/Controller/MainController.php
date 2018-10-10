@@ -24,7 +24,12 @@ class MainController extends Controller
      */
     public function index()
     {
-        return [];
+        $em = $this->getDoctrine()->getManager();
+        return [
+            'title' => $em->getRepository('App:TextBlock')->findOneByName('welcome')->getContent(),
+            'legend' => $em->getRepository('App:TextBlock')->findOneByName('introduction')->getContent(),
+            'lastBlogArticle' => $em->getRepository('App:BlogArticle')->findBy([], ['createdAt' => 'DESC'])[0]
+        ];
     }
 
     /**
@@ -75,5 +80,53 @@ class MainController extends Controller
     public function answer()
     {
         return [];
+
+    /**
+     * @Route("/admin/textes", name="admin_text_blocks")
+     * @Template
+     */
+    public function adminTextBlocks(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $textBlocks = $em->getRepository('App:TextBlock')->findBy([], ['id' => 'ASC']);
+        if (empty($textBlocks)) {
+            $init = [
+                'welcome' => "Bienvenue !",
+                'introduction' => "Présentation du site",
+                'legend_blog' => "",
+                'legend_photos' => "",
+                'legend_access' => "",
+                'legend_carpool' => "",
+                'legend_accommodations' => "",
+                'legend_contact' => "",
+                'legend_answer' => "",
+                'legend_wedding_list' => ""
+            ];
+            foreach ($init as $name => $content) {
+                $textBlock = new TextBlock($name, $content);
+                $em->persist($textBlock);
+                $textBlocks[] = $textBlock;
+            }
+        }
+
+        $form = $this->createFormBuilder($textBlocks)
+            ->add('textBlocks', CollectionType::class, array(
+                'entry_type' => TextBlockType::class,
+                'entry_options' => array('label' => false),
+                'data' => $textBlocks
+            ))
+            ->add('save', SubmitType::class, array('label' => 'Enregistrer les modifications'))
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            $this->addFlash('success', 'Les modifications ont bien été enregistrées.');
+        }
+
+
+        return [
+            'form' => $form->createView()
+        ];
     }
 }

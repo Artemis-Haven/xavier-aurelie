@@ -1,9 +1,31 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Bienvenue !</h1>
 
-    {{ include('_enConstruction.html.twig') }}
+	{% if is_granted('ROLE_ADMIN') %}
+		<div class="dropdown pull-right">
+			<button class="btn btn-default dropdown-toggle" type="button" id="dropdownAdmin" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+				<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+			</button>
+			<ul class="dropdown-menu" aria-labelledby="dropdownAdmin">
+				<li><a href="{{ path('admin_text_blocks') }}">Modifier les blocs de texte</a></li>
+			</ul>
+		</div>
+	{% endif %}
 
-	<div style="height: 250px;"></div>
+    {% if title|trim is not empty %}
+		<h1>{{ title|nl2br }}</h1>
+    {% endif %}
+    {% if legend|trim is not empty %}
+		<h4>{{ legend|nl2br }}</h4>
+    {% endif %}
+
+	<div class="row">
+		<div class="col-md-6">
+			
+		</div>
+		<div class="col-md-6">
+			{% include 'blog/_article_preview.html.twig' with {'article': lastBlogArticle} only %}
+		</div>
+	</div>
 {% endblock %}

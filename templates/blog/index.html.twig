@@ -14,33 +14,15 @@
 	{% endif %}
 	
     <h1>Blog</h1>
+
+    {% if legend|trim is not empty %}
+		<h4>{{ legend|nl2br }}</h4>
+    {% endif %}
 	
 	<br>
 	
 	{% for article in articles %}
-
-		<article class="article-preview" id="article-{{article.id}}">
-			<a href="{{ path('article_show', {'id': article.id}) }}" class="article-img" style="background-image: url('{{ vich_uploader_asset(article, 'imageFile') }}');">
-			</a>
-			<div class="article-preview-content">
-				<h4><a href="{{ path('article_show', {'id': article.id}) }}">{{ article.title }}</a></h4>
-				<p class="article-infos">
-					<span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
-					Le {{ article.createdAt|date('d/m/Y') }}
-					{%- if article.lastEditedAt is not null and article.lastEditedAt != article.createdAt %}, édité le {{ article.lastEditedAt|date('d/m/Y') }}{% endif %}
-					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-					{{ article.author }}
-					{% if article.comments is not empty %}
-						<span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-						{{ article.comments|length }} commentaire{{ article.comments|length > 1 ? 's' : '' }}
-					{% endif %}
-				</p>
-				<p>
-					{{ article.content[:250]|nl2br }}... <a href="{{ path('article_show', {'id': article.id}) }}">[Lire la suite]</a>
-				</p>
-			</div>
-		</article>
-
+		{% include 'blog/_article_preview.html.twig' with {'article': article} only %}
 	{% else %}
 		Aucun article pour le moment.
 	{% endfor %}
