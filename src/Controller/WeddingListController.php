@@ -25,7 +25,8 @@ class WeddingListController extends Controller
      */
     public function index(UploaderHelper $uploaderHelper)
     {
-    	$listItems = $this->getDoctrine()->getManager()->getRepository('App:ListItem')->findBy([], ['ordering' => 'ASC']);
+        $em = $this->getDoctrine()->getManager();
+    	$listItems = $em->getRepository('App:ListItem')->findBy([], ['ordering' => 'ASC']);
 
     	$markerList = [];
     	$polyline = [];
@@ -48,7 +49,8 @@ class WeddingListController extends Controller
         return [
         	'listItems' => $listItems,
         	'markerList' => $markerList,
-        	'polyline' => $polyline
+        	'polyline' => $polyline,
+            'legend' => $em->getRepository('App:TextBlock')->findOneByName('legend_wedding_list')->getContent()
     	];
     }
 

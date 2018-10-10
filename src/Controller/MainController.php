@@ -9,8 +9,11 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\TextBlock;
+use App\Form\TextBlockType;
 
 
 class MainController extends Controller
@@ -30,7 +33,10 @@ class MainController extends Controller
      */
     public function accessMap()
     {
-        return [];
+        $em = $this->getDoctrine()->getManager();
+        return [
+            'legend' => $em->getRepository('App:TextBlock')->findOneByName('legend_access')->getContent(),
+        ];
     }
 
     /**
@@ -39,6 +45,7 @@ class MainController extends Controller
      */
     public function contact(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
     	$form = $this->createFormBuilder()
             ->add('name', TextType::class, ['label' => false, 'attr' => ['placeholder' => "Votre nom"]])
             ->add('surname', TextType::class, ['label' => "Qui êtes-vous ?", 'attr' => ['placeholder' => "Votre prénom"]])
@@ -54,7 +61,8 @@ class MainController extends Controller
 	        // TODO
 	    }
         return [
-        	'form' => $form->createView()
+        	'form' => $form->createView(),
+            'legend' => $em->getRepository('App:TextBlock')->findOneByName('legend_contact')->getContent(),
         ];
 
         return [];

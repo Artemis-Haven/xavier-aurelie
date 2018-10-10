@@ -193,12 +193,10 @@
 				</div>
 			{% endif %}
 			
-    		<h4>
-    			<span class="label label-danger">TODO : A reformuler</span> Aurélie et Xavier vous proposent de participer à leur voyage de noce à travers le Québec en finançant une étape, une visite, une activité. 
-    			<br><br>
-    			Sur la carte ci-dessous, les croix représentent ces étapes. <br>
-    			Cliquez sur l'une d'entre elles pour l'afficher, puis cliquez sur la photo pour voir les détails. 
-			</h4>
+    		{% if legend|trim is not empty %}
+				<h4>{{ legend|nl2br }}</h4>
+		    {% endif %}
+			
 
     		<hr>
     		Si vous avez des problèmes d'affichage, <a href="{{ path('wedding_list_classic') }}">cliquez ici</a> pour voir la version classique.

@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Admnistration - Modifier les zones de texte</h1>
+
+	<br>
+
+    {{ form_start(form) }}
+
+		{% for field in form.textBlocks %}
+			
+			<label class="control-label required" for="{{ field.content.vars.id }}">
+				{{ field.vars.value.name|title }}
+			</label>
+			{{ form_row(field) }}
+			
+		{% else %}
+			
+		{% endfor %}
+
+	{{ form_end(form) }}
+{% endblock %}
