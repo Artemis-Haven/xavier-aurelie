@@ -10,9 +10,14 @@
 {% block body %}
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
-    		<h1>Galeries de photos</h1>
 
-			<a href="{{ path('gallery_new') }}">Ajouter</a>
+		    <h1>Albums photos</h1>
+
+    		{% if legend|trim is not empty %}
+				<h4>{{ legend|nl2br }}</h4>
+		    {% endif %}
+
+			<a href="{{ path('gallery_new') }}" class="btn btn-default">Ajoutez vos photos</a>
 
     		<hr>
     		Cliquez sur un album pour afficher toutes ses photos.
@@ -20,11 +25,11 @@
 	</div>
 
 	<div id="photo-stack-container">
-	    {% for gallery in galleries %}
+	    {% for gallery in galleries if gallery.photos is not empty %}
 			<a class="photo-stack" href="{{ path('gallery_show', {'id': gallery.id}) }}">
 				<div>
-					<img src="http://www.fillmurray.com/30{{gallery.id%9}}/300" alt="Album de {{ gallery.author }}" />
-					<div class="photo-stack-title" title="Album de {{ gallery.author }}">Album de {{ gallery.author }}</div>
+					<img src="{{ vich_uploader_asset(gallery.photos|first, 'imageFile') }}" alt="{{ gallery.title }}, par {{ gallery.author }}" />
+					<div class="photo-stack-title" title="{{ gallery.title }}, par {{ gallery.author }}">{{ gallery.title }}</div>
 				</div>
 			</a>
 	    {% endfor %}

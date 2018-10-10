@@ -1,0 +1,82 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>
+    	<a href="{{ path('gallery') }}" title="Revenir aux albums">Albums photos</a>
+		<span style="font-size: 0.9em;">
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	<a href="{{ path('gallery_show', {'id': gallery.id}) }}">{{ gallery.title }}</a>
+    	</span>
+		<span style="font-size: 0.9em;">
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	Editer
+    	</span>
+    </h1>
+
+    <hr>
+
+    <h4>Modifier les informations</h4>
+
+	<div class="row">
+		<div class="col-md-6">
+			{{ form(form) }}
+		</div>
+	</div>
+	
+	<table class="table table-stripped text-center">
+		<thead>
+			<tr>
+				<th class="text-center">Photo</th>
+				<th class="text-center">Supprimer la photo</th>
+				<th class="text-center">Ouvrir la photo <br> dans un nouvel onglet</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for photo in gallery.photos %}
+				<tr>
+					<td style="width: 40%;">
+						<img class="img-thumbnail" alt="{{ photo.author }}" src="{{ vich_uploader_asset(photo, 'imageFile') }}">
+					</td>
+					<td>
+						<a href="{{ path('gallery_photo_delete', {'id': photo.id}) }}" class="btn btn-danger delete-photo-btn">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</a>
+					</td>
+					<td>
+						<a href="{{ path('gallery_photo_show', {'id': photo.id}) }}" class="btn btn-default" target="__blank">
+							<span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+						</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function () {
+            $('.delete-photo-btn').on('click', function (e) {
+            	e.preventDefault();
+            	if (confirm('Etes-vous certain(e) de vouloir supprimer cette photo ?')) {
+		        	$.ajax({
+		        		url: $(this).attr('href'),
+		        		method: 'DELETE'
+		        	})
+					.done(function() {
+						e.target.closest('tr').remove();
+						alert( "Suppression réussie." );
+					})
+					.fail(function() {
+						alert( "Erreur à la suppression de la photo." );
+					});
+            	}
+            });
+
+        });
+    </script>
+{% endblock %}

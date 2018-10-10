@@ -8,17 +8,17 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-class GalleryType extends AbstractType
+class NewGalleryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('title', null, [
-                'label' => "Titre de l'album",
+                'label' => "Donnez un titre à votre album",
             ])
 
             ->add('author', null, [
-                'label' => "Nom de l'auteur",
+                'label' => "Saisissez votre nom",
             ])
         ;
     }

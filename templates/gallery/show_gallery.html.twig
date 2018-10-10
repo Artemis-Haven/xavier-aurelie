@@ -1,9 +1,21 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h1>Galerie de photos</h1>
+
+    <h1>
+    	<a href="{{ path('gallery') }}" title="Revenir aux albums">Albums photos</a>
+		<span style="font-size: 0.9em;">
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	{{ gallery.title }}
+    	</span>
+    </h1>
+    <p>Photo de <b>{{ gallery.author }}</b>, mise en ligne le <b>{{ gallery.createdAt|date('d/m/Y à H:i') }}</b></p>
 	
-	{% for photo in gallery.photos %}
-		<a href="{{ path('homepage') }}">{{ photo.id }}</a>
-	{% endfor %}
+	<div class="row">
+		{% for photo in gallery.photos %}
+			<a href="{{ path('gallery_photo_show', {'id': photo.id}) }}" class="col-md-3 col-sm-4 col-xs-6">
+				<img class="img-thumbnail" alt="{{ photo.author }}" src="{{ vich_uploader_asset(photo, 'imageFile') }}">
+			</a>
+		{% endfor %}
+	</div>
 {% endblock %}

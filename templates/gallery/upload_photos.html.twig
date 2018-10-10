@@ -1,0 +1,92 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/dropzone/5.2.0/dropzone.css">
+{% endblock %}
+
+
+{% block body %}
+
+    <h1>
+    	<a href="{{ path('gallery') }}" title="Revenir aux albums">Albums photos</a>
+		<span style="font-size: 0.9em;">
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	Ajoutez vos photos
+    	</span>
+    </h1>
+
+    <hr>	
+	
+	<h4>Deuxième étape : Sélectionner des photos</h4>
+	<br>
+	
+	<div class="gallery_upload_dropzone dropzone"></div>
+	<br>
+	<a href="javascript:void(0);" class="btn btn-primary gallery_upload_btn">Valider et mettre en ligne les photos</a>
+
+	</div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/dropzone/5.2.0/dropzone.js"></script>
+    <script>
+        Dropzone.autoDiscover = false;
+
+        $(function () {
+
+            var responses = [];
+
+            $(".gallery_upload_dropzone").dropzone({
+                url: "{{ url('gallery_upload_process', {'id': gallery.id}) }}",
+                paramName: "file",
+                maxFilesize: 4,
+                maxFiles: 6,
+                parallelUploads: 6,
+                acceptedFiles: 'image/*',
+                autoProcessQueue: false,
+                uploadMultiple: true,
+                dictDefaultMessage: "Cliquez ici pour ajouter des photos depuis votre ordinateur",
+                init: function () {
+                    myDropzone = this;
+
+                    this.on("success", function (file, response) {
+                        myDropzone.options.autoProcessQueue = true;
+                        responses.push(response);
+                    });
+
+                    this.on("queuecomplete", function () {
+                        myDropzone.options.autoProcessQueue = false;
+                    });
+
+                    this.on("sending", function (file, xhr, data) {
+                        //data.append("name", $('.gallery-upload__gallery-name').val());
+                    });
+
+                    this.on("completemultiple", function () {
+                        // Pretty naive appreach but will do the job for this example app
+
+                        if (responses[0]) {
+                            window.location = responses[0].redirectUrl;
+                        }
+                    });
+                }
+            });
+
+            var galleryDropzone = Dropzone.forElement(".gallery_upload_dropzone");
+            var $uploadBtn = $('.gallery_upload_btn');
+            $uploadBtn.on('click', function () {
+
+                if (galleryDropzone.getQueuedFiles() < 1) {
+                    alert('Vous devez sélectionner au moins une photo.');
+                    return;
+                }
+
+                galleryDropzone.processQueue();
+            });
+
+        });
+    </script>
+{% endblock %}
