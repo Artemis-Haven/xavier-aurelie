@@ -1,0 +1,13 @@
+Vous avez reçu la réponse de {{ answer.guests|length }} personne{{ answer.guests|length > 0 ? 's' : '' }} :
+<ul>
+	{% for guest in answer.guests %}
+		<li>
+			<strong>{{ guest }}</strong>
+			<ul>
+				<li>{{ guest.attendCeremony ? 'Viendra' : 'Ne viendra pas' }} à la cérémonie le 30 mai</li>
+				<li>{{ guest.attendBrunch ? 'Viendra' : 'Ne viendra pas' }} au brunch le lendemain</li>
+				<li>{{ guest.accommodationOnSite ? 'Souhaite' : 'Ne souhaite pas' }} loger au domaine de Sarson</li>
+			</ul>
+		</li>
+	{% endfor %}
+</ul>

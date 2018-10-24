@@ -1,9 +1,176 @@
 {% extends 'base.html.twig' %}
+{% form_theme form _self %}
+
+{% block _answer_guests_entry_row %}
+    <div class="row">
+    	<div class="col-md-1 remove-guest">
+    		<i class="fas fa-user"></i>
+	    </div>
+    	<div class="col-md-2">{{ form_widget(form.firstname) }}</div>
+    	<div class="col-md-3">{{ form_widget(form.lastname) }}</div>
+        <div class="col-md-2">{{ form_widget(form.attendCeremony) }}</div>
+        <div class="col-md-2">{{ form_widget(form.attendBrunch) }}</div>
+        <div class="col-md-2">{{ form_widget(form.accommodationOnSite) }}</div>
+    </div>
+{% endblock %}
+
+{% block checkbox_widget %}
+    {% spaceless %}
+        <label class="label" style="font-size: 17px;">
+			<input  class="label__checkbox" type="checkbox"
+				{{ block('widget_container_attributes') }}
+				{% if value|length > 0 %} value="{{ value|e }}"{% endif %}
+			    {% if checked %} checked="checked"{% endif %}
+			/>
+            <span class="label__text">
+                <span class="label__check">
+                    <i class="fa fa-check icon"></i>
+                </span>
+            </span>
+        </label>
+    {% endspaceless %}
+{% endblock checkbox_widget %}
+
+{% block stylesheets %}
+	{{ parent() }}
+    <link rel="stylesheet" href="{{ asset('/css/fa.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/checkbox.css') }}">
+	<style type="text/css">
+		#guest-list > .form-group {
+			margin: 20px 0 0 0;
+		}
+		.remove-guest {
+			font-size: 2.3em; 
+			color: #7d387a;
+		}
+		.remove-guest .fas {
+			vertical-align: top;
+		}
+		.remove-guest .fa-user-times {
+			color: #ae1d32;
+			cursor: pointer;
+		}
+	</style>
+{% endblock %}
 
 {% block body %}
     <h1>Votre réponse</h1>
 
-    {{ include('_enConstruction.html.twig') }}
+	{% if legend|trim is not empty %}
+		<h4>{{ legend|nl2br }}</h4>
+    {% endif %}
+
+    {{ form_start(form) }}
+        
+    <div class="row">
+    	<div class="col-md-2 col-md-offset-6">Participe à la cérémonie du 30 mai</div>
+    	<div class="col-md-2">Participe au brunch du lendemain</div>
+    	<div class="col-md-2">Souhaite loger au Domaine de Sarson</div>
+    </div>
+    	
+    <div id="guest-list">
+		{{ form_row(form.guests) }}
+    </div>
+
+    <div class="row">
+    	<div class="col-md-5 col-md-offset-1">
+    		<button type="button" class="add-guest btn btn-primary btn-block">
+    			<i class="fas fa-user"></i>
+    			&nbsp;
+    			Ajouter une personne
+    		</button>
+    	</div>
+    </div>	    
+	<br>
+    <div class="alert alert-info" id="alert-accommodationOnSite" style="display: none;">
+    	<strong>Si vous souhaitez loger au domaine de Sarson,</strong> merci de prendre contact avec nous rapidement. En effet, la réservation sera effective une fois le paiement effectué.
+    </div>
+	    
+    {{ form_end(form) }}
     
-	<div style="height: 250px;"></div>
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+	<script type="text/javascript">
+		// Ajouter une ligne au clic sur le bouton "Ajouter une personne"
+	    $('.add-guest').click(function (e) {
+	    	var $list = $('#answer_guests');
+	        var prototype = $list.data('prototype');
+	        var counter = $list.children().length;
+	        var newGuestForm = prototype.replace(/__name__/g, counter);
+	        $(newGuestForm).appendTo($list);
+	    });
+
+	    // Changer l'icone "user" pour afficher le bouton de suppression au survol de la souris
+	    $('body').on({
+	    	mouseover: function() {
+	    		$(this).find('.fas')
+	    			.removeClass('fa-user')
+	    			.addClass('fa-user-times')
+	    			.attr('title', "Cliquez ici pour supprimer la ligne");
+	    	},
+	    	mouseout: function() {
+	    		$(this).find('.fas')
+	    			.removeClass('fa-user-times')
+	    			.addClass('fa-user')
+	    			.attr('title', "");
+	    	}
+	    }, '#answer_guests .row:not(:first-child)');
+	    
+	    // Supprimer une ligne au clic sur le bouton correspondant
+	    $('body').on('click', '.row:not(:first-child) .remove-guest .fas', function() {
+	    	$(this).closest('.row').remove();
+	    });
+
+	    // Afficher/masquer le message d'information concernant l'hébergement sur place
+	    $('body').on('click', "input[id$='accommodationOnSite']", function() {
+	    	if ( $("input[id$='accommodationOnSite']:checked").length > 0 ) {
+	    		$('#alert-accommodationOnSite').show();
+	    	} else {
+	    		$('#alert-accommodationOnSite').hide();
+	    	}
+	    }).change();
+
+	    // Au clic sur le bouton "Valider"
+	    $('#answer_submit').click(function(e) {
+	    	// Ne pas valider si aucune ligne n'est remplie
+	    	if (
+		    	$('#answer_guests .row')
+		    		.filter(function() { 
+		    			return $(this).find('input:text').filter(function() { 
+		    				return $(this).val() == ""; 
+		    			}).length == 2;
+		    		}).length == $('#answer_guests .row').length
+	    		) {
+    			e.preventDefault();
+    			return false;
+	    	}
+
+	    	// Supprimer les lignes vides
+	    	$('#answer_guests .row')
+	    		.filter(function() { 
+	    			return $(this).find('input:text').filter(function() { 
+	    				return $(this).val() == ""; 
+	    			}).length == 2;
+	    		})
+	    		.remove();
+
+	    	// Demander confirmation si une ligne est saisie sans aucune case cochée
+	    	var guestNbr = $('#answer_guests .row').length;
+	    	var willNotCome = $('#answer_guests .row')
+	    		.filter(function(elt) { 
+		    		return $(this).find('input:checkbox:checked').length == 0;
+		    	})
+		    	.map(function(elt) { 
+		    		return $(this).find('input[id$="firstname"]').val()+' '+$(this).find('input[id$="lastname"]').val(); 
+		    	})
+		    	.toArray();
+	    	if ( willNotCome.length > 0 ) {
+	    		if (!confirm("Vous avez saisi des informations concernant "+guestNbr+" personnes. Parmi celles-ci, "+willNotCome.join(' & ').trim()+' ne '+(willNotCome.length > 1 ? 'viendront' : 'viendra')+' pas.\n Confirmez-vous l\'envoi de la réponse ?')) {
+	    			e.preventDefault();
+	    		}
+	    	}
+	    });
+	</script>
 {% endblock %}

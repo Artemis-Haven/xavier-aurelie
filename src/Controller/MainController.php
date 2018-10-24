@@ -13,7 +13,10 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\TextBlock;
+use App\Entity\Answer;
+use App\Entity\Guest;
 use App\Form\TextBlockType;
+use App\Form\AnswerType;
 
 
 class MainController extends Controller
@@ -77,9 +80,48 @@ class MainController extends Controller
      * @Route("/votre-reponse", name="answer")
      * @Template
      */
-    public function answer()
+    public function answer(Request $request)
     {
-        return [];
+        $em = $this->getDoctrine()->getManager();
+        $answer = new Answer();
+        $guest1 = new Guest();
+        $guest2 = new Guest();
+        $answer->addGuest($guest1);
+        $answer->addGuest($guest2);
+
+        $answerForm = $this->createForm(AnswerType::class, $answer)
+            ->add('submit', SubmitType::class, array('label' => 'Valider'))
+        ;
+
+        $answerForm->handleRequest($request);
+
+        if ($answerForm->isSubmitted() && $answerForm->isValid()) {
+            $answer->setCreatedAt(new \DateTime('now'));
+            $em->persist($answer);
+            $em->flush();
+            $this->addFlash('success', 'Merci ! Les informations ont bien été enregistrées.');
+
+            $message = (new \Swift_Message('Mariage - Vous avez reçu une nouvelle réponse !'))
+                ->setFrom($this->getParameter('mail_from'))
+                ->setTo($this->getParameter('mail_from'))
+                ->setBody(
+                    $this->renderView(
+                        'emails/new_answer.html.twig',
+                        ['answer' => $answer]
+                    ),
+                    'text/html'
+                )
+            ;
+            $mailer->send($message);
+
+            return $this->redirectToRoute('homepage');
+        }
+
+        return [
+            'form' => $answerForm->createView(),
+            'legend' => $em->getRepository('App:TextBlock')->findOneByName('legend_answer')->getContent(),
+        ];
+    }
 
     /**
      * @Route("/admin/textes", name="admin_text_blocks")
