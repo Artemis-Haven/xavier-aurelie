@@ -300,6 +300,8 @@ body > div.container > section.row h1 {
 	box-sizing: content-box;
 	width: 200px;
 	height: 200px;
+	object-fit: cover;
+	overflow: hidden;
 }
 
 .photo-stack-title {
