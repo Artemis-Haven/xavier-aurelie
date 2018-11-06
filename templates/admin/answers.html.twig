@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>
+    	<a href="{{ path('admin') }}" title="Revenir à la liste">Administration</a>
+		<span style="font-size: 0.9em;">
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	Gérer les réponses
+    	</span>
+    </h1>
+	<br>
+	
+	<a href="{{ path('admin_answers_export') }}" class="btn btn-primary">Exporter le tableau</a>
+
+	<table class="table table-bordered table-striped">
+		<thead>
+			<tr>
+				<th>Nom de l'invité</th>
+				<th class="text-center">Participera à <br> la cérémonie</th>
+				<th class="text-center">Participera au <br> brunch</th>
+				<th class="text-center">Souhaite loger au <br> Domaine de Sarson</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for answer in answers %}
+				{% for guest in answer.guests %}
+					<tr>
+						<td>
+							{{ guest|title }}
+						</td>
+						<td class="text-center">
+							{{ guest.attendCeremony ? '<span class="label label-success">Oui</span>' : '<span class="label label-danger">Non</span>' }}
+						</td>
+						<td class="text-center">
+							{{ guest.attendBrunch ? '<span class="label label-success">Oui</span>' : '<span class="label label-danger">Non</span>' }}
+						</td>
+						<td class="text-center">
+							{{ guest.accommodationOnSite ? '<span class="label label-success">Oui</span>' : '<span class="label label-danger">Non</span>' }}
+						</td>
+					</tr>
+				{% endfor %}
+			{% endfor %}
+		</tbody>
+	</table>
+	
+{% endblock %}

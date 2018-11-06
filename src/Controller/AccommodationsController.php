@@ -20,7 +20,11 @@ class AccommodationsController extends Controller
      */
     public function index()
     {
-        return ['accommodations' => $this->getDoctrine()->getManager()->getRepository('App:Accommodation')->findAll()];
+        $em = $this->getDoctrine()->getManager();
+        return [
+            'accommodations' => $em->getRepository('App:Accommodation')->findAll(),
+            'legend' => $em->getRepository('App:TextBlock')->findOneByName('legend_accommodations')->getContent()
+        ];
     }
 
     /**

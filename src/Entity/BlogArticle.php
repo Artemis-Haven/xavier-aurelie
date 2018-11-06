@@ -72,6 +72,10 @@ class BlogArticle
         $this->comments = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->title;
+    }
 
     public function getId()
     {

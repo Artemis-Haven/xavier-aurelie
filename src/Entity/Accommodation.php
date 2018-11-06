@@ -67,6 +67,10 @@ class Accommodation
      */
     private $updatedAt;
 
+    public function __toString()
+    {
+        return $this->name;
+    }
 
     public function getId()
     {

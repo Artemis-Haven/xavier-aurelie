@@ -96,6 +96,23 @@ body > div.container > section.row h1 {
 	margin-top: 0;
 }
 
+footer {
+	text-align: center;
+}
+
+footer {
+	color: #d4baee;
+}
+
+footer > * {
+	display: inline-block;
+	margin: 5px 15px;
+}
+
+footer a, footer a:hover, footer a:focus, footer a:visited {
+	color: #eee !important;
+}
+
 
 /**********************/
 /*    RESPONSIVE      */

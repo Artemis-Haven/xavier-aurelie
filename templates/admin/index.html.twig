@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Admnistration</h1>
+
+	<br>
+
+	<div class="row">
+		<div class="col-md-6">
+			<a href="{{ path('admin_text_blocks') }}">Modifier les zones de texte</a>
+			<hr>
+			Image page d'accueil
+			<hr>
+			<a href="{{ path('carpool_admin') }}">Gérer les offres de covoiturage</a>
+			<hr>
+			<a href="{{ path('admin_answers') }}">Gérer les réponses</a>
+			<hr>
+			<a href="{{ path('wedding_list_admin') }}">Gérer la liste de mariage</a>
+			<a href="{{ path('wedding_list_admin_manage_contributions') }}">Gérer les contributions</a>
+		</div>
+		<div class="col-md-6">
+			<h4>Blog</h4>
+			<ul>
+				{% for article in blog %}
+					<li><a href="{{ path('article_edit', {'id': article.id}) }}">Editer <em>{{ article }}</em></a></li>
+				{% endfor %}
+				<li><a href="{{ path('article_new') }}">Ajouter un article</a></li>
+			</ul>
+
+			<hr>
+
+			<h4>Hébergements</h4>
+			<ul>
+				{% for accommodation in accommodations %}
+					<li><a href="{{ path('accommodation_edit', {'id': accommodation.id}) }}">Editer <em>{{ accommodation }}</em></a></li>
+				{% endfor %}
+				<li><a href="{{ path('accommodation_new') }}">Ajouter un hébergement</a></li>
+			</ul>
+		</div>
+	</div>
+	
+{% endblock %}

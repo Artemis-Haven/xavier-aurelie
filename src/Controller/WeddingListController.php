@@ -174,7 +174,7 @@ class WeddingListController extends Controller
     }
 
     /**
-     * @Route("/admin/gerer-les-participations", name="wedding_list_admin_manage_contributions")
+     * @Route("/admin/gerer-les-contributions", name="wedding_list_admin_manage_contributions")
      * @IsGranted("ROLE_ADMIN")
      * @Template
      */
