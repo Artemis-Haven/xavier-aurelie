@@ -13,18 +13,21 @@
 
 		    <h1>Albums photos</h1>
 
+			<hr>
+			<br>
     		{% if legend|trim is not empty %}
 				<h4>{{ legend|nl2br }}</h4>
 		    {% endif %}
+		    <br>
 
-			<a href="{{ path('gallery_new') }}" class="btn btn-default">Ajoutez vos photos</a>
+			{#<a href="{{ path('gallery_new') }}" class="btn btn-default">Ajoutez vos photos</a>
 
     		<hr>
-    		Cliquez sur un album pour afficher toutes ses photos.
+    		Cliquez sur un album pour afficher toutes ses photos.#}
 		</div>
 	</div>
 
-	<div id="photo-stack-container">
+	{#<div id="photo-stack-container">
 	    {% for gallery in galleries if gallery.photos is not empty %}
 			<a class="photo-stack" href="{{ path('gallery_show', {'id': gallery.id}) }}">
 				<div>
@@ -33,6 +36,6 @@
 				</div>
 			</a>
 	    {% endfor %}
-	</div>
+	</div>#}
 
 {% endblock %}
