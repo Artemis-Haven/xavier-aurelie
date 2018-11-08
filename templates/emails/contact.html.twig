@@ -1,0 +1,8 @@
+Vous avez reçu un message de <b>{{ data.name|title }}</b> : <br>
+
+{% if data.email is not empty %}
+	<b>E-mail ou numéro de téléphone :</b> {{ data.email }} <br>
+{% endif %}
+
+<h4>{{ data.title|title }}</h4>
+<p>{{ data.content|nl2br }}</p>

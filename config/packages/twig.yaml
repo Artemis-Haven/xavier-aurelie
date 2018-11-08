@@ -5,6 +5,7 @@ twig:
     globals:
         maps_api_key: '%env(MAPS_API_KEY)%'
         mail_from: '%env(MAIL_FROM)%'
+        wedding_date: '%env(weddingdate)%'
     form_themes:
         - 'bootstrap_3_layout.html.twig'
         - 'form/datepicker_widget.html.twig'

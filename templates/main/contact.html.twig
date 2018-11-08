@@ -1,7 +1,25 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+	<style type="text/css">
+		.user-photo img {
+			box-shadow: 0px 3px 12px 0 rgba(0, 0, 0, 0.2);
+			transition: transform 300ms ease-in-out;
+		}
+
+		.user-photo img:hover {
+			transform: rotate(-5deg) scale(1.05);
+		}
+		
+		.user-details {
+			padding: 10px;
+			text-align: center;
+		}
+	</style>
+{% endblock %}
+
 {% block body %}
-    <h1>Contactez directement Xavier et Aurélie</h1>
+    <h1>Contact</h1>
 
 	{% if legend|trim is not empty %}
 		<h4>{{ legend|nl2br }}</h4>
@@ -9,32 +27,214 @@
 
 	<br>
 
-    {{ form_start(form) }}
+	{% set weddingIsDone = date('today') > date(wedding_date) %}
 
-		<div class="form-group">
-			{{ form_label(form.surname) }}
-			<div class="row">
-				<div class="col-md-6">
-					{{ form_widget(form.surname) }}
-				</div>
-				<div class="col-md-6">
-					{{ form_widget(form.name) }}
+	<h4>Les {{weddingIsDone ? '' : 'futurs'}} mariés</h4>
+
+	<div class="row">
+		<div class="col-md-4 col-md-offset-1">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Aurélie</b> <br>
+					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
+					<i class="fa fa-at"></i>&nbsp; aurelie@mail.fr <br>
 				</div>
 			</div>
 		</div>
+		<div class="col-md-4 col-md-offset-2">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Xavier</b> <br>
+					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
+					<i class="fa fa-at"></i>&nbsp; xavier@mail.fr <br>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<h4>Les parents des {{weddingIsDone ? '' : 'futurs'}} mariés</h4>
+
+	<div class="row">
+		<div class="col-md-6">
+			<div class="user-card">
+				<div class="user-details">
+					<b>Les parents d'Aurélie</b> <br>
+					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
+					<i class="fa fa-at"></i>&nbsp; aurelie@mail.fr <br>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="user-card">
+				<div class="user-details">
+					<b>Les parents de Xavier</b> <br>
+					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
+					<i class="fa fa-at"></i>&nbsp; xavier@mail.fr <br>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<h4>Les témoins civiles</h4>
 	
-		<br>
+	<div class="row">
+		<div class="col-md-3">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Témoin 1</b> <br>
+					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
+					<i class="fa fa-at"></i>&nbsp; temoin@mail.fr <br>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Témoin 2</b>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Témoin 3</b>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Témoin 4</b> <br>
+					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
+					<i class="fa fa-at"></i>&nbsp; temoin@mail.fr <br>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
+	<h4>Les témoins religieux</h4>
+	
+	<div class="row">
+		<div class="col-md-3">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Témoin 1</b> <br>
+					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
+					<i class="fa fa-at"></i>&nbsp; temoin@mail.fr <br>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Témoin 2</b> 
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Témoin 3</b>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Témoin 4</b> <br>
+					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
+					<i class="fa fa-at"></i>&nbsp; temoin@mail.fr <br>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Témoin 1</b>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Témoin 2</b>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Témoin 3</b>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="user-card">
+				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-details">
+					<b>Témoin 4</b>
+				</div>
+			</div>
+		</div>
+	</div>
+	<br>
 
-		{{ form_row(form.email) }}
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#directContactModal">
+	  Cliquez ici pour nous envoyer un message
+	</button>
+	
+	<div class="modal fade" id="directContactModal" tabindex="-1" role="dialog" aria-labelledby="directContactModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				{{ form_start(form) }}
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Fermer"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="directContactModalLabel">Nous contacter</h4>
+					</div>
+					<div class="modal-body">
 
-		<br>
+							<div class="form-group">
+								<div class="row">
+									<div class="col-md-6">
+										{{ form_label(form.name) }} <br>
+										{{ form_widget(form.name) }}
+									</div>
+									<div class="col-md-6">
+										{{ form_label(form.email) }} <br>
+										{{ form_widget(form.email) }}
+									</div>
+								</div>
+							</div>
 
-		{{ form_row(form.title) }}
-		{{ form_widget(form.content) }}
-		
-		<br>
+							<br>
 
-		{{ form_row(form.submit) }}
+							{{ form_row(form.title) }}
+							{{ form_widget(form.content) }}
+							
+							<br>
 
-	{{ form_end(form) }}
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Fermer</button>
+						{{ form_widget(form.submit) }}
+					</div>				
+				{{ form_end(form) }}
+			</div>
+		</div>
+	</div>
+
 {% endblock %}

@@ -8,6 +8,7 @@
         <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('/css/bootstrap-theme.min.css') }}">
         <link rel="stylesheet" href="{{ asset('/css/flatpickr.min.css') }}">
+    	<link rel="stylesheet" href="{{ asset('/css/fa.css') }}">
         <link rel="stylesheet" href="{{ asset('/css/main.css') }}">
         <link href="https://fonts.googleapis.com/css?family=Armata|Tangerine" rel="stylesheet"> 
         {% block stylesheets %}{% endblock %}
@@ -23,10 +24,9 @@
 		</div>
 		<header class="container">
 			<img class="img-responsive" src="{{ asset('images/guirlande.png') }}" alt="Mariage de Xavier et Aurélie">
-			<h1>Aurélie & Xavier</h1>
+			<h1>Aurélie &amp; Xavier</h1>
 			<h2>30 mai 2019</h2>
-			{% set marriageDate = '2019-05-30' %}
-			{% set difference = date(marriageDate).diff(date('today')) %}
+			{% set difference = date(wedding_date).diff(date('today')) %}
 			<h3>J-{{ difference.days }}</h3>
 			{% if app.user %}
 				<nav class="navbar">

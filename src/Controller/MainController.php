@@ -52,22 +52,35 @@ class MainController extends Controller
      * @Route("/contact", name="contact")
      * @Template
      */
-    public function contact(Request $request)
+    public function contact(Request $request, \Swift_Mailer $mailer)
     {
         $em = $this->getDoctrine()->getManager();
     	$form = $this->createFormBuilder()
-            ->add('name', TextType::class, ['label' => false, 'attr' => ['placeholder' => "Votre nom"]])
-            ->add('surname', TextType::class, ['label' => "Qui êtes-vous ?", 'attr' => ['placeholder' => "Votre prénom"]])
-            ->add('email', EmailType::class, ['label' => "Votre e-mail ou votre numéro de téléphone (auquel vous souhaitez être recontacté)"])
-            ->add('title', TextType::class, ['label' => "Votre message", 'attr' => ['placeholder' => "Titre du message"]])
-            ->add('content', TextareaType::class, ['label' => false, 'attr' => ['placeholder' => "Contenu du message"]])
-            ->add('submit', SubmitType::class, array('label' => 'Envoyer le message'))
+            ->add('name', TextType::class, ['label' => "Qui êtes-vous ?", 'attr' => ['placeholder' => "Votre nom"]])
+            ->add('email', EmailType::class, ['label' => "Si vous souhaitez être recontacté", 'attr' => ['placeholder' => "Votre e-mail ou votre numéro de tél."], 'required' => false])
+            ->add('title', TextType::class, ['label' => "Votre message", 'attr' => ['placeholder' => "Titre"]])
+            ->add('content', TextareaType::class, ['label' => false, 'attr' => ['placeholder' => "Contenu"]])
+            ->add('submit', SubmitType::class, array('label' => 'Envoyer le message', 'attr' => ['class' => "btn-primary"]))
             ->getForm();
 
     	$form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-	        // TODO
+
+            $message = (new \Swift_Message('Mariage - Vous avez reçu un message de '.$form->get('name')->getData()))
+                ->setFrom($this->getParameter('mail_from'))
+                ->setTo($this->getParameter('mail_from'))
+                ->setBody(
+                    $this->renderView(
+                        'emails/contact.html.twig',
+                        ['data' => $form->getData()]
+                    ),
+                    'text/html'
+                )
+            ;
+            $mailer->send($message);
+            $this->addFlash('success', 'Votre message a bien été envoyé.');
+            return $this->redirectToRoute('contact');
 	    }
         return [
         	'form' => $form->createView(),
@@ -81,7 +94,7 @@ class MainController extends Controller
      * @Route("/votre-reponse", name="answer")
      * @Template
      */
-    public function answer(Request $request)
+    public function answer(Request $request, \Swift_Mailer $mailer)
     {
         $em = $this->getDoctrine()->getManager();
         $answer = new Answer();
