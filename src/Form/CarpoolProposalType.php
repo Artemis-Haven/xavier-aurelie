@@ -38,6 +38,7 @@ class CarpoolProposalType extends AbstractType
             ])
             ->add('details', null, [
                 'label' => "Détails concernant votre voyage",
+                'required' => false,
                 'attr' => ['placeholder' => 'Exemples : "Peu de place pour les bagages", "Rendez-vous au péage de l\'autoroute", "Voyage non fumeur", ...']
             ])
         ;

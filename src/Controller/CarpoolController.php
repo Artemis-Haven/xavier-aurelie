@@ -26,6 +26,7 @@ class CarpoolController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         return [
+            'texts' => $em->getRepository('App:TextBlock')->findAllByName(),
             'carpoolSearches' => $em->getRepository('App:CarpoolSearch')->findAllOrdered(),
             'carpoolProposals' => $em->getRepository('App:CarpoolProposal')->findAllOrdered()
         ];

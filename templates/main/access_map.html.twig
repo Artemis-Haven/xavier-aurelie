@@ -10,6 +10,7 @@
 		#panel {
 			max-height: 500px;
 			overflow-y: scroll;
+			background-color: rgba(255, 255, 255, 0.7);
 		}
 	</style>
 {% endblock %}
@@ -23,6 +24,8 @@
 		    {% if texts.legend_access is defined and texts.legend_access|trim is not empty %}
 				<h4>{{ texts.legend_access|nl2br }}</h4>
 		    {% endif %}
+
+		    <hr>
 
 		    <div id="destinationForm">
 		        <form action="" method="get" name="direction" id="direction" class="form-inline">
@@ -63,4 +66,11 @@
     <script async defer src="https://maps.googleapis.com/maps/api/js?key={{maps_api_key}}&callback=initialize"
   type="text/javascript"></script>
     <script type="text/javascript" src="{{ asset('js/gmaps-routing.js') }}"></script>
+    <script type="text/javascript">
+    	$(document).keypress(function(e) {
+		    if(e.which == 13) {
+		        $('#direction .btn').click();
+		    }
+		});
+    </script>
 {% endblock %}

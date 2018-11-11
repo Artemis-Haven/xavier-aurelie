@@ -212,6 +212,7 @@
 	<script type="text/javascript" src="{{ asset('js/leaflet.polylineDecorator.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/L.Polyline.SnakeAnim.js') }}"></script>
 	<script type="text/javascript" src="{{ asset('js/oms.min.js') }}"></script>
+	<script type="text/javascript" src="{{ asset('js/mobile-detect.js') }}"></script>
 	<script>
 		$(function () {
 			// Création du fond de la carte
@@ -311,5 +312,12 @@
 				'</div>'+
 			'</div>';
 		}
+
+		{% if not app.request.get('no_redirect') %}
+			var md = new MobileDetect(window.navigator.userAgent);
+			if (md.phone()) {
+				window.location.href="{{ path('wedding_list_classic') }}";
+			}
+		{% endif %}
 	</script>
 {% endblock %}

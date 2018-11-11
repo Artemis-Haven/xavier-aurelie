@@ -28,7 +28,8 @@ class CarpoolAnswerType extends AbstractType
                 'choices' => array_combine(range(1, $options['maxSeats']), range(1, $options['maxSeats']))
             ])
             ->add('details', null, [
-                'label' => ($options['type'] == 'search' ? "Détails de votre proposition" : "Détails de votre demande")
+                'label' => ($options['type'] == 'search' ? "Détails de votre proposition" : "Détails de votre demande"),
+                'required' => false
             ])
         ;
     }

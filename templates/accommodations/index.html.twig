@@ -32,8 +32,9 @@
     
     <h1>Hébergements</h1>
     
-
-    <h4>Retrouvez une sélection des hébergements environnants.</h4>
+    {% if texts.legend_accommodations is defined and texts.legend_accommodations|trim is not empty %}
+        <h4>{{ texts.legend_accommodations|nl2br }}</h4>
+    {% endif %}
 
     {% for acc in accommodations %}
         

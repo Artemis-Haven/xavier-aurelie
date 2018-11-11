@@ -11,23 +11,10 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
     		<h1>Co-voiturage</h1>
-    		<h4>
-    		{% if carpoolProposals is empty %}
-				Pour l'instant, personne ne propose de co-voiturage
-    		{% elseif carpoolProposals|length > 1 %}
-				{{ carpoolProposals|length }} personnes proposent un co-voiturage
-			{% else %}
-				Une personne propose un co-voiturage
-			{% endif %}
-			et 
-    		{% if carpoolSearches is empty %}
-				personne ne recherche de place.
-			{% elseif carpoolSearches|length > 1 %}
-				{{ carpoolSearches|length }} personnes recherchent des places.
-			{% else %}
-				une personne recherche des places.
-			{% endif %}
-			</h4>
+
+		    {% if texts.legend_carpool is defined and texts.legend_carpool|trim is not empty %}
+				<h4>{{ texts.legend_carpool|nl2br }}</h4>
+		    {% endif %}
 
 			{% if is_granted('ROLE_ADMIN') %}
 				<div class="dropdown pull-right" style="z-index: 10;">
@@ -51,7 +38,28 @@
     			</ul>
     		</div>
     		<hr>
-    		Cliquez sur un post-it pour afficher plus d'informations.
+
+    		<h4>
+    		{% if carpoolProposals is empty %}
+				Pour l'instant, personne ne propose de co-voiturage
+    		{% elseif carpoolProposals|length > 1 %}
+				{{ carpoolProposals|length }} personnes proposent un co-voiturage
+			{% else %}
+				Une personne propose un co-voiturage
+			{% endif %}
+			et 
+    		{% if carpoolSearches is empty %}
+				personne ne recherche de place.
+			{% elseif carpoolSearches|length > 1 %}
+				{{ carpoolSearches|length }} personnes recherchent des places.
+			{% else %}
+				une personne recherche des places.
+			{% endif %}
+			</h4>
+
+			{% if carpoolProposals is not empty or carpoolSearches is not empty %}
+    			Cliquez sur un post-it pour afficher plus d'informations.
+    		{% endif %}
 		</div>
 	</div>
 

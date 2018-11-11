@@ -3,6 +3,10 @@
 {% block body %}
     
     <h1>Liste de mariage</h1>
+            
+    {% if texts.legend_wedding_list is defined and texts.legend_wedding_list|trim is not empty %}
+        <h4>{{ texts.legend_wedding_list|nl2br }}</h4>
+    {% endif %}
 
     <hr>
 
@@ -28,6 +32,8 @@
             {% endif %}
         </div>
         <br>
+
+        <a href="{{ path('wedding_list', {'no_redirect': true}) }}">Cliquez ici</a> pour voir les différentes étapes sur une carte.
     {% else %}
         <h3 class="text-muted text-center">Aucun élément n'est renseigné pour l'instant.</h3>
     {% endfor %}

@@ -38,6 +38,7 @@ class CarpoolSearchType extends AbstractType
             ])
             ->add('details', null, [
                 'label' => "Détails concernant votre voyage",
+                'required' => false,
                 'attr' => [
                     'placeholder' => 'Exemples : "Besoin de place pour mes bagages", "Je peux me rendre jusqu\'au péage de l\'autoroute", "Je voyage avec un petit chien", ...',
                     'rows' => 8

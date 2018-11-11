@@ -60,7 +60,12 @@ class WeddingListController extends Controller
      */
     public function classic()
     {
-        return ['listItems' => $this->getDoctrine()->getManager()->getRepository('App:ListItem')->findBy([], ['ordering' => 'ASC'])];
+        $em = $this->getDoctrine()->getManager();
+
+        return [
+            'texts' => $em->getRepository('App:TextBlock')->findAllByName(),
+            'listItems' => $em->getRepository('App:ListItem')->findBy([], ['ordering' => 'ASC'])
+        ];
     }
 
     /**
