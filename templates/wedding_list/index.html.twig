@@ -316,7 +316,11 @@
 		{% if not app.request.get('no_redirect') %}
 			var md = new MobileDetect(window.navigator.userAgent);
 			if (md.phone()) {
-				window.location.href="{{ path('wedding_list_classic') }}";
+				var uri = "{{ path('wedding_list_classic') }}";
+				if(navigator.userAgent.match(/Android/i)) 
+					document.location=uri;      
+				else
+					window.location.replace(uri);
 			}
 		{% endif %}
 	</script>
