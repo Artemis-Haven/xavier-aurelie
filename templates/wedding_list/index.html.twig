@@ -203,7 +203,11 @@
 		</div>
 	</div>
 	
-	<div id="mapid"></div>
+	<div id="mapid" class="hidden-xs"></div>
+
+	<div id="classic-version" class="visible-xs">
+	    {% include 'wedding_list/_classic_content.html.twig' %}
+	</div>
 
 {% endblock %}
 
@@ -312,16 +316,5 @@
 				'</div>'+
 			'</div>';
 		}
-
-		{% if not app.request.get('no_redirect') %}
-			var md = new MobileDetect(window.navigator.userAgent);
-			if (md.phone()) {
-				var uri = "{{ path('wedding_list_classic') }}";
-				if(navigator.userAgent.match(/Android/i)) 
-					document.location=uri;      
-				else
-					window.location.replace(uri);
-			}
-		{% endif %}
 	</script>
 {% endblock %}
