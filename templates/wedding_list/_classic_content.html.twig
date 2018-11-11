@@ -21,7 +21,9 @@
     </div>
     <br>
 
-    <a href="{{ path('wedding_list') }}" class="hidden-xs">Cliquez ici</a> pour voir les différentes étapes sur une carte.
+   	<span class="hidden-xs">
+   		<a href="{{ path('wedding_list') }}">Cliquez ici</a> pour voir les différentes étapes sur une carte.
+   	</span>
 {% else %}
     <h3 class="text-muted text-center">Aucun élément n'est renseigné pour l'instant.</h3>
 {% endfor %}

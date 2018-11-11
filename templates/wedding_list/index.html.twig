@@ -252,7 +252,7 @@
 			var markers = {{ markerList|json_encode|raw }};
 			for (var i = 0; i < markers.length; i++) {
 				var data = markers[i];
-				var marker = L.marker([data.latitude, data.longitude], {icon: markerIcon}).addTo(myMap);
+				var marker = L.marker([data.latitude, data.longitude], {icon: markerIcon, zIndexOffset: 100}).addTo(myMap);
 				//marker.bindPopup("<b>"+data.title+"</b><br>"+data.desc)
 				marker.desc = generatePostcardContent(data);
 				oms.addMarker(marker);
@@ -280,7 +280,7 @@
 	                    icon: L.icon({
 	                        iconUrl: '/images/map/footprints.png',
 	                        iconAnchor: [10, 16]
-	                    })
+	                    }), zIndexOffset: -100
 	                }})}
 	            ]
 	    	}).addTo(myMap).snakeIn();
