@@ -12,30 +12,34 @@
 	
 	<a href="{{ path('admin_answers_export') }}" class="btn btn-primary">Exporter le tableau</a>
 
-	<table class="table table-bordered table-striped">
+	<table class="table table-bordered table-striped text-center">
 		<thead>
 			<tr>
-				<th>Nom de l'invité</th>
+				<th class="text-left">Nom de l'invité</th>
 				<th class="text-center">Participera à <br> la cérémonie</th>
 				<th class="text-center">Participera au <br> brunch</th>
 				<th class="text-center">Souhaite loger au <br> Domaine de Sarson</th>
+				<th class="text-center">Date de la réponse</th>
 			</tr>
 		</thead>
 		<tbody>
 			{% for answer in answers %}
 				{% for guest in answer.guests %}
 					<tr>
-						<td>
+						<td class="text-left">
 							{{ guest|title }}
 						</td>
-						<td class="text-center">
+						<td>
 							{{ guest.attendCeremony ? '<span class="label label-success">Oui</span>' : '<span class="label label-danger">Non</span>' }}
 						</td>
-						<td class="text-center">
+						<td>
 							{{ guest.attendBrunch ? '<span class="label label-success">Oui</span>' : '<span class="label label-danger">Non</span>' }}
 						</td>
-						<td class="text-center">
+						<td>
 							{{ guest.accommodationOnSite ? '<span class="label label-success">Oui</span>' : '<span class="label label-danger">Non</span>' }}
+						</td>
+						<td>
+							{{ answer.createdAt|date('d/m/Y') }}
 						</td>
 					</tr>
 				{% endfor %}

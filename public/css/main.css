@@ -6,12 +6,20 @@ hr {
 	border-color: #7fc040;
 }
 
-a:not(.btn, .dropdown a) {
+a {
 	color: #6ca733;
 }
 
-a:not(.btn, .dropdown a):hover, a:not(.btn, .dropdown a):focus, a:not(.btn, .dropdown a):active, a:not(.btn, .dropdown a):visited {
+a:hover, a:focus, a:active, a:visited {
 	color: #5d922b;
+}
+
+a.btn {
+	color: #fff;
+}
+
+a.btn.btn-default, .dropdown a {
+	color: #333;
 }
 
 body > div.container {
@@ -168,7 +176,9 @@ footer a, footer a:hover, footer a:focus, footer a:visited {
 	height: 200px;
 	background-repeat: no-repeat;
 	background-size: 100%;
+	background-size: cover;
 	background-position: center;
+	margin-bottom: 0;
 }
 
 .article-preview .article-infos, .full-article .article-infos {
