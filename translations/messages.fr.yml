@@ -1,0 +1,75 @@
+home_textarea: Texte de la page d'accueil
+welcome: Texte de la page d'accueil
+introduction: Sous-titre de la page d'accueil
+legend_blog: Sous-titre de la page "Blog"
+legend_photos: Sous-titre de la page "Albums photos"
+legend_access: Sous-titre de la page "Plan d'accès"
+legend_carpool: Sous-titre de la page "Covoiturage"
+legend_accommodations: Sous-titre de la page "Hébergements"
+legend_contact: Sous-titre de la page "Contact"
+legend_answer: Sous-titre de la page "Réponse"
+legend_wedding_list: Sous-titre de la page "Liste de mariage"
+groom:
+    phone: Téléphone du marié
+    email: E-mail du marié
+bride:
+    phone: Téléphone de la mariée
+    email: E-mail de la mariée
+groomsparents:
+    phone: Téléphone des parents du marié
+    email: E-mail des parents du marié
+bridesparents:
+    phone: Téléphone des parents de la mariée
+    email: E-mail des parents de la mariée
+witness:
+    name: Nom du témoin %nbr%
+    phone: Téléphone du témoin %nbr%
+    email: E-mail du témoin %nbr%
+witness1:
+    name: Nom du témoin 1
+    phone: Téléphone du témoin 1
+    email: E-mail du témoin 1
+witness2:
+    name: Nom du témoin 2
+    phone: Téléphone du témoin 2
+    email: E-mail du témoin 2
+witness3:
+    name: Nom du témoin 3
+    phone: Téléphone du témoin 3
+    email: E-mail du témoin 3
+witness4:
+    name: Nom du témoin 4
+    phone: Téléphone du témoin 4
+    email: E-mail du témoin 4
+witness5:
+    name: Nom du témoin 5
+    phone: Téléphone du témoin 5
+    email: E-mail du témoin 5
+witness6:
+    name: Nom du témoin 6
+    phone: Téléphone du témoin 6
+    email: E-mail du témoin 6
+witness7:
+    name: Nom du témoin 7
+    phone: Téléphone du témoin 7
+    email: E-mail du témoin 7
+witness8:
+    name: Nom du témoin 8
+    phone: Téléphone du témoin 8
+    email: E-mail du témoin 8
+witness9:
+    name: Nom du témoin 9
+    phone: Téléphone du témoin 9
+    email: E-mail du témoin 9
+witness10:
+    name: Nom du témoin 10
+    phone: Téléphone du témoin 10
+    email: E-mail du témoin 10
+witness11:
+    name: Nom du témoin 11
+    phone: Téléphone du témoin 11
+    email: E-mail du témoin 11
+witness12:
+    name: Nom du témoin 12
+    phone: Téléphone du témoin 12
+    email: E-mail du témoin 12

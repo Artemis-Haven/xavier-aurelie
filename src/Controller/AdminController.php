@@ -38,47 +38,63 @@ class AdminController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $textBlocks = $em->getRepository('App:TextBlock')->findBy([], ['id' => 'ASC']);
-        if (empty($textBlocks)) {
-            $init = [
-                'welcome' => "Bienvenue !",
-                'introduction' => "Présentation du site",
-                'home_textarea' => "Texte de la page d'accueil",
-                'legend_blog' => "",
-                'legend_photos' => "",
-                'legend_access' => "",
-                'legend_carpool' => "",
-                'legend_accommodations' => "",
-                'legend_contact' => "",
-                'legend_answer' => "",
-                'legend_wedding_list' => ""
-            ];
-            foreach ($init as $name => $content) {
-                $textBlock = new TextBlock($name, $content);
-                $em->persist($textBlock);
-                $textBlocks[] = $textBlock;
-            }
-        }
 
-        $form = $this->createFormBuilder($textBlocks)
+        $formBuilder = $this->createFormBuilder($textBlocks)
             ->add('textBlocks', Type\CollectionType::class, array(
                 'entry_type' => TextBlockType::class,
                 'entry_options' => array('label' => false),
                 'data' => $textBlocks
             ))
             ->add('indexImage', Type\FileType::class, [
-            	'mapped' => false,
-            	'label' => "Changer l'image de la page d'accueil ?",
-            	'required' => false
+                'mapped' => false,
+                'label' => "Changer l'image de la page d'accueil ?",
+                'required' => false
             ])
+            ->add('brideImage', Type\FileType::class, [
+                'mapped' => false,
+                'label' => "Changer la photo de la mariée ?",
+                'required' => false
+            ])
+            ->add('groomImage', Type\FileType::class, [
+                'mapped' => false,
+                'label' => "Changer la photo du marié ?",
+                'required' => false
+            ]);
+        
+        for ($i=1; $i <= 12; $i++) { 
+            $formBuilder->add('witness'.$i.'Image', Type\FileType::class, [
+                'mapped' => false,
+                'label' => "Changer la photo du témoin ".$i." ?",
+                'required' => false
+            ]);
+        }
+
+        $form = $formBuilder
             ->add('save', Type\SubmitType::class, array('label' => 'Enregistrer les modifications'))
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-        	$file = $form['indexImage']->getData();
-        	if ($file && $file->guessExtension() == 'png') {
-        		$file->move('images', 'index.png');
-        	}
+
+        	$indexFile = $form['indexImage']->getData();
+            if ($indexFile && in_array(strtolower($indexFile->guessExtension()), ['jpg', 'jpeg'])) {
+                $test = $indexFile->move('images/uploads', 'index.jpg');
+            }
+            $brideFile = $form['brideImage']->getData();
+            if ($brideFile && in_array(strtolower($brideFile->guessExtension()), ['jpg', 'jpeg'])) {
+                $brideFile->move('images/uploads', 'bride.jpg');
+            }
+            $groomFile = $form['groomImage']->getData();
+            if ($groomFile && in_array(strtolower($groomFile->guessExtension()), ['jpg', 'jpeg'])) {
+                $groomFile->move('images/uploads', 'groom.jpg');
+            }
+            for ($i=1; $i <= 12; $i++) {
+                $witnessFile = $form['witness'.$i.'Image']->getData();
+                if ($witnessFile && in_array(strtolower($witnessFile->guessExtension()), ['jpg', 'jpeg'])) {
+                    $witnessFile->move('images/uploads', 'witness'.$i.'.jpg');
+                }
+            }
+
             $em->flush();
             $this->addFlash('success', 'Les modifications ont bien été enregistrées.');
         }

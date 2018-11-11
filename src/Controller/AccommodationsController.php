@@ -23,7 +23,7 @@ class AccommodationsController extends Controller
         $em = $this->getDoctrine()->getManager();
         return [
             'accommodations' => $em->getRepository('App:Accommodation')->findAll(),
-            'legend' => $em->getRepository('App:TextBlock')->findOneByName('legend_accommodations')->getContent()
+            'texts' => $em->getRepository('App:TextBlock')->findAllByName(),
         ];
     }
 

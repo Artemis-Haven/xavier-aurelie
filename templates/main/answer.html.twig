@@ -55,9 +55,11 @@
 {% block body %}
     <h1>Votre réponse</h1>
 
-	{% if legend|trim is not empty %}
-		<h4>{{ legend|nl2br }}</h4>
+    {% if texts.legend_answer is defined and texts.legend_answer|trim is not empty %}
+		<h4>{{ texts.legend_answer|nl2br }}</h4>
     {% endif %}
+
+    <hr>
 
     {{ form_start(form) }}
         
@@ -84,7 +86,11 @@
     <div class="alert alert-info" id="alert-accommodationOnSite" style="display: none;">
     	<strong>Si vous souhaitez loger au domaine de Sarson,</strong> merci de prendre contact avec nous rapidement. En effet, la réservation sera effective une fois le paiement effectué.
     </div>
-	    
+	   
+	<div class="text-right">
+		{{ form_widget(form.submit) }}
+	</div>
+
     {{ form_end(form) }}
     
 {% endblock %}

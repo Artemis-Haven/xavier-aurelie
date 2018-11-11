@@ -50,7 +50,7 @@ class WeddingListController extends Controller
         	'listItems' => $listItems,
         	'markerList' => $markerList,
         	'polyline' => $polyline,
-            'legend' => $em->getRepository('App:TextBlock')->findOneByName('legend_wedding_list')->getContent()
+            'texts' => $em->getRepository('App:TextBlock')->findAllByName(),
     	];
     }
 

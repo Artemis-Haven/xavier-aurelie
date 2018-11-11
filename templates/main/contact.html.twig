@@ -1,13 +1,43 @@
 {% extends 'base.html.twig' %}
+{% import _self as fn %}
+
+{% macro name(value) %}
+	{% if value is defined and value|trim is not empty %}
+    	<b>{{ value }}</b>
+	{% endif %}
+{% endmacro %}
+
+{% macro phone(value) %}
+	{% if value is defined and value|trim is not empty %}
+    	<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; {{ value }} <br>
+	{% endif %}
+{% endmacro %}
+
+{% macro email(value) %}
+	{% if value is defined and value|trim is not empty %}
+		<i class="fa fa-at"></i>&nbsp; {{ value }} <br>
+	{% endif %}
+{% endmacro %}
 
 {% block stylesheets %}
 	<style type="text/css">
-		.user-photo img {
+		.user-photo {
+			border-radius: 50%;
+			overflow: hidden;
 			box-shadow: 0px 3px 12px 0 rgba(0, 0, 0, 0.2);
 			transition: transform 300ms ease-in-out;
+			height: 165px;
+			width: 165px;
+			background-size: cover;
+			background-position: center;
 		}
 
-		.user-photo img:hover {
+		.user-photo.img-big {
+			height: 230px;
+			width: 230px;
+		}
+
+		.user-photo:hover {
 			transform: rotate(-5deg) scale(1.05);
 		}
 		
@@ -21,48 +51,49 @@
 {% block body %}
     <h1>Contact</h1>
 
-	{% if legend|trim is not empty %}
-		<h4>{{ legend|nl2br }}</h4>
+	{% if texts.legend_contact is defined and texts.legend_contact|trim is not empty %}
+		<h4>{{ texts.legend_contact|nl2br }}</h4>
     {% endif %}
 
 	<br>
 
 	{% set weddingIsDone = date('today') > date(wedding_date) %}
 
-	<h4>Les {{weddingIsDone ? '' : 'futurs'}} mariés</h4>
+	<h4 class="text-center">Les {{weddingIsDone ? '' : 'futurs'}} mariés</h4>
 
 	<div class="row">
 		<div class="col-md-4 col-md-offset-1">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo img-big" style="background-image: url('{{ asset('images/uploads/bride.jpg') }}');"></div>
 				<div class="user-details">
 					<b>Aurélie</b> <br>
-					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
-					<i class="fa fa-at"></i>&nbsp; aurelie@mail.fr <br>
+					{{ fn.phone(texts['bride.phone']) }}
+					{{ fn.email(texts['bride.email']) }}
 				</div>
 			</div>
 		</div>
 		<div class="col-md-4 col-md-offset-2">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo img-big" style="background-image: url('{{ asset('images/uploads/groom.jpg') }}');"></div>
 				<div class="user-details">
 					<b>Xavier</b> <br>
-					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
-					<i class="fa fa-at"></i>&nbsp; xavier@mail.fr <br>
+					{{ fn.phone(texts['groom.phone']) }}
+					{{ fn.email(texts['groom.email']) }}
 				</div>
 			</div>
 		</div>
 	</div>
 	<br>
-	<h4>Les parents des {{weddingIsDone ? '' : 'futurs'}} mariés</h4>
+
+	<h4 class="text-center">Les parents des {{weddingIsDone ? '' : 'futurs'}} mariés</h4>
 
 	<div class="row">
 		<div class="col-md-6">
 			<div class="user-card">
 				<div class="user-details">
 					<b>Les parents d'Aurélie</b> <br>
-					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
-					<i class="fa fa-at"></i>&nbsp; aurelie@mail.fr <br>
+					{{ fn.phone(texts['bridesparents.phone']) }}
+					{{ fn.email(texts['bridesparents.email']) }}
 				</div>
 			</div>
 		</div>
@@ -70,122 +101,124 @@
 			<div class="user-card">
 				<div class="user-details">
 					<b>Les parents de Xavier</b> <br>
-					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
-					<i class="fa fa-at"></i>&nbsp; xavier@mail.fr <br>
+					{{ fn.phone(texts['groomsparents.phone']) }}
+					{{ fn.email(texts['groomsparents.email']) }}
 				</div>
 			</div>
 		</div>
 	</div>
 	<br>
-	<h4>Les témoins civiles</h4>
+
+	<h4 class="text-center">Les témoins civils</h4>
 	
 	<div class="row">
 		<div class="col-md-3">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo" style="background-image: url('{{ asset('images/uploads/witness1.jpg') }}');"></div>
 				<div class="user-details">
-					<b>Témoin 1</b> <br>
-					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
-					<i class="fa fa-at"></i>&nbsp; temoin@mail.fr <br>
+					{{ fn.name(texts['witness1.name']) }} <br>
+					{{ fn.phone(texts['witness1.phone']) }}
+					{{ fn.email(texts['witness1.email']) }}
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo" style="background-image: url('{{ asset('images/uploads/witness2.jpg') }}');"></div>
 				<div class="user-details">
-					<b>Témoin 2</b>
+					{{ fn.name(texts['witness2.name']) }}
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo" style="background-image: url('{{ asset('images/uploads/witness3.jpg') }}');"></div>
 				<div class="user-details">
-					<b>Témoin 3</b>
+					{{ fn.name(texts['witness3.name']) }}
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo" style="background-image: url('{{ asset('images/uploads/witness4.jpg') }}');"></div>
 				<div class="user-details">
-					<b>Témoin 4</b> <br>
-					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
-					<i class="fa fa-at"></i>&nbsp; temoin@mail.fr <br>
+					{{ fn.name(texts['witness4.name']) }} <br>
+					{{ fn.phone(texts['witness4.phone']) }}
+					{{ fn.email(texts['witness4.email']) }}
 				</div>
 			</div>
 		</div>
 	</div>
 	<br>
-	<h4>Les témoins religieux</h4>
+
+	<h4 class="text-center">Les témoins religieux</h4>
 	
 	<div class="row">
 		<div class="col-md-3">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo" style="background-image: url('{{ asset('images/uploads/witness5.jpg') }}');"></div>
 				<div class="user-details">
-					<b>Témoin 1</b> <br>
-					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
-					<i class="fa fa-at"></i>&nbsp; temoin@mail.fr <br>
+					{{ fn.name(texts['witness5.name']) }} <br>
+					{{ fn.phone(texts['witness5.phone']) }}
+					{{ fn.email(texts['witness5.email']) }}
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo" style="background-image: url('{{ asset('images/uploads/witness6.jpg') }}');"></div>
 				<div class="user-details">
-					<b>Témoin 2</b> 
+					{{ fn.name(texts['witness6.name']) }} 
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo" style="background-image: url('{{ asset('images/uploads/witness7.jpg') }}');"></div>
 				<div class="user-details">
-					<b>Témoin 3</b>
+					{{ fn.name(texts['witness7.name']) }}
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo" style="background-image: url('{{ asset('images/uploads/witness8.jpg') }}');"></div>
 				<div class="user-details">
-					<b>Témoin 4</b> <br>
-					<i class="fa fa-phone fa-flip-horizontal"></i>&nbsp; 01-23-45-67-89 <br>
-					<i class="fa fa-at"></i>&nbsp; temoin@mail.fr <br>
+					{{ fn.name(texts['witness8.name']) }} <br>
+					{{ fn.phone(texts['witness4.phone']) }}
+					{{ fn.email(texts['witness4.email']) }}
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo" style="background-image: url('{{ asset('images/uploads/witness9.jpg') }}');"></div>
 				<div class="user-details">
-					<b>Témoin 1</b>
+					{{ fn.name(texts['witness9.name']) }}
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo" style="background-image: url('{{ asset('images/uploads/witness10.jpg') }}');"></div>
 				<div class="user-details">
-					<b>Témoin 2</b>
+					{{ fn.name(texts['witness10.name']) }}
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo" style="background-image: url('{{ asset('images/uploads/witness11.jpg') }}');"></div>
 				<div class="user-details">
-					<b>Témoin 3</b>
+					{{ fn.name(texts['witness11.name']) }}
 				</div>
 			</div>
 		</div>
 		<div class="col-md-3">
 			<div class="user-card">
-				<div class="user-photo"><img src="{{ asset('images/avatar.png') }}" class='img-responsive img-circle'></div>
+				<div class="user-photo" style="background-image: url('{{ asset('images/uploads/witness12.jpg') }}');"></div>
 				<div class="user-details">
-					<b>Témoin 4</b>
+					{{ fn.name(texts['witness12.name']) }}
 				</div>
 			</div>
 		</div>

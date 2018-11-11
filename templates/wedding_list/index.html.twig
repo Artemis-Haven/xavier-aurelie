@@ -193,8 +193,8 @@
 				</div>
 			{% endif %}
 			
-    		{% if legend|trim is not empty %}
-				<h4>{{ legend|nl2br }}</h4>
+		    {% if texts.legend_wedding_list is defined and texts.legend_wedding_list|trim is not empty %}
+				<h4>{{ texts.legend_wedding_list|nl2br }}</h4>
 		    {% endif %}
 			
 

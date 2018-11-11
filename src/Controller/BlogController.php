@@ -24,7 +24,7 @@ class BlogController extends Controller
         $em = $this->getDoctrine()->getManager();
         return [
             'articles' => $em->getRepository('App:BlogArticle')->findBy([], ['createdAt' => 'DESC']),
-            'legend' => $em->getRepository('App:TextBlock')->findOneByName('legend_blog')->getContent()
+            'texts' => $em->getRepository('App:TextBlock')->findAllByName(),
         ];
     }
 

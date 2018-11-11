@@ -14,9 +14,9 @@
 	{% endif %}
 	
     <h1>Blog</h1>
-
-    {% if legend|trim is not empty %}
-		<h4>{{ legend|nl2br }}</h4>
+    
+    {% if texts.legend_blog is defined and texts.legend_blog|trim is not empty %}
+		<h4>{{ texts.legend_blog|nl2br }}</h4>
     {% endif %}
 	
 	<br>

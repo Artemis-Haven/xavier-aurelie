@@ -29,9 +29,7 @@ class MainController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         return [
-            'title' => $em->getRepository('App:TextBlock')->findOneByName('welcome')->getContent(),
-            'legend' => $em->getRepository('App:TextBlock')->findOneByName('introduction')->getContent(),
-            'textarea' => $em->getRepository('App:TextBlock')->findOneByName('home_textarea')->getContent(),
+            'texts' => $em->getRepository('App:TextBlock')->findAllByName(),
             'lastBlogArticle' => $em->getRepository('App:BlogArticle')->findBy([], ['createdAt' => 'DESC'])[0]
         ];
     }
@@ -44,7 +42,7 @@ class MainController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         return [
-            'legend' => $em->getRepository('App:TextBlock')->findOneByName('legend_access')->getContent(),
+            'texts' => $em->getRepository('App:TextBlock')->findAllByName(),
         ];
     }
 
@@ -84,7 +82,7 @@ class MainController extends Controller
 	    }
         return [
         	'form' => $form->createView(),
-            'legend' => $em->getRepository('App:TextBlock')->findOneByName('legend_contact')->getContent(),
+            'texts' => $em->getRepository('App:TextBlock')->findAllByName()
         ];
 
         return [];
@@ -104,7 +102,7 @@ class MainController extends Controller
         $answer->addGuest($guest2);
 
         $answerForm = $this->createForm(AnswerType::class, $answer)
-            ->add('submit', SubmitType::class, array('label' => 'Valider'))
+            ->add('submit', SubmitType::class, ['label' => 'Valider et envoyer votre réponse', 'attr' => ['class' => 'btn-success']])
         ;
 
         $answerForm->handleRequest($request);
@@ -133,7 +131,7 @@ class MainController extends Controller
 
         return [
             'form' => $answerForm->createView(),
-            'legend' => $em->getRepository('App:TextBlock')->findOneByName('legend_answer')->getContent(),
+            'texts' => $em->getRepository('App:TextBlock')->findAllByName()
         ];
     }
 }

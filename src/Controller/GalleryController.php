@@ -30,7 +30,7 @@ class GalleryController extends Controller
 
         return [
             "galleries" => $em->getRepository('App:Gallery')->findAll(),
-            'legend' => $em->getRepository('App:TextBlock')->findOneByName('legend_photos')->getContent()
+            'texts' => $em->getRepository('App:TextBlock')->findAllByName(),
         ];
     }
 

@@ -15,7 +15,7 @@
 		{% for field in form.textBlocks %}
 			
 			<label class="control-label required" for="{{ field.content.vars.id }}">
-				{{ field.vars.value.name|title }}
+				{{ (field.vars.value.name)|trans() }}
 			</label>
 			{{ form_row(field) }}
 			

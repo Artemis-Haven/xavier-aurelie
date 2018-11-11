@@ -20,8 +20,8 @@
 	<div class="row">
 		<div class="col-md-8 col-md-offset-2">
 		    <h1>Plan d'accès</h1>
-		    {% if legend|trim is not empty %}
-				<h4>{{ legend|nl2br }}</h4>
+		    {% if texts.legend_access is defined and texts.legend_access|trim is not empty %}
+				<h4>{{ texts.legend_access|nl2br }}</h4>
 		    {% endif %}
 
 		    <div id="destinationForm">
