@@ -1,4 +1,7 @@
 {
+    "aptoma/twig-markdown": {
+        "version": "3.0.0"
+    },
     "behat/transliterator": {
         "version": "v1.2.0"
     },
@@ -80,6 +83,9 @@
     "egulias/email-validator": {
         "version": "2.1.4"
     },
+    "erusev/parsedown": {
+        "version": "1.7.1"
+    },
     "fig/link-util": {
         "version": "1.0.0"
     },
@@ -91,6 +97,9 @@
     },
     "jms/metadata": {
         "version": "1.6.0"
+    },
+    "michelf/php-markdown": {
+        "version": "1.8.0"
     },
     "monolog/monolog": {
         "version": "1.23.0"
@@ -127,6 +136,9 @@
     },
     "psr/simple-cache": {
         "version": "1.0.1"
+    },
+    "raphy/markdown-bundle": {
+        "version": "1.2.4"
     },
     "sensio/framework-extra-bundle": {
         "version": "4.0",

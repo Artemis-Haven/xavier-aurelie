@@ -38,7 +38,7 @@ class BlogController extends Controller
     	$em = $this->getDoctrine()->getManager();
     	$newArticle = new BlogArticle();
 
-        $newArticleForm = $this->createForm(BlogArticleType::class, $newArticle)
+        $newArticleForm = $this->createForm(BlogArticleType::class, $newArticle, ['creation' => true])
             ->add('submit', SubmitType::class, array('label' => 'Valider'))
         ;
 

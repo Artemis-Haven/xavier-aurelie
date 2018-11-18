@@ -33,7 +33,7 @@
 		</p>
 
 		<img id="article-img" class="img-thumbnail" alt="{{ article.title }}" src="{{ vich_uploader_asset(article, 'imageFile') }}">
-		<p>{{ article.content|nl2br }}</p>
+		<p>{{ article.content|markdown }}</p>
 
 		<hr>
 		

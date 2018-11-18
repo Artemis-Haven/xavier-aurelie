@@ -13,7 +13,7 @@
     		<h1>Co-voiturage</h1>
 
 		    {% if texts.legend_carpool is defined and texts.legend_carpool|trim is not empty %}
-				<h4>{{ texts.legend_carpool|nl2br }}</h4>
+				<p>{{ texts.legend_carpool|markdown }}</p>
 		    {% endif %}
 
 			{% if is_granted('ROLE_ADMIN') %}

@@ -62,7 +62,7 @@
     <h1>Contact</h1>
 
 	{% if texts.legend_contact is defined and texts.legend_contact|trim is not empty %}
-		<h4>{{ texts.legend_contact|nl2br }}</h4>
+		<p>{{ texts.legend_contact|markdown }}</p>
     {% endif %}
 
 	<hr>

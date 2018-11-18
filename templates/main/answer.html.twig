@@ -56,7 +56,7 @@
     <h1>Votre réponse</h1>
 
     {% if texts.legend_answer is defined and texts.legend_answer|trim is not empty %}
-		<h4>{{ texts.legend_answer|nl2br }}</h4>
+		<p>{{ texts.legend_answer|markdown }}</p>
     {% endif %}
 
     <hr>

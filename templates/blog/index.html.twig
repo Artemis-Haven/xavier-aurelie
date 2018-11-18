@@ -16,7 +16,7 @@
     <h1>Blog</h1>
     
     {% if texts.legend_blog is defined and texts.legend_blog|trim is not empty %}
-		<h4>{{ texts.legend_blog|nl2br }}</h4>
+		<p>{{ texts.legend_blog|markdown }}</p>
     {% endif %}
 	
 	<br>

@@ -22,7 +22,7 @@
 		<div class="col-md-8 col-md-offset-2">
 		    <h1>Plan d'accès</h1>
 		    {% if texts.legend_access is defined and texts.legend_access|trim is not empty %}
-				<h4>{{ texts.legend_access|nl2br }}</h4>
+				<p>{{ texts.legend_access|markdown }}</p>
 		    {% endif %}
 
 		    <hr>

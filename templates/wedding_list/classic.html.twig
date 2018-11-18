@@ -5,7 +5,7 @@
     <h1>Liste de mariage</h1>
             
     {% if texts.legend_wedding_list is defined and texts.legend_wedding_list|trim is not empty %}
-        <h4>{{ texts.legend_wedding_list|nl2br }}</h4>
+        <p>{{ texts.legend_wedding_list|markdown }}</p>
     {% endif %}
 
     <hr>

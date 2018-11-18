@@ -3,15 +3,15 @@
 {% block body %}
 
     {% if texts.welcome is defined and texts.welcome|trim is not empty %}
-		<h1>{{ texts.welcome|nl2br }}</h1>
+		<h1>{{ texts.welcome|markdown }}</h1>
     {% endif %}
     {% if texts.introduction is defined and texts.introduction|trim is not empty %}
-		<h4>{{ texts.introduction|nl2br }}</h4>
+		<p>{{ texts.introduction|markdown }}</p>
     {% endif %}
 
 	<div class="row">
 		<div class="col-md-6">
-			{{  texts.home_textarea is defined ? texts.home_textarea|nl2br : '' }}
+			{{  texts.home_textarea is defined ? texts.home_textarea|markdown : '' }}
 			<br><br>
 			<img src="{{ asset('images/uploads/index.jpg') }}" alt="Mariage" class="img-responsive img-thumbnail">
 		</div>

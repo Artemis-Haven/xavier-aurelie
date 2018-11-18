@@ -26,7 +26,7 @@ class BlogArticleType extends AbstractType
                 'attr' => ['rows' => 8]
             ])
             ->add('imageFile', VichImageType::class, [
-                'required' => true,
+                'required' => $options['creation'],
                 'allow_delete' => true,
                 'download_label' => true,
                 'download_uri' => true,
@@ -40,6 +40,7 @@ class BlogArticleType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => BlogArticle::class,
+            'creation' => false
         ]);
     }
 }

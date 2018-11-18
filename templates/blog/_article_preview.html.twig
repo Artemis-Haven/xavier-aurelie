@@ -15,7 +15,7 @@
 			{% endif %}
 		</p>
 		<p>
-			{{ article.content[:250]|nl2br }}... <a href="{{ path('article_show', {'id': article.id}) }}">[Lire la suite]</a>
+			{{ article.content[:250]|markdown }}... <a href="{{ path('article_show', {'id': article.id}) }}">[Lire la suite]</a>
 		</p>
 	</div>
 </article>

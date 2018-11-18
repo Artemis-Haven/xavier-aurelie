@@ -33,7 +33,7 @@
     <h1>Hébergements</h1>
     
     {% if texts.legend_accommodations is defined and texts.legend_accommodations|trim is not empty %}
-        <h4>{{ texts.legend_accommodations|nl2br }}</h4>
+        <p>{{ texts.legend_accommodations|markdown }}</p>
     {% endif %}
 
     {% for acc in accommodations %}
