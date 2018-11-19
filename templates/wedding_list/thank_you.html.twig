@@ -14,4 +14,22 @@
 
     <h1 class="text-center">Merci !</h3>
 
+    {% if gift.onlinePayment %}
+		<div class="text-center">
+			Vous allez être redirigé dans un instant vers la page de notre agence de voyage.
+		</div>
+    {% endif %}
+
+{% endblock %}
+
+
+{% block javascripts %}
+	{{ parent() }}
+    {% if gift.onlinePayment %}
+		<script type="text/javascript">
+			window.setTimeout(function(){
+		        window.location.href = "{{ wedding_pot_url|e }}";
+		    }, 8000);
+		</script>
+    {% endif %}
 {% endblock %}
