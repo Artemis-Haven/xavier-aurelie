@@ -18,7 +18,7 @@
     {% spaceless %}
         <label class="label" style="font-size: 17px;">
 			<input  class="label__checkbox" type="checkbox"
-				{{ block('widget_container_attributes') }}
+				{{ block('widget_container_attributes') }} name="{{ full_name|e }}"
 				{% if value|length > 0 %} value="{{ value|e }}"{% endif %}
 			    {% if checked %} checked="checked"{% endif %}
 			/>

@@ -112,7 +112,7 @@ class AdminController extends AbstractController
     public function answers()
     {
         $em = $this->getDoctrine()->getManager();
-        $answers = $em->getRepository('App:Answer')->findAll();
+        $answers = $em->getRepository('App:Answer')->findBy([], ['createdAt' => 'ASC', 'id' => 'ASC']);
  
         return [
             'answers' => $answers,

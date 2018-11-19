@@ -110,6 +110,9 @@ class MainController extends Controller
         if ($answerForm->isSubmitted() && $answerForm->isValid()) {
             $answer->setCreatedAt(new \DateTime('now'));
             $em->persist($answer);
+            foreach ($answerForm->get('guests')->getData() as $guest) {
+                $guest->setAnswer($answer);
+            }
             $em->flush();
             $this->addFlash('success', 'Merci ! Les informations ont bien été enregistrées.');
 
