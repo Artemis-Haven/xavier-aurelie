@@ -40,24 +40,24 @@
     		<hr>
 
     		<h4>
-    		{% if carpoolProposals is empty %}
+    		{% if nbrOfCurrentProposals == 0 %}
 				Pour l'instant, personne ne propose de co-voiturage
-    		{% elseif carpoolProposals|length > 1 %}
-				{{ carpoolProposals|length }} personnes proposent un co-voiturage
+    		{% elseif nbrOfCurrentProposals > 1 %}
+				{{ nbrOfCurrentProposals }} personnes proposent un co-voiturage
 			{% else %}
 				Une personne propose un co-voiturage
 			{% endif %}
 			et 
-    		{% if carpoolSearches is empty %}
+    		{% if nbrOfCurrentSearches == 0 %}
 				personne ne recherche de place.
-			{% elseif carpoolSearches|length > 1 %}
-				{{ carpoolSearches|length }} personnes recherchent des places.
+			{% elseif nbrOfCurrentSearches > 1 %}
+				{{ nbrOfCurrentSearches }} personnes recherchent des places.
 			{% else %}
 				une personne recherche des places.
 			{% endif %}
 			</h4>
 
-			{% if carpoolProposals is not empty or carpoolSearches is not empty %}
+			{% if nbrOfCurrentProposals != 0 or nbrOfCurrentSearches != 0 %}
     			Cliquez sur un post-it pour afficher plus d'informations.
     		{% endif %}
 		</div>

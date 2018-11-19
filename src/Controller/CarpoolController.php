@@ -28,7 +28,9 @@ class CarpoolController extends Controller
         return [
             'texts' => $em->getRepository('App:TextBlock')->findAllByName(),
             'carpoolSearches' => $em->getRepository('App:CarpoolSearch')->findAllOrdered(),
-            'carpoolProposals' => $em->getRepository('App:CarpoolProposal')->findAllOrdered()
+            'carpoolProposals' => $em->getRepository('App:CarpoolProposal')->findAllOrdered(),
+            'nbrOfCurrentSearches' => $em->getRepository('App:CarpoolSearch')->countCurrentItems(),
+            'nbrOfCurrentProposals' => $em->getRepository('App:CarpoolProposal')->countCurrentItems()
         ];
     }
 

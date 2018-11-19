@@ -29,6 +29,16 @@ class CarpoolProposalRepository extends ServiceEntityRepository
         ;
     }
 
+    public function countCurrentItems()
+    {
+        return $this->createQueryBuilder('c')
+            ->select('count(c)')
+            ->where('c.nbrOfSeats > c.reservedSeats')
+            ->getQuery()
+            ->getSingleScalarResult()
+        ;
+    }
+
 //    /**
 //     * @return CarpoolProposal[] Returns an array of CarpoolProposal objects
 //     */
