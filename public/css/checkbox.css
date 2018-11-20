@@ -31,10 +31,12 @@
   color: transparent;
   -webkit-transition: opacity .3s .1s ease;
   transition: opacity .3s .1s ease;
-  -webkit-text-stroke: 3px rgba(0, 0, 0, 0.5);
 }
 .label__check:hover {
   border: 5px solid rgba(0, 0, 0, 0.2);
+}
+.label__check:hover i.icon {
+  -webkit-text-stroke: 3px rgba(0, 0, 0, 0.5);
 }
 .label__checkbox:checked + .label__text .label__check {
   -webkit-animation: check 0.5s cubic-bezier(0.895, 0.03, 0.685, 0.22) 1 forwards;
