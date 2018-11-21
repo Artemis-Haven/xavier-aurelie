@@ -3,30 +3,41 @@
 
 {% block _answer_guests_entry_row %}
     <div class="row">
-    	<div class="col-md-1 remove-guest">
+    	<div class="col-sm-1 remove-guest hidden-xs">
     		<i class="fas fa-user"></i>
 	    </div>
-    	<div class="col-md-2">{{ form_widget(form.firstname) }}</div>
-    	<div class="col-md-3">{{ form_widget(form.lastname) }}</div>
-        <div class="col-md-2">{{ form_widget(form.attendCeremony) }}</div>
-        <div class="col-md-2">{{ form_widget(form.attendBrunch) }}</div>
-        <div class="col-md-2">{{ form_widget(form.accommodationOnSite) }}</div>
+	    <div class="col-xs-12 visible-xs">
+	    	<span class="title">Saisissez un invité</span> &nbsp;&nbsp;
+	    	<span class="remove-guest"><i class="fas fa-times"></i> Supprimer l'invité</span>
+	    </div>
+    	<div class="col-sm-2 col-xs-6">{{ form_widget(form.firstname) }}</div>
+    	<div class="col-sm-3 col-xs-6">{{ form_widget(form.lastname) }}</div>
+        <div class="col-sm-2 col-xs-12">{{ form_widget(form.attendCeremony) }}</div>
+        <div class="col-sm-2 col-xs-12">{{ form_widget(form.attendBrunch) }}</div>
+        <div class="col-sm-2 col-xs-12">{{ form_widget(form.accommodationOnSite) }}</div>
     </div>
 {% endblock %}
 
 {% block checkbox_widget %}
     {% spaceless %}
         <label class="label" style="font-size: 17px;">
-			<input  class="label__checkbox" type="checkbox"
-				{{ block('widget_container_attributes') }} name="{{ full_name|e }}"
-				{% if value|length > 0 %} value="{{ value|e }}"{% endif %}
-			    {% if checked %} checked="checked"{% endif %}
-			/>
-            <span class="label__text">
-                <span class="label__check">
-                    <i class="fa fa-check icon"></i>
-                </span>
-            </span>
+	    	<div class="row">
+	    		<div class="col-md-12 col-xs-2 checkbox-container">
+					<input  class="label__checkbox" type="checkbox"
+						{{ block('widget_container_attributes') }} name="{{ full_name|e }}"
+						{% if value|length > 0 %} value="{{ value|e }}"{% endif %}
+					    {% if checked %} checked="checked"{% endif %}
+					/>
+		            <span class="label__text">
+		                <span class="label__check">
+		                    <i class="fa fa-check icon"></i>
+		                </span>
+		            </span>
+	    		</div>
+	    		<div class="col-md-12 col-xs-10">
+		            <span class="label-mobile visible-xs">{{ label|e }}</span>
+	    		</div>
+	    	</div>
         </label>
     {% endspaceless %}
 {% endblock checkbox_widget %}
@@ -37,6 +48,7 @@
 	<style type="text/css">
 		#guest-list > .form-group {
 			margin: 20px 0 0 0;
+			background-color: rgba(255, 255, 255, 0.7);
 		}
 		.remove-guest {
 			font-size: 2.3em; 
@@ -48,6 +60,33 @@
 		.remove-guest .fa-user-times {
 			color: #ae1d32;
 			cursor: pointer;
+		}
+
+		@media only screen and (max-width: 767px) {
+			.label-mobile {
+				color: #333;
+				text-align: left;
+				font-weight: 300;
+			}
+
+			.checkbox-container {
+				padding-left: 7%;
+			    padding-top: 10px;
+			}
+			.visible-xs .remove-guest {
+				font-size: 0.8em;
+				cursor: pointer;
+			}
+			.visible-xs .title {
+				font-size: 1.2em;
+				color: #333;
+			}
+			.visible-xs .remove-guest .fas {
+				vertical-align: initial;
+			}
+			.row:first-child .remove-guest {
+				display: none;
+			}
 		}
 	</style>
 {% endblock %}
@@ -63,10 +102,10 @@
 
     {{ form_start(form) }}
         
-    <div class="row">
-    	<div class="col-md-2 col-md-offset-6">Participe à la cérémonie du 30 mai</div>
-    	<div class="col-md-2">Participe au brunch du lendemain</div>
-    	<div class="col-md-2">Souhaite loger au Domaine de Sarson</div>
+    <div class="row hidden-xs">
+    	<div class="col-sm-2 col-sm-offset-6">Participe à la cérémonie du 30 mai</div>
+    	<div class="col-sm-2">Participe au brunch du lendemain</div>
+    	<div class="col-sm-2">Souhaite loger au Domaine de Sarson</div>
     </div>
     	
     <div id="guest-list">
@@ -74,7 +113,7 @@
     </div>
 
     <div class="row">
-    	<div class="col-md-5 col-md-offset-1">
+    	<div class="col-sm-5 col-sm-offset-1">
     		<button type="button" class="add-guest btn btn-primary btn-block">
     			<i class="fas fa-user"></i>
     			&nbsp;
@@ -110,13 +149,13 @@
 	    // Changer l'icone "user" pour afficher le bouton de suppression au survol de la souris
 	    $('body').on({
 	    	mouseover: function() {
-	    		$(this).find('.fas')
+	    		$(this).find('.hidden-xs .fas')
 	    			.removeClass('fa-user')
 	    			.addClass('fa-user-times')
 	    			.attr('title', "Cliquez ici pour supprimer la ligne");
 	    	},
 	    	mouseout: function() {
-	    		$(this).find('.fas')
+	    		$(this).find('.hidden-xs .fas')
 	    			.removeClass('fa-user-times')
 	    			.addClass('fa-user')
 	    			.attr('title', "");
@@ -124,7 +163,7 @@
 	    }, '#answer_guests .row:not(:first-child)');
 	    
 	    // Supprimer une ligne au clic sur le bouton correspondant
-	    $('body').on('click', '.row:not(:first-child) .remove-guest .fas', function() {
+	    $('body').on('click', '.row:not(:first-child) .remove-guest', function() {
 	    	$(this).closest('.row').remove();
 	    });
 

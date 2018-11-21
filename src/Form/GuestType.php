@@ -26,13 +26,13 @@ class GuestType extends AbstractType
                 'by_reference' => false
             ])
             ->add('attendCeremony', CheckboxType::class, [
-                'label' => false,
+                'label' => 'Participe à la cérémonie du 30 mai',
             ])
             ->add('attendBrunch', CheckboxType::class, [
-                'label' => false,
+                'label' => 'Participe au brunch du lendemain',
             ])
             ->add('accommodationOnSite', CheckboxType::class, [
-                'label' => false,
+                'label' => 'Souhaite loger au Domaine de Sarson',
             ])
         ;
     }
