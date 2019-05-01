@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+	{{ parent() }}
+	<link href="{{ asset('css/magnific-popup.css') }}" rel="stylesheet"> 
+{% endblock %}
+
 {% block body %}
 
     <h1>
@@ -11,11 +16,46 @@
     </h1>
     <p>Photo de <b>{{ gallery.author }}</b>, mise en ligne le <b>{{ gallery.createdAt|date('d/m/Y à H:i') }}</b></p>
 	
-	<div class="row">
+	<div class="row gallery-container">
 		{% for photo in gallery.photos %}
-			<a href="{{ path('gallery_photo_show', {'id': photo.id}) }}" class="col-md-3 col-sm-4 col-xs-6">
+			<a href="{{ path('gallery_photo_show', {'id': photo.id}) }}" class="col-md-3 col-sm-4 col-xs-6" data-mfp-src="{{ vich_uploader_asset(photo, 'imageFile') }}">
 				<img class="img-thumbnail" alt="{{ photo.author }}" src="{{ vich_uploader_asset(photo, 'imageFile') }}">
 			</a>
 		{% endfor %}
 	</div>
+{% endblock %}
+
+{% block javascripts %}
+	<script type="text/javascript" src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+	<script type="text/javascript">
+		$.extend(true, $.magnificPopup.defaults, {
+			tClose: 'Fermer (Esc)', // Alt text on close button
+			tLoading: 'Chargement des photos...', // Text that is displayed during loading. Can contain %curr% and %total% keys
+			gallery: {
+				tPrev: 'Précédent', // Alt text on left arrow
+				tNext: 'Suivant', // Alt text on right arrow
+				tCounter: '%curr% sur %total%' // Markup for "1 of 7" counter
+			},
+			image: {
+				tError: '<a href="%url%">L\'image</a> n\'a pas pu être chargée.' // Error message when image could not be loaded
+			},
+			ajax: {
+				tError: '<a href="%url%">Le contenu</a> n\'a pas pu être chargée.' // Error message when ajax request failed
+			}
+		});
+		
+		$('.gallery-container').magnificPopup({
+			delegate: 'a', // child items selector, by clicking on it popup will open
+			type: 'image',
+			gallery: {
+				enabled: true
+			},
+			disableOn: 600,
+			image: {
+				titleSrc: function(item) {
+					return "<a href='"+item.el.prop('href')+"'>Lien permanent vers la photo</a>";
+				}
+			}
+		});
+	</script>
 {% endblock %}
