@@ -30,7 +30,7 @@
             {% set requiredAmount = 0 %}
 
             {% for item in listItems %}
-                {% set fundedItems = fundedItems + (item.gifted ? 1 : 0) %}
+                {% set fundedItems = fundedItems + (item.price <= item.amountAlreadyFunded ? 1 : 0) %}
                 {% set fundedAmount = fundedAmount + item.amountAlreadyFunded %}
                 {% set requiredAmount = requiredAmount + item.price %}
                 <tr>
@@ -42,7 +42,7 @@
                     <td>{{ item.price }} €</td>
                     <td>{% if item.splittable %} <span class="label label-success">Oui</span> {% else %} <span class="label label-danger">Non</span> {% endif %}</td>
                     <td>
-                        {% if item.gifted %}
+                        {% if item.price <= item.amountAlreadyFunded %}
                             <div class="progress">
                                 <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%">
                                     Oui

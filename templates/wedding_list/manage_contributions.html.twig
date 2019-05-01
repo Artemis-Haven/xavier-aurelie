@@ -30,9 +30,11 @@
                     <td>{{ gift.giver }}</td>
                     <td>{{ gift.listItem }}</td>
                     <td>{{ gift.amount }} €</td>
-                    <td title="{{ gift.message | nl2br }}">
-                        {% if gift.message %}
-                            {{ gift.message[:20] }}...
+                    <td data-content="{{ gift.message | nl2br }}" title="{{ gift.message | e }}">
+                        {% if gift.message and gift.message|length > 20 %}
+                            {{ gift.message[:20] }} <strong onclick="this.parentNode.innerHTML = this.parentNode.getAttribute('data-content');">[...]</strong>
+                        {% elseif gift.message %}
+                            {{ gift.message | nl2br }}
                         {% else %}
                             <span class="text-muted">---</span>
                         {% endif %}

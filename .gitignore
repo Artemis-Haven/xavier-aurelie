@@ -22,7 +22,7 @@ yarn-error.log
 /.web-server-pid
 ###< symfony/web-server-bundle ###
 
-/public/images/hebergement/*
+/public/images/hebergements/*
 /public/images/blog/*
 /public/images/cadeaux/*
 /public/images/uploads/*
