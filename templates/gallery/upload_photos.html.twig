@@ -2,7 +2,7 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/dropzone/5.2.0/dropzone.css">
+    <link rel="stylesheet" href="{{ asset('css/dropzone.css') }}">
 {% endblock %}
 
 
@@ -33,7 +33,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/dropzone/5.2.0/dropzone.js"></script>
+    <script src="{{ asset('js/dropzone.js') }}"></script>
     <script>
         Dropzone.autoDiscover = false;
 
