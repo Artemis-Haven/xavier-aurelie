@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block containerClass %}col-md-12{% endblock %}
+
+{% block body %}
+	
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2">
+			<hr>
+			<br>
+			<h3 class="text-center">Concours photos !</h3>
+			<br>
+
+			<div class="row">
+				<div class="col-md-8 col-md-offset-2 jumbotron">
+
+				    {% if texts.legend_contest is defined and texts.legend_contest|trim is not empty %}
+						<p>{{ texts.legend_contest|markdown }}</p>
+				    {% endif %}
+				    <br>
+
+					{{ form_start(form) }}
+					{{ form_row(form.code) }}
+					{{ form_rest(form) }}
+					{{ form_end(form) }}
+		    		
+				</div>
+			</div>
+		</div>
+	</div>
+
+{% endblock %}

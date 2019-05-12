@@ -18,6 +18,12 @@
 		<div class="col-md-6">
 			<h3>Dernières nouvelles</h3>
 			{% include 'blog/_article_preview.html.twig' with {'article': lastBlogArticle} only %}
+
+			<br>
+
+			{% if is_granted('ROLE_ADMIN') or date('today') >= date(wedding_date) %}
+				<a href="{{ path('contest_login') }}" class="btn btn-success btn-block">Participez au Concours photos !</a>
+			{% endif %}
 		</div>
 	</div>
 {% endblock %}

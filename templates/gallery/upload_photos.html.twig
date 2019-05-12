@@ -18,8 +18,10 @@
 
     <hr>	
 	
-	<h4>Deuxième étape : Sélectionner des photos</h4>
-	<br>
+    {% if gallery.photos is empty %}
+    	<h4>Deuxième étape : Sélectionner des photos</h4>
+    	<br>
+    {% endif %}
 	
 	<div class="gallery_upload_dropzone dropzone"></div>
 	<br>

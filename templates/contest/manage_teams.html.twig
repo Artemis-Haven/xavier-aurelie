@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>
+        <a href="{{ path('admin') }}" title="Revenir à la liste">Administration</a>
+        <span style="font-size: 0.9em;">
+            <span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+            Gérer les équipes pour le concours photos
+        </span>
+    </h1>
+
+	<a href="{{ path('contest_admin_new_team') }}" class="btn btn-default">Ajouter une équipe</a>
+	
+	<br><br>
+
+	<table class="table table-striped table-bordered">
+		<thead>
+			<tr>
+				<th>Nom de l'équipe</th>
+				<th>Code</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for team in teams %}
+			<tr>
+				<td>{{ team.author }}</td>
+				<td>{{ team.code | upper }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% endblock %}

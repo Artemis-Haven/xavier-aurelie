@@ -9,6 +9,7 @@ legend_accommodations: Sous-titre de la page "Hébergements"
 legend_contact: Sous-titre de la page "Contact"
 legend_answer: Sous-titre de la page "Réponse"
 legend_wedding_list: Sous-titre de la page "Liste de mariage"
+legend_contest: Sous-titre de la page "Concours photos"
 groom:
     phone: Téléphone du marié
     email: E-mail du marié

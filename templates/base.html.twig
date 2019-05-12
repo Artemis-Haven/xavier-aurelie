@@ -29,7 +29,11 @@
 			<h1>Aurélie &amp; Xavier</h1>
 			<h2>30 mai 2019</h2>
 			{% set difference = date(wedding_date).diff(date('today')) %}
-			<h3>J-{{ difference.days }}</h3>
+			{% if difference.days == 0 %}
+				<h3>C'est le Jour-J !</h3>
+			{% else %}
+				<h3>J-{{ difference.days }}</h3>
+			{% endif %}
 			{% if app.user %}
 				<nav class="navbar">
     				<div class="navbar-header">

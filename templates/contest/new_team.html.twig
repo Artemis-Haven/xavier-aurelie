@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h1>
+    	<a href="{{ path('gallery') }}" title="Revenir aux albums">Albums photos</a>
+		<span style="font-size: 0.9em;">
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	<a href="{{ path('contest_admin_manage_teams') }}">Gérer les équipes</a>
+			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+	    	Nouvelle équipe
+    	</span>
+    </h1>
+
+    <hr>	
+    
+	<div class="row">
+		<div class="col-md-6">
+		    {{ form(form) }}
+		</div>
+	</div>
+{% endblock %}

@@ -20,22 +20,44 @@
 		    {% endif %}
 		    <br>
 
-			{#<a href="{{ path('gallery_new') }}" class="btn btn-default">Ajoutez vos photos</a>
-
-    		<hr>
-    		Cliquez sur un album pour afficher toutes ses photos.#}
+			<a href="{{ path('gallery_new') }}" class="btn btn-default">Créez un nouvel album et ajoutez vos photos</a>
+			
+			{% if is_granted('ROLE_ADMIN') or date('today') >= date(wedding_date) %}
+				<a href="{{ path('contest_login') }}" class="btn btn-success pull-right">Concours photos</a>
+			{% endif %}
 		</div>
 	</div>
+	
+	{% if is_granted('ROLE_ADMIN') or date('today') >= date(wedding_date) %}
+		<div id="photo-stack-container">
+		    {% for gallery in galleries if gallery.photos is not empty and not gallery.contest %}
+				<a class="photo-stack" href="{{ path('gallery_show', {'id': gallery.id}) }}">
+					<div>
+						<img src="{{ vich_uploader_asset(gallery.photos|first, 'imageFile') }}" alt="{{ gallery.title }}, par {{ gallery.author }}" />
+						<div class="photo-stack-title" title="{{ gallery.title }}, par {{ gallery.author }}">{{ gallery.title }}</div>
+					</div>
+				</a>
+		    {% endfor %}
+		</div>
+	{% endif %}
 
-	{#<div id="photo-stack-container">
-	    {% for gallery in galleries if gallery.photos is not empty %}
-			<a class="photo-stack" href="{{ path('gallery_show', {'id': gallery.id}) }}">
-				<div>
-					<img src="{{ vich_uploader_asset(gallery.photos|first, 'imageFile') }}" alt="{{ gallery.title }}, par {{ gallery.author }}" />
-					<div class="photo-stack-title" title="{{ gallery.title }}, par {{ gallery.author }}">{{ gallery.title }}</div>
-				</div>
-			</a>
-	    {% endfor %}
-	</div>#}
+	{% if is_granted('ROLE_ADMIN') or date('today') > date(wedding_date) %}
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<hr>
+				<h3 class="text-center">Concours photos</h3>
+			</div>
+		</div>
+		<div id="contest-stack-container">
+		    {% for gallery in galleries if gallery.photos is not empty and gallery.contest %}
+				<a class="photo-stack" href="{{ path('gallery_show', {'id': gallery.id}) }}">
+					<div>
+						<img src="{{ vich_uploader_asset(gallery.photos|first, 'imageFile') }}" alt="{{ gallery.author }}" />
+						<div class="photo-stack-title" title="{{ gallery.author }}">{{ gallery.author }}</div>
+					</div>
+				</a>
+		    {% endfor %}
+		</div>
+	{% endif %}
 
 {% endblock %}

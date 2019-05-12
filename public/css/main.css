@@ -302,7 +302,7 @@ footer a, footer a:hover, footer a:focus, footer a:visited {
 /*    ALBUM PHOTOS    */
 /**********************/
 
-#photo-stack-container {
+#photo-stack-container, #contest-stack-container {
 	text-align: center;
 }
 
@@ -399,6 +399,10 @@ footer a, footer a:hover, footer a:focus, footer a:visited {
 	-ms-transform: rotate(8deg);
 	-o-transform: rotate(8deg);
 	transform: rotate(8deg);
+}
+
+.gallery-container a {
+	margin-bottom: 10px;
 }
 
 

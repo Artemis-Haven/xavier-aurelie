@@ -38,6 +38,16 @@ class Gallery
      */
     private $photos;
 
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $contest;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $code;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
@@ -111,6 +121,30 @@ class Gallery
                 $photo->setGallery(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getContest(): ?bool
+    {
+        return $this->contest;
+    }
+
+    public function setContest(?bool $contest): self
+    {
+        $this->contest = $contest;
+
+        return $this;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setCode(?string $code): self
+    {
+        $this->code = $code;
 
         return $this;
     }

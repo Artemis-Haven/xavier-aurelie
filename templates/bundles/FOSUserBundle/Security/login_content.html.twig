@@ -45,6 +45,11 @@
             </div>
             <br>
             <a style="color: #999; text-align: right;display: inherit;font-size: 0.9em;" href="mailto:{{ mail_from }}">Besoin d'aide ? Cliquez ici pour nous contacter</a>
+
+            {% if date('today') >= date(wedding_date) %}
+                <br>
+                <a href="{{ path('contest_login') }}" class="btn btn-success btn-block">Accéder au concours photos</a>
+            {% endif %}
         </form>
     </div>
 </div>

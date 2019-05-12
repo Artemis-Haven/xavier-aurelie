@@ -8,26 +8,31 @@
 {% block body %}
 
     <h1>
-    	<a href="{{ path('gallery') }}" title="Revenir aux albums">Albums photos</a>
-		<span style="font-size: 0.9em;">
-			<span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
-	    	{{ gallery.title }}
-    	</span>
+        <a href="{{ path('admin') }}" title="Revenir à la liste">Administration</a>
+        <span style="font-size: 0.9em;">
+            <span class="glyphicon glyphicon-chevron-right" style="font-size: 0.7em;" aria-hidden="true"></span>&nbsp;
+            Concours photos
+        </span>
     </h1>
-    <p>Photo de <b>{{ gallery.author }}</b>, mise en ligne le <b>{{ gallery.createdAt|date('d/m/Y à H:i') }}</b></p>
-	
-	<a href="{{ path('gallery_upload_photos', {'id': gallery.id}) }}" class="btn btn-default">Ajouter des photos</a>
 
-	<br><br>
+	{% for team in teams %}
+		<h3>{{ team.author }}</h3>
 
-	<div class="row gallery-container">
-		{% for photo in gallery.photos %}
-			<a href="{{ path('gallery_photo_show', {'id': photo.id}) }}" class="col-md-3 col-sm-4 col-xs-6" data-mfp-src="{{ vich_uploader_asset(photo, 'imageFile') }}">
-				<img class="img-thumbnail" alt="{{ photo.author }}" src="{{ vich_uploader_asset(photo, 'imageFile') }}">
-			</a>
-		{% endfor %}
-	</div>
+		<div class="gallery-container clearfix">
+			{% for photo in team.photos %}
+				<a href="{{ path('gallery_photo_show', {'id': photo.id}) }}" class="col-md-3 col-sm-4 col-xs-6" data-mfp-src="{{ vich_uploader_asset(photo, 'imageFile') }}">
+					<img class="img-thumbnail" alt="{{ photo.author }}" src="{{ vich_uploader_asset(photo, 'imageFile') }}">
+				</a>
+			{% else %}
+				<div class="text-muted">Pas de photo</div>
+			{% endfor %}
+		</div>
+
+		{% if not loop.last %}<hr>{% endif %}
+	{% endfor %}
+
 {% endblock %}
+
 
 {% block javascripts %}
 	<script type="text/javascript" src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>

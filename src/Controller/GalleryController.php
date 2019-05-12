@@ -65,6 +65,11 @@ class GalleryController extends Controller
      */
     public function uploadPhotos(Gallery $gallery)
     {
+        if ($gallery->getContest() && !$this->checkContestGalleryAccess($gallery)) {
+            $this->addFlash('danger', "Vous n'avez pas accès à cette page.");
+            return $this->redirectToRoute('gallery');
+        }
+
         return ['gallery' => $gallery];
     }
 
@@ -73,6 +78,12 @@ class GalleryController extends Controller
      */
     public function processUpload(Request $request, Gallery $gallery)
     {
+
+        if ($gallery->getContest() && !$this->checkContestGalleryAccess($gallery)) {
+            $this->addFlash('danger', "Vous n'avez pas accès à cette page.");
+            return $this->redirectToRoute('gallery');
+        }
+
         $em = $this->getDoctrine()->getManager();
         // @todo access control
         // @todo input validation
@@ -106,6 +117,10 @@ class GalleryController extends Controller
      */
     public function showGallery(Gallery $gallery)
     {
+        if ($gallery->getContest() && !$this->checkContestGalleryAccess($gallery)) {
+            $this->addFlash('danger', "Vous n'avez pas accès à cette page.");
+            return $this->redirectToRoute('gallery');
+        }
         return ['gallery' => $gallery];
     }
 
@@ -161,6 +176,21 @@ class GalleryController extends Controller
             return new JsonResponse(['success' => true], 200);
         }
         return new JsonResponse([], 403);
+    }
+
+    private function checkContestGalleryAccess(Gallery $gallery)
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return true;
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $teamId = (int) $this->get('session')->get('teamId');
+        $team = $em->getRepository('App:Gallery')->findOneBy(['contest' => true, 'id' => $teamId]);
+        if ($team != $gallery) {
+            return false;
+        }
+        return true;
     }
 
 }
